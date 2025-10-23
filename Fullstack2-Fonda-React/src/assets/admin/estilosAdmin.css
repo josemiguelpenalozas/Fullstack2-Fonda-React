@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #1e282c;
+  overflow-y: auto;
+  font-family: 'Montserrat', sans-serif;
+  color: #ffffff;
+  transition: width 0.3s;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar.collapsed .brand-text {
+  display: none;
+}
+
+.sidebar.collapsed .user-panel .info {
+  display: none;
+}
+
+.sidebar.collapsed .form-inline {
+  display: none;
+}
+
+.sidebar.collapsed .nav-link p {
+  display: none;
+}
+
+.sidebar.collapsed .nav-link .right {
+  display: none;
+}
+
+.main-content {
+  margin-left: 250px;
+  transition: margin-left 0.3s;
+}
+
+.main-content.collapsed {
+  margin-left: 70px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ffffff;
+  text-decoration: none;
+  border-bottom: 1px solid #4b545c;
+}
+
+.brand-image {
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
+}
+
+.user-panel {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #4b545c;
+}
+
+.user-panel .image img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-panel .info {
+  margin-left: 0.75rem;
+}
+
+.user-panel .info a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-inline {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #4b545c;
+}
+
+.form-control-sidebar {
+  background-color: #374850;
+  border: none;
+  color: #ffffff;
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.form-control-sidebar::placeholder {
+  color: #b8c7ce;
+}
+
+.btn-sidebar {
+  background-color: #374850;
+  border: none;
+  color: #ffffff;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.nav-sidebar .nav-item {
+  margin-bottom: 0.25rem;
+}
+
+.nav-sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-sidebar .nav-link:hover {
+  background-color: #d32f2f; 
+  color: #ffffff;
+}
+
+.nav-sidebar .nav-link.active,
+.nav-sidebar .nav-link.active:hover {
+  background-color: #0D47A1; 
+  color: #ffffff;
+}
+
+.nav-sidebar .nav-icon {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
+.nav-sidebar .right {
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+
+.main-header {
+  border-bottom: 1px solid #dee2e6;
+  margin-left: 0 !important;
+  transition: margin-left 0.3s;
+  z-index: 2;
+}
+
+.main-header.collapsed {
+  margin-left: 70px;
+}
+
+.sidebar {
+  overflow-y: auto;
+  scrollbar-width: none;         
+  -ms-overflow-style: none;      
+}
+.sidebar::-webkit-scrollbar {
+  width: 0px;                    
+  background: transparent;
+}
+
+/* Estilos para los iconos */
+
+.btn-sidebar .bi-search {
+  font-size: 1.3em;          
+  color: #007bff;           
+  vertical-align: middle;   
+  transition: color 0.2s;
+}
+
+.btn-sidebar:hover .bi-search {
+  color: #0056b3;          
+}
+
+.main-header .bi-list {
+  font-size: 1.8em;     
+  color: #333;         
+  cursor: pointer;
+  margin-right: 3px;
+  transition: color 0.2s;
+}
+
+.main-header .bi-list:hover {
+  color: #007bff;        
+}

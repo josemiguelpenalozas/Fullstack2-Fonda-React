@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import AdminLayout from './components/admin/AdminLayout';
+import Dashboard from './pages/admin/dashboard';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-
-    </>
-  )
+    <Routes>
+      {/* El dashboard envuelto en el layout al ingresar a / */}
+      <Route path="/" element={<AdminLayout />}>
+        <Route index element={<Dashboard />} />
+      </Route>
+      {/* Si tienes más rutas, agrégalas aquí */}
+    </Routes>
+  );
 }
-
-export default App
+export default App;
