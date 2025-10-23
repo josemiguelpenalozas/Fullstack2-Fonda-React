@@ -193,3 +193,12 @@
 .main-header .bi-list:hover {
   color: #007bff;        
 }
+
+.main-header .bi-bell-fill,
+.main-header .bi-person-circle {
+  transition: color 0.2s;
+}
+.main-header .bi-bell-fill:hover,
+.main-header .bi-person-circle:hover {
+  color: #d32f2f;
+}
