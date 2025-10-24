@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { usuarios } from '../../data/admin/usuarios';
+import { usuarios as usuariosIniciales } from '../../data/admin/usuarios';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -8,60 +8,204 @@ const Users = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('todos');
   const [sortBy, setSortBy] = useState('id');
+  
+  // Estados para modales
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [formData, setFormData] = useState({
+    nombre: '',
+    email: '',
+    rut: '',
+    rol: 'usuario'
+  });
+  const [errors, setErrors] = useState({});
+
+  // Cargar usuarios desde localStorage o JSON inicial
+  const cargarUsuarios = () => {
+    const usuariosGuardados = localStorage.getItem('usuarios');
+    if (usuariosGuardados) {
+      return JSON.parse(usuariosGuardados);
+    }
+    return usuariosIniciales;
+  };
+
+  // Guardar usuarios en localStorage
+  const guardarUsuarios = (usuarios) => {
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+  };
 
   useEffect(() => {
-    // Cargar datos de usuarios
+    const usuarios = cargarUsuarios();
     setUsers(usuarios);
     setFilteredUsers(usuarios);
   }, []);
 
   useEffect(() => {
-    // Aplicar filtros y ordenamiento
-    let filtered = users;
-
-    // Filtro por búsqueda
-    if (searchTerm) {
-      filtered = filtered.filter(user => 
+    if (searchTerm === '') {
+      setFilteredUsers(users);
+    } else {
+      const filtered = users.filter(user => 
         user.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.rut.includes(searchTerm)
       );
+      setFilteredUsers(filtered);
     }
-
-    // Filtro por rol
-    if (roleFilter !== 'todos') {
-      filtered = filtered.filter(user => user.rol === roleFilter);
-    }
-
-    // Ordenamiento
-    filtered = [...filtered].sort((a, b) => {
-      switch (sortBy) {
-        case 'nombre':
-          return a.nombre.localeCompare(b.nombre);
-        case 'email':
-          return a.email.localeCompare(b.email);
-        case 'rol':
-          return a.rol.localeCompare(b.rol);
-        case 'id':
-        default:
-          return a.id_usuario - b.id_usuario;
-      }
-    });
-
-    setFilteredUsers(filtered);
   }, [searchTerm, roleFilter, sortBy, users]);
 
-  const handleDeleteUser = (id) => {
-    // Confirmar eliminación
-    if (window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-      const updatedUsers = users.filter(user => user.id_usuario !== id);
-      setUsers(updatedUsers);
+  // Validaciones
+  const validarRUT = (rut) => {
+    if (!rut) return false;
+    
+    // Limpiar RUT
+    const rutLimpio = rut.replace(/[^0-9kK]/g, '');
+    if (rutLimpio.length < 2) return false;
+
+    const cuerpo = rutLimpio.slice(0, -1);
+    const dv = rutLimpio.slice(-1).toUpperCase();
+
+    // Calcular DV esperado
+    let suma = 0;
+    let multiplo = 2;
+
+    for (let i = cuerpo.length - 1; i >= 0; i--) {
+      suma += parseInt(cuerpo.charAt(i)) * multiplo;
+      multiplo = multiplo === 7 ? 2 : multiplo + 1;
+    }
+
+    const dvEsperado = 11 - (suma % 11);
+    const dvCalculado = dvEsperado === 11 ? '0' : dvEsperado === 10 ? 'K' : dvEsperado.toString();
+
+    return dvCalculado === dv;
+  };
+
+  const validarEmail = (email) => {
+    const dominiosPermitidos = ['@duocuc.cl', '@fondaduoc.cl'];
+    return dominiosPermitidos.some(dominio => email.endsWith(dominio));
+  };
+
+  const validarFormulario = () => {
+  const nuevosErrores = {};
+
+  if (!formData.nombre.trim()) {
+    nuevosErrores.nombre = 'El nombre es obligatorio';
+  } else if (formData.nombre.trim().length < 3) {
+    nuevosErrores.nombre = 'El nombre debe tener al menos 3 caracteres';
+  }
+
+  if (!formData.email.trim()) {
+    nuevosErrores.email = 'El email es obligatorio';
+  } else if (!validarEmail(formData.email)) {
+    nuevosErrores.email = 'El email debe terminar en @duocuc.cl o @fondaduoc.cl';
+  }
+
+  // Solo validar RUT cuando se está agregando un nuevo usuario
+  if (showAddModal && !formData.rut.trim()) {
+    nuevosErrores.rut = 'El RUT es obligatorio';
+  } else if (showAddModal && !validarRUT(formData.rut)) {
+    nuevosErrores.rut = 'El RUT no es válido';
+  }
+
+  setErrors(nuevosErrores);
+  return Object.keys(nuevosErrores).length === 0;
+};
+
+  // Handlers de modales
+  const handleOpenAddModal = () => {
+    setFormData({
+      nombre: '',
+      email: '',
+      rut: '',
+      rol: 'usuario'
+    });
+    setErrors({});
+    setShowAddModal(true);
+  };
+
+  const handleOpenEditModal = (user) => {
+    setSelectedUser(user);
+    setFormData({
+      nombre: user.nombre,
+      email: user.email,
+      rut: user.rut,
+      rol: user.rol
+    });
+    setErrors({});
+    setShowEditModal(true);
+  };
+
+  const handleCloseModals = () => {
+    setShowAddModal(false);
+    setShowEditModal(false);
+    setSelectedUser(null);
+    setErrors({});
+  };
+
+  const handleFormChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+    
+    // Limpiar error del campo cuando el usuario empiece a escribir
+    if (errors[field]) {
+      setErrors(prev => ({
+        ...prev,
+        [field]: ''
+      }));
     }
   };
 
-  const handleEditUser = (user) => {
-    // Aquí implementarías la lógica para editar el usuario
-    alert(`Editar usuario: ${user.nombre}`);
+  const handleFormSubmit = (e) => {
+  e.preventDefault();
+  
+  if (!validarFormulario()) return;
+
+  if (showAddModal) {
+    // Agregar nuevo usuario
+    const nuevoUsuario = {
+      id_usuario: Math.max(...users.map(u => u.id_usuario), 0) + 1,
+      nombre: formData.nombre.trim(),
+      email: formData.email.trim().toLowerCase(),
+      rut: formData.rut,
+      rol: formData.rol
+    };
+
+    const updatedUsers = [...users, nuevoUsuario];
+    setUsers(updatedUsers);
+    guardarUsuarios(updatedUsers);
+  } else if (showEditModal && selectedUser) {
+    // Editar usuario existente - NO modificar el RUT
+    const updatedUsers = users.map(user =>
+      user.id_usuario === selectedUser.id_usuario
+        ? { 
+            ...user, 
+            nombre: formData.nombre.trim(),
+            email: formData.email.trim().toLowerCase(),
+            rol: formData.rol 
+          }
+        : user
+    );
+    setUsers(updatedUsers);
+    guardarUsuarios(updatedUsers);
+  }
+
+  handleCloseModals();
+};
+
+  const handleDeleteUser = (id) => {
+    const user = users.find(u => u.id_usuario === id);
+    if (user.rol === 'admin') {
+      alert('No se puede eliminar al administrador principal');
+      return;
+    }
+
+    if (window.confirm(`¿Estás seguro de que deseas eliminar al usuario "${user.nombre}"?`)) {
+      const updatedUsers = users.filter(user => user.id_usuario !== id);
+      setUsers(updatedUsers);
+      guardarUsuarios(updatedUsers);
+    }
   };
 
   const clearFilters = () => {
@@ -69,6 +213,78 @@ const Users = () => {
     setRoleFilter('todos');
     setSortBy('id');
   };
+
+  const resetToDefault = () => {
+    if (window.confirm('¿Restaurar lista de usuarios a los valores por defecto?')) {
+      setUsers(usuariosIniciales);
+      guardarUsuarios(usuariosIniciales);
+    }
+  };
+
+  // Formatear RUT mientras se escribe
+  const formatearRUT = (rut) => {
+    // Remover todo excepto números y K
+    const rutLimpio = rut.replace(/[^0-9kK]/g, '');
+    
+    if (rutLimpio.length === 0) return '';
+    
+    // Separar cuerpo y dígito verificador
+    const cuerpo = rutLimpio.slice(0, -1);
+    const dv = rutLimpio.slice(-1).toUpperCase();
+    
+    // Formatear cuerpo con puntos
+    let cuerpoFormateado = cuerpo
+      .split('')
+      .reverse()
+      .join('')
+      .replace(/(\d{3})/g, '$1.')
+      .split('')
+      .reverse()
+      .join('')
+      .replace(/^\./, '');
+    
+    return cuerpoFormateado + '-' + dv;
+  };
+
+  const handleRUTChange = (value) => {
+    const rutFormateado = formatearRUT(value);
+    handleFormChange('rut', rutFormateado);
+  };
+
+  useEffect(() => {
+  let filtered = users;
+
+  // Filtro por búsqueda
+  if (searchTerm) {
+    filtered = filtered.filter(user => 
+      user.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.rut.includes(searchTerm)
+    );
+  }
+
+  // Filtro por rol
+  if (roleFilter !== 'todos') {
+    filtered = filtered.filter(user => user.rol === roleFilter);
+  }
+
+  // Ordenamiento
+  filtered = [...filtered].sort((a, b) => {
+    switch (sortBy) {
+      case 'nombre':
+        return a.nombre.localeCompare(b.nombre);
+      case 'email':
+        return a.email.localeCompare(b.email);
+      case 'rol':
+        return a.rol.localeCompare(b.rol);
+      case 'id':
+      default:
+        return a.id_usuario - b.id_usuario;
+    }
+  });
+
+  setFilteredUsers(filtered);
+}, [searchTerm, roleFilter, sortBy, users]);
 
   return (
     <div className="container-fluid" style={{ position: 'relative', zIndex: 2 }}>
@@ -140,6 +356,7 @@ const Users = () => {
                     </button>
                     <button 
                       className="btn btn-primary flex-fill"
+                      onClick={handleOpenAddModal}
                       title="Agregar usuario"
                     >
                       <i className="bi bi-plus-lg"></i>
@@ -148,7 +365,7 @@ const Users = () => {
                 </div>
               </div>
 
-              {/* Contador de resultados */}
+              {/* Contador de resultados y botón reset */}
               <div className="row mt-3">
                 <div className="col-12">
                   <div className="d-flex justify-content-between align-items-center">
@@ -157,14 +374,23 @@ const Users = () => {
                       {roleFilter !== 'todos' && ` • Filtrado por: ${roleFilter}`}
                       {searchTerm && ` • Búsqueda: "${searchTerm}"`}
                     </small>
-                    {filteredUsers.length !== users.length && (
+                    <div className="d-flex gap-2">
+                      {filteredUsers.length !== users.length && (
+                        <button 
+                          className="btn btn-sm btn-link text-muted p-0"
+                          onClick={clearFilters}
+                        >
+                          Limpiar filtros
+                        </button>
+                      )}
                       <button 
-                        className="btn btn-sm btn-link text-muted p-0"
-                        onClick={clearFilters}
+                        className="btn btn-sm btn-outline-warning"
+                        onClick={resetToDefault}
+                        title="Restaurar usuarios por defecto"
                       >
-                        Limpiar filtros
+                        <i className="bi bi-arrow-counterclockwise"></i> Restaurar
                       </button>
-                    )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -259,7 +485,7 @@ const Users = () => {
                         <td style={{ border: 'none', padding: '12px 16px', textAlign: 'center' }}>
                           <button 
                             className="btn btn-sm btn-outline-primary me-1"
-                            onClick={() => handleEditUser(user)}
+                            onClick={() => handleOpenEditModal(user)}
                             title="Editar usuario"
                             style={{ 
                               border: '1px solid #007bff',
@@ -301,6 +527,313 @@ const Users = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal Agregar Usuario */}
+{showAddModal && (
+  <>
+    {/* Backdrop con animación */}
+    <div 
+      className="modal-backdrop show modal-backdrop-animation" 
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1050
+      }}
+    ></div>
+    
+    {/* Modal con animación */}
+    <div 
+      className="modal show d-block modal-show" 
+      tabIndex="-1" 
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1060,
+        overflow: 'hidden'
+      }}
+    >
+      <div className="modal-dialog modal-dialog-centered modal-animation">
+        <div className="modal-content">
+          <div className="modal-header bg-primary text-white">
+            <h5 className="modal-title">
+              <i className="bi bi-person-plus me-2"></i>
+              Agregar Nuevo Usuario
+            </h5>
+            <button 
+              type="button" 
+              className="btn-close btn-close-white" 
+              onClick={handleCloseModals}
+              style={{ transition: 'transform 0.2s ease' }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.2)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            ></button>
+          </div>
+          <form onSubmit={handleFormSubmit}>
+            <div className="modal-body">
+              <div className="row g-3">
+                <div className="col-12">
+                  <label className="form-label fw-semibold">Nombre Completo *</label>
+                  <input
+                    type="text"
+                    className={`form-control ${errors.nombre ? 'is-invalid' : ''}`}
+                    value={formData.nombre}
+                    onChange={(e) => handleFormChange('nombre', e.target.value)}
+                    placeholder="Ingrese nombre completo"
+                    style={{ transition: 'all 0.2s ease' }}
+                  />
+                  {errors.nombre && (
+                    <div className="invalid-feedback animate__animated animate__fadeIn">
+                      {errors.nombre}
+                    </div>
+                  )}
+                </div>
+
+                <div className="col-12">
+                  <label className="form-label fw-semibold">Email *</label>
+                  <input
+                    type="email"
+                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                    value={formData.email}
+                    onChange={(e) => handleFormChange('email', e.target.value)}
+                    placeholder="usuario@duocuc.cl"
+                    style={{ transition: 'all 0.2s ease' }}
+                  />
+                  {errors.email && (
+                    <div className="invalid-feedback animate__animated animate__fadeIn">
+                      {errors.email}
+                    </div>
+                  )}
+                  <div className="form-text">Debe terminar en @duocuc.cl o @fondaduoc.cl</div>
+                </div>
+
+                <div className="col-12">
+                  <label className="form-label fw-semibold">RUT *</label>
+                  <input
+                    type="text"
+                    className={`form-control ${errors.rut ? 'is-invalid' : ''}`}
+                    value={formData.rut}
+                    onChange={(e) => handleRUTChange(e.target.value)}
+                    placeholder="12.345.678-9"
+                    maxLength="12"
+                    style={{ transition: 'all 0.2s ease' }}
+                  />
+                  {errors.rut && (
+                    <div className="invalid-feedback animate__animated animate__fadeIn">
+                      {errors.rut}
+                    </div>
+                  )}
+                  <div className="form-text">Formato: 12.345.678-9</div>
+                </div>
+
+                <div className="col-12">
+                  <label className="form-label fw-semibold">Rol *</label>
+                  <select
+                    className="form-select"
+                    value={formData.rol}
+                    onChange={(e) => handleFormChange('rol', e.target.value)}
+                    style={{ transition: 'all 0.2s ease' }}
+                  >
+                    <option value="usuario">Usuario</option>
+                    <option value="admin">Administrador</option>
+                  </select>
+                  <div className="form-text">Los administradores tienen acceso completo al sistema</div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button 
+                type="button" 
+                className="btn btn-secondary btn-pulse" 
+                onClick={handleCloseModals}
+                style={{ transition: 'all 0.3s ease' }}
+              >
+                <i className="bi bi-x-circle me-1"></i> Cancelar
+              </button>
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-pulse"
+                style={{ transition: 'all 0.3s ease' }}
+              >
+                <i className="bi bi-check-circle me-1"></i> Crear Usuario
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </>
+)}
+
+{/* Modal Editar Usuario con Animaciones */}
+{showEditModal && selectedUser && (
+  <>
+    {/* Backdrop con animación */}
+    <div 
+      className="modal-backdrop show modal-backdrop-animation" 
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1050
+      }}
+    ></div>
+    
+    {/* Modal con animación */}
+    <div 
+      className="modal show d-block modal-show" 
+      tabIndex="-1" 
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1060,
+        overflow: 'hidden'
+      }}
+    >
+      <div className="modal-dialog modal-dialog-centered modal-animation">
+        <div className="modal-content">
+          <div className="modal-header bg-warning text-dark">
+            <h5 className="modal-title">
+              <i className="bi bi-person-gear me-2"></i>
+              Editar Usuario: {selectedUser.nombre}
+            </h5>
+            <button 
+              type="button" 
+              className="btn-close" 
+              onClick={handleCloseModals}
+              style={{ transition: 'transform 0.2s ease' }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.2)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            ></button>
+          </div>
+          <form onSubmit={handleFormSubmit}>
+            <div className="modal-body">
+              {/* Información del usuario actual */}
+              <div className="alert alert-info" style={{ animation: 'slideDown 0.4s ease-out' }}>
+                <div className="row small">
+                  <div className="col-6">
+                    <strong>ID Usuario:</strong> {selectedUser.id_usuario}
+                  </div>
+                  <div className="col-6">
+                    <strong>Rol actual:</strong> 
+                    <span className={`badge ${selectedUser.rol === 'admin' ? 'bg-danger' : 'bg-primary'} ms-1`}>
+                      {selectedUser.rol === 'admin' ? 'Administrador' : 'Usuario'}
+                    </span>
+                  </div>
+                </div>
+                <div className="row small mt-2">
+                  <div className="col-12">
+                    <strong>RUT:</strong> {selectedUser.rut}
+                  </div>
+                </div>
+              </div>
+
+              <div className="row g-3">
+                <div className="col-12">
+                  <label className="form-label fw-semibold">Nombre Completo *</label>
+                  <input
+                    type="text"
+                    className={`form-control ${errors.nombre ? 'is-invalid' : ''}`}
+                    value={formData.nombre}
+                    onChange={(e) => handleFormChange('nombre', e.target.value)}
+                    placeholder="Ingrese nombre completo"
+                    style={{ transition: 'all 0.2s ease' }}
+                  />
+                  {errors.nombre && (
+                    <div className="invalid-feedback animate__animated animate__fadeIn">
+                      {errors.nombre}
+                    </div>
+                  )}
+                </div>
+
+                <div className="col-12">
+                  <label className="form-label fw-semibold">Email *</label>
+                  <input
+                    type="email"
+                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                    value={formData.email}
+                    onChange={(e) => handleFormChange('email', e.target.value)}
+                    placeholder="usuario@duocuc.cl"
+                    style={{ transition: 'all 0.2s ease' }}
+                  />
+                  {errors.email && (
+                    <div className="invalid-feedback animate__animated animate__fadeIn">
+                      {errors.email}
+                    </div>
+                  )}
+                  <div className="form-text">Debe terminar en @duocuc.cl o @fondaduoc.cl</div>
+                </div>
+
+                <div className="col-12">
+                  <label className="form-label fw-semibold">RUT (No editable)</label>
+                  <input
+                    type="text"
+                    className="form-control bg-light"
+                    value={selectedUser.rut}
+                    disabled
+                    style={{ cursor: 'not-allowed', opacity: 0.7 }}
+                  />
+                  <div className="form-text text-muted">
+                    <i className="bi bi-info-circle me-1"></i>
+                    El RUT no puede ser modificado por seguridad
+                  </div>
+                </div>
+
+                <div className="col-12">
+                  <label className="form-label fw-semibold">Rol *</label>
+                  <select
+                    className="form-select"
+                    value={formData.rol}
+                    onChange={(e) => handleFormChange('rol', e.target.value)}
+                    style={{ transition: 'all 0.2s ease' }}
+                  >
+                    <option value="usuario">Usuario</option>
+                    <option value="admin">Administrador</option>
+                  </select>
+                  <div className="form-text">
+                    {selectedUser.rol !== formData.rol && (
+                      <span className="text-warning animate__animated animate__pulse">
+                        <i className="bi bi-exclamation-triangle me-1"></i> 
+                        Se cambiará el rol del usuario de "{selectedUser.rol}" a "{formData.rol}"
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button 
+                type="button" 
+                className="btn btn-secondary btn-pulse" 
+                onClick={handleCloseModals}
+                style={{ transition: 'all 0.3s ease' }}
+              >
+                <i className="bi bi-x-circle me-1"></i> Cancelar
+              </button>
+              <button 
+                type="submit" 
+                className="btn btn-warning btn-pulse"
+                style={{ transition: 'all 0.3s ease' }}
+              >
+                <i className="bi bi-check-circle me-1"></i> Guardar Cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </>
+)}
     </div>
   );
 };

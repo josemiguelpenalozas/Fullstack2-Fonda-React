@@ -265,8 +265,6 @@
   letter-spacing: 1px;
 }
 
-
-
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -275,9 +273,9 @@
 }
 
 .card-dashboard {
-  background: #fff;
+  background: #ffffff;
   border-radius: 18px;
-  box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.17), 0 1.5px 5px 0 rgba(0,0,0,0.11); /* Border/shadow fuerte */
+  box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.17), 0 1.5px 5px 0 rgba(0,0,0,0.51); /* Border/shadow fuerte */
   padding: 22px 14px;
   min-height: 340px;
   display: flex;
@@ -336,3 +334,222 @@
 .contenido-admin .table th {
   border-color: rgba(0, 0, 0, 0.05);
 }
+
+/* Estilos para el modal */
+
+/* Estilos para los modales de usuarios */
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-radius: 0 0 12px 12px;
+}
+
+/* Animación suave para modales */
+.modal.show .modal-dialog {
+  transform: scale(1);
+  transition: transform 0.2s ease-out;
+}
+
+.modal.fade .modal-dialog {
+  transform: scale(0.8);
+  transition: transform 0.2s ease-in;
+}
+
+/* Mejoras para los formularios */
+.form-text {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.invalid-feedback {
+  font-size: 0.8rem;
+}
+
+/* Estilos para los badges en el modal */
+.badge {
+  font-size: 0.7em;
+}
+
+.modal-backdrop {
+  z-index: 1050 !important;
+}
+
+.modal {
+  z-index: 1060 !important;
+}
+
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 1070 !important;
+}
+
+.modal-header {
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  z-index: 1080 !important;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-radius: 0 0 12px 12px;
+}
+
+/* Asegurar que el modal esté por encima del header */
+.main-header {
+  z-index: 1040 !important;
+}
+
+.sidebar {
+  z-index: 1030 !important;
+}
+
+/* Overlay del modal */
+.modal.show {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1055 !important;
+}
+
+/* Animación suave para modales */
+.modal.show .modal-dialog {
+  transform: scale(1);
+  transition: transform 0.2s ease-out;
+  z-index: 1065 !important;
+}
+
+.modal.fade .modal-dialog {
+  transform: scale(0.8);
+  transition: transform 0.2s ease-in;
+}
+
+/* Animaciones para modales */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalBackdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+/* Estilos para modales con animaciones */
+.modal-animation {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-backdrop-animation {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+.modal-show {
+  display: block !important;
+}
+
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform-origin: center;
+  overflow: hidden;
+}
+
+/* Efectos de hover para botones del modal */
+.modal-footer .btn {
+  transition: all 0.2s ease;
+}
+
+.modal-footer .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Efecto de focus en inputs */
+.modal-content .form-control:focus {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+/* Animación para el alert informativo */
+.alert {
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efecto de pulsación para botones de acción */
+.btn-pulse:hover {
+  animation: pulse 0.6s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.4);
+  }
+  to {
+    box-shadow: 0 0 0 6px rgba(13, 110, 253, 0);
+  }
+}
+
+/* Z-index corregido */
+.modal-backdrop {
+  z-index: 1050 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.modal {
+  z-index: 1060 !important;
+}
+
+.modal-content {
+  z-index: 1070 !important;
+}
+
+.main-header {
+  z-index: 1040 !important;
+}
+
