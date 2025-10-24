@@ -309,3 +309,30 @@
     min-width: 0;
   }
 }
+
+/* Estilos para Usuarios */
+
+.contenido-admin .card {
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.contenido-admin .table {
+  background-color: transparent;
+}
+
+.contenido-admin .table tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.05) !important;
+}
+
+/* Asegurar que el contenido esté por encima del overlay */
+.contenido-admin > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mejoras para la tabla */
+.contenido-admin .table td,
+.contenido-admin .table th {
+  border-color: rgba(0, 0, 0, 0.05);
+}
