@@ -6,6 +6,8 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState('todos');
+  const [sortBy, setSortBy] = useState('id');
 
   useEffect(() => {
     // Cargar datos de usuarios
@@ -14,18 +16,40 @@ const Users = () => {
   }, []);
 
   useEffect(() => {
-    // Filtrar usuarios según término de búsqueda
-    if (searchTerm === '') {
-      setFilteredUsers(users);
-    } else {
-      const filtered = users.filter(user => 
+    // Aplicar filtros y ordenamiento
+    let filtered = users;
+
+    // Filtro por búsqueda
+    if (searchTerm) {
+      filtered = filtered.filter(user => 
         user.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.rut.includes(searchTerm)
       );
-      setFilteredUsers(filtered);
     }
-  }, [searchTerm, users]);
+
+    // Filtro por rol
+    if (roleFilter !== 'todos') {
+      filtered = filtered.filter(user => user.rol === roleFilter);
+    }
+
+    // Ordenamiento
+    filtered = [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case 'nombre':
+          return a.nombre.localeCompare(b.nombre);
+        case 'email':
+          return a.email.localeCompare(b.email);
+        case 'rol':
+          return a.rol.localeCompare(b.rol);
+        case 'id':
+        default:
+          return a.id_usuario - b.id_usuario;
+      }
+    });
+
+    setFilteredUsers(filtered);
+  }, [searchTerm, roleFilter, sortBy, users]);
 
   const handleDeleteUser = (id) => {
     // Confirmar eliminación
@@ -40,16 +64,116 @@ const Users = () => {
     alert(`Editar usuario: ${user.nombre}`);
   };
 
+  const clearFilters = () => {
+    setSearchTerm('');
+    setRoleFilter('todos');
+    setSortBy('id');
+  };
+
   return (
     <div className="container-fluid" style={{ position: 'relative', zIndex: 2 }}>
-      {/* Encabezado de página */}
-      <div className="row mb-3">
-        <div className="col-sm-6">
-          <h1 className="m-0" style={{ color: '#333', fontWeight: 'bold' }}>Gestión de Usuarios</h1>
+      {/* Filtros avanzados */}
+      <div className="row mb-4">
+        <div className="col-12">
+          <div className="card shadow-sm" style={{ 
+            border: '1px solid rgba(0,0,0,0.1)',
+            borderRadius: '8px',
+            backgroundColor: 'rgba(255,255,255,0.95)'
+          }}>
+            <div className="card-body">
+              <div className="row g-3">
+                {/* Búsqueda general */}
+                <div className="col-md-4">
+                  <label className="form-label small fw-bold text-muted">Búsqueda</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Buscar por nombre, email o RUT..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button className="btn btn-outline-secondary" type="button">
+                      <i className="bi bi-search"></i>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Filtro por rol */}
+                <div className="col-md-3">
+                  <label className="form-label small fw-bold text-muted">Filtrar por Rol</label>
+                  <select 
+                    className="form-select"
+                    value={roleFilter}
+                    onChange={(e) => setRoleFilter(e.target.value)}
+                  >
+                    <option value="todos">Todos los roles</option>
+                    <option value="admin">Administrador</option>
+                    <option value="usuario">Usuario</option>
+                  </select>
+                </div>
+
+                {/* Ordenamiento */}
+                <div className="col-md-3">
+                  <label className="form-label small fw-bold text-muted">Ordenar por</label>
+                  <select 
+                    className="form-select"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
+                    <option value="id">ID</option>
+                    <option value="nombre">Nombre</option>
+                    <option value="email">Email</option>
+                    <option value="rol">Rol</option>
+                  </select>
+                </div>
+
+                {/* Botones de acción */}
+                <div className="col-md-2 d-flex align-items-end">
+                  <div className="d-flex gap-2 w-100">
+                    <button 
+                      className="btn btn-outline-secondary flex-fill"
+                      onClick={clearFilters}
+                      title="Limpiar filtros"
+                    >
+                      <i className="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button 
+                      className="btn btn-primary flex-fill"
+                      title="Agregar usuario"
+                    >
+                      <i className="bi bi-plus-lg"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contador de resultados */}
+              <div className="row mt-3">
+                <div className="col-12">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <small className="text-muted">
+                      Mostrando <strong>{filteredUsers.length}</strong> de <strong>{users.length}</strong> usuarios
+                      {roleFilter !== 'todos' && ` • Filtrado por: ${roleFilter}`}
+                      {searchTerm && ` • Búsqueda: "${searchTerm}"`}
+                    </small>
+                    {filteredUsers.length !== users.length && (
+                      <button 
+                        className="btn btn-sm btn-link text-muted p-0"
+                        onClick={clearFilters}
+                      >
+                        Limpiar filtros
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Contenido principal */}
+      {/* Tabla de usuarios */}
       <div className="row">
         <div className="col-12">
           <div className="card shadow-sm" style={{ 
@@ -64,32 +188,31 @@ const Users = () => {
             }}>
               <div className="d-flex justify-content-between align-items-center">
                 <h3 className="card-title mb-0" style={{ color: '#333', fontSize: '1.25rem' }}>
-                  Listado de Usuarios Registrados
+                  Listado de Usuarios
                 </h3>
                 
-                <div className="card-tools">
-                  <div className="input-group input-group-sm" style={{ width: '250px' }}>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Buscar usuario..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      style={{ 
-                        border: '1px solid #ddd',
-                        borderRadius: '4px 0 0 4px'
-                      }}
-                    />
-                    <div className="input-group-append">
-                      <button type="button" className="btn btn-default" style={{ 
-                        border: '1px solid #ddd',
-                        borderLeft: 'none',
-                        borderRadius: '0 4px 4px 0'
-                      }}>
-                        <i className="bi bi-search"></i>
-                      </button>
-                    </div>
-                  </div>
+                {/* Información de filtros activos */}
+                <div className="d-flex gap-2">
+                  {roleFilter !== 'todos' && (
+                    <span className="badge bg-primary">
+                      Rol: {roleFilter}
+                      <button 
+                        className="btn-close btn-close-white ms-1"
+                        style={{ fontSize: '0.6rem' }}
+                        onClick={() => setRoleFilter('todos')}
+                      ></button>
+                    </span>
+                  )}
+                  {searchTerm && (
+                    <span className="badge bg-info text-dark">
+                      Búsqueda: {searchTerm}
+                      <button 
+                        className="btn-close ms-1"
+                        style={{ fontSize: '0.6rem' }}
+                        onClick={() => setSearchTerm('')}
+                      ></button>
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -167,31 +290,13 @@ const Users = () => {
                     <tr>
                       <td colSpan="6" className="text-center py-5" style={{ border: 'none' }}>
                         <i className="bi bi-people display-4 text-muted d-block mb-3"></i>
-                        <p className="text-muted mb-0" style={{ fontSize: '1.1rem' }}>No se encontraron usuarios</p>
+                        <p className="text-muted mb-2" style={{ fontSize: '1.1rem' }}>No se encontraron usuarios</p>
+                        <small className="text-muted">Intenta ajustar los filtros de búsqueda</small>
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
-            </div>
-
-            <div className="card-footer clearfix" style={{ 
-              backgroundColor: 'rgba(248,249,250,0.9)',
-              borderTop: '1px solid rgba(0,0,0,0.1)',
-              padding: '1rem 1.25rem'
-            }}>
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="text-muted" style={{ fontSize: '0.9rem' }}>
-                  Mostrando <strong>{filteredUsers.length}</strong> de <strong>{users.length}</strong> usuarios
-                </div>
-                <button className="btn btn-primary" style={{
-                  borderRadius: '6px',
-                  padding: '0.5rem 1rem',
-                  fontWeight: '500'
-                }}>
-                  <i className="bi bi-plus-circle me-2"></i> Agregar Nuevo Usuario
-                </button>
-              </div>
             </div>
           </div>
         </div>
