@@ -1,6 +1,7 @@
 // src/components/admin/AdminLayout.jsx
 import Sidebar from './Sidebar';
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -29,13 +30,11 @@ const AdminLayout = () => {
               >
                 <i className="bi bi-list" style={{ fontSize: '2.1em' }}></i>
               </a>
-              {/* Logo */}
               <img
                 src="https://www.chilevision.cl/chilevision/site/artic/20230109/imag/foto_0000000220230109112259.jpg"
                 alt="Logo Fonda Duoc"
                 style={{ width: '80px', height: '50px', marginLeft: '0.5rem', marginRight: '0.8rem', objectFit: 'contain', borderRadius: '50px' }}
               />
-              {/* Saludo animado */}
               <span style={{
                 fontWeight: 900,
                 fontSize: '1.25rem',
@@ -57,9 +56,8 @@ const AdminLayout = () => {
             </div>
           </div>
         </nav>
-        {/* Espacio para las paginas */}
-        <div className="flex-grow-1 p-3" style={{ minHeight: 0 }}>
-          <h2>Panel Admin (espacio vacío)</h2>
+        <div className="flex-grow-1 p-3 contenido-admin" style={{ minHeight: 0 }}>
+          <Outlet />
         </div>
       </div>
     </div>

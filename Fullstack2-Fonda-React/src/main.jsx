@@ -8,10 +8,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
 
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </StrictMode>,
 )
