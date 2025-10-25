@@ -1,11 +1,18 @@
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import Navbar from './pages/Navbar'
+import Footer from './components/footer'
 import Home from './pages/Home'
 import Productos from './pages/Productos'
 import Blog from './pages/Blog'
 import Login from './pages/Login'
 import Registro from './pages/Registro'
+import Contacto from './pages/Contacto'
+import Nosotros from './pages/Nosotros'
+import Noticia1 from './pages/Noticia1'
+import Noticia2 from './pages/Noticia2'
+import { loadFromLocalstorage } from "./utils/localstorageHelper.js";
+import DetalleProducto from './pages/DetalleProducto';
 
 
 
@@ -22,10 +29,14 @@ function App() {
           {/* <Route path='/ofertas' element={<Oferta/>}></Route> */}
           {/* <Route path='/carrito' element={<Carrito/>}></Route> */}
           {<Route path='/blog' element={<Blog/>}></Route>}
-          {/* <Route path='/contacto' element={<Contacto/>}></Route> */}
-          {/* <Route path='/nosotros' element={<Nosotros/>}></Route> */}
+          {<Route path="/noticia1" element={<Noticia1 />} />}
+          {<Route path="/noticia2" element={<Noticia2 />} />}
+          {<Route path='/contacto' element={<Contacto/>}></Route>}
+          {<Route path='/nosotros' element={<Nosotros/>}></Route>}
+          <Route path='/producto/:codigo' element={<DetalleProducto />} />
         </Routes>
       </div>
+    <Footer></Footer>
     </>
   )
 }
