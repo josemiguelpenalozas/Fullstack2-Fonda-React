@@ -62,27 +62,9 @@ const Sidebar = ({ collapsed }) => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/admin/notificaciones" className="nav-link">
-              <i className="bi bi-bell-fill nav-icon"></i>
-              <p>Notificaciones</p>
-            </NavLink>
-          </li>
-          <li className="nav-item">
             <NavLink to="/admin/registro-actividad" className="nav-link">
               <i className="bi bi-clock-history nav-icon"></i>
               <p>Actividad</p>
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink to="/admin/chat-soporte" className="nav-link">
-              <i className="bi bi-chat-dots-fill nav-icon"></i>
-              <p>Chat Soporte</p>
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink to="/admin/perfil" className="nav-link">
-              <i className="bi bi-person-circle nav-icon"></i>
-              <p>Mi Perfil</p>
             </NavLink>
           </li>
         </ul>

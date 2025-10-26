@@ -16,10 +16,7 @@ function App() {
         <Route path="productos" element={<div className="container-fluid p-4"><h1>Página de Productos - En desarrollo</h1></div>} />
         <Route path="ordenes" element={<div className="container-fluid p-4"><h1>Página de Órdenes - En desarrollo</h1></div>} />
         <Route path="categorias" element={<div className="container-fluid p-4"><h1>Página de Categorías - En desarrollo</h1></div>} />
-        <Route path="notificaciones" element={<div className="container-fluid p-4"><h1>Página de Notificaciones - En desarrollo</h1></div>} />
         <Route path="registro-actividad" element={<div className="container-fluid p-4"><h1>Página de Actividad - En desarrollo</h1></div>} />
-        <Route path="chat-soporte" element={<div className="container-fluid p-4"><h1>Página de Chat Soporte - En desarrollo</h1></div>} />
-        <Route path="perfil" element={<div className="container-fluid p-4"><h1>Página de Perfil - En desarrollo</h1></div>} />
       </Route>
     </Routes>
   );

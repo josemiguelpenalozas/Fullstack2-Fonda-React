@@ -203,6 +203,189 @@
   color: #d32f2f;
 }
 
+.badge-notification {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.nav-link:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover i {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Estilos para los popovers del header */
+.popover-container {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.popover-container {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.popover-container .card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+
+.popover-container .card.border-secondary {
+  border-color: #6c757d !important;
+}
+
+.popover-container .card.border-success {
+  border-color: #198754 !important;
+}
+
+.popover-container .card.border-dark {
+  border-color: #495057 !important;
+}
+
+
+.chat-message-user {
+  background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+  border-left: 3px solid #2196f3;
+}
+
+.chat-message-admin {
+  background: linear-gradient(135deg, #e8f5e8, #f0f4c3);
+  border-right: 3px solid #4caf50;
+}
+
+
+.popover-container .card-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.popover-container .card-body::-webkit-scrollbar-track {
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.popover-container .card-body::-webkit-scrollbar-thumb {
+  background: #ced4da;
+  border-radius: 4px;
+}
+
+.popover-container .card-body::-webkit-scrollbar-thumb:hover {
+  background: #adb5bd;
+}
+
+
+.popover-container .border-bottom:hover {
+  background-color: #f8f9fa !important;
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+}
+
+
+@keyframes messageSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message {
+  animation: messageSlide 0.3s ease-out;
+}
+
+
+.notification-item {
+  border-bottom: 1px solid #e9ecef !important;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa !important;
+
+}
+
+
+.popover-container .card-body {
+  scrollbar-width: thin;
+  scrollbar-color: #ced4da #f8f9fa;
+}
+
+.popover-container .card-body::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f8f9fa;
+}
+
+.popover-container .card-body::-webkit-scrollbar-track {
+  background-color: #f8f9fa;
+  border-radius: 0 0 12px 0;
+}
+
+.popover-container .card-body::-webkit-scrollbar-thumb {
+  background-color: #ced4da;
+  border-radius: 4px;
+  border: 2px solid #f8f9fa;
+}
+
+.popover-container .card-body::-webkit-scrollbar-thumb:hover {
+  background-color: #adb5bd;
+}
+
+
+.popover-container .card-body {
+  overflow-y: overlay !important;
+}
+
+
+.popover-container {
+  transform: none !important;
+}
+
+.notification-item {
+  transform: none !important;
+}
+
 /* Dashboard */
 .dashboard-admin {
   padding: 2rem 1rem;
@@ -551,5 +734,54 @@
 
 .main-header {
   z-index: 1040 !important;
+}
+
+/* Estilos para la modal de perfil */
+.modal-content.border-primary {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+
+.form-control:disabled {
+  background-color: #f8f9fa !important;
+  color: #6c757d;
+}
+
+
+.modal-body .form-control {
+  transition: all 0.2s ease;
+}
+
+.modal-body .form-control:not(:disabled):focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  transform: scale(1.02);
+}
+
+
+.rounded-circle {
+  transition: transform 0.3s ease;
+}
+
+.rounded-circle:hover {
+  transform: scale(1.05);
+}
+
+
+.btn {
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+
+@media (max-width: 768px) {
+  .modal-dialog.modal-lg {
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
 }
 
