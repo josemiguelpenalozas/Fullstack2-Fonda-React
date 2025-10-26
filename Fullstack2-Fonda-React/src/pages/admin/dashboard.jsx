@@ -4,8 +4,8 @@ import UsuariosActivosBar from '../../components/charts/UsuariosActivosBar';
 import VentasMerchandisingBar from '../../components/charts/VentasMerchandisingBar';
 import ProporcionCategoriaPie from '../../components/charts/ProporcionCategoriaPie';
 import RankingProductosBar from '../../components/charts/RankingProductosBar';
-import { productos } from '../../data/admin/productos';
-import { usuarios } from '../../data/admin/usuarios';
+import { productos as productosIniciales } from '../../data/admin/productos';
+import { usuarios as usuariosIniciales } from '../../data/admin/usuarios';
 
 const cardStyle = { background: "#fff", padding: "1rem", borderRadius: "10px", boxShadow: "0 5px 18px 0 rgba(0, 0, 0, 0.51)" };
 
@@ -15,42 +15,115 @@ export default function Dashboard() {
     productosStockCritico: 0,
     usuariosRegistrados: 0,
     totalProductos: 0,
-    administradoresCount: 0, // ✅ Nuevo campo agregado
+    administradoresCount: 0,
     ventasHoy: 42,
     ingresosMes: 12543000
   });
 
-  useEffect(() => {
-    // Cargar usuarios desde localStorage o JSON inicial
-    const cargarUsuarios = () => {
-      const usuariosGuardados = localStorage.getItem('usuarios');
-      if (usuariosGuardados) {
-        return JSON.parse(usuariosGuardados);
-      }
-      return usuarios;
-    };
+  // Función para cargar productos actualizados desde localStorage
+  const cargarProductosActualizados = () => {
+    const productosGuardados = localStorage.getItem('productos');
+    if (productosGuardados) {
+      return JSON.parse(productosGuardados);
+    }
+    return productosIniciales;
+  };
 
-    const usuariosActuales = cargarUsuarios();
+  // Función para cargar usuarios actualizados desde localStorage
+  const cargarUsuariosActualizados = () => {
+    const usuariosGuardados = localStorage.getItem('usuarios');
+    if (usuariosGuardados) {
+      return JSON.parse(usuariosGuardados);
+    }
+    return usuariosIniciales;
+  };
+
+  useEffect(() => {
+    const productosActuales = cargarProductosActualizados();
+    const usuariosActuales = cargarUsuariosActualizados();
     
     // Calcular métricas basadas en los datos actuales
-    const productosSinStock = productos.filter(producto => producto.stock === 0).length;
-    const productosStockCritico = productos.filter(producto => 
+    const productosSinStock = productosActuales.filter(producto => producto.stock === 0).length;
+    const productosStockCritico = productosActuales.filter(producto => 
       producto.stock > 0 && producto.stock <= producto.stockCritico
     ).length;
     const usuariosRegistrados = usuariosActuales.length;
-    const totalProductos = productos.length;
-    const administradoresCount = usuariosActuales.filter(u => u.rol === 'admin').length; // ✅ Usar usuarios actuales
+    const totalProductos = productosActuales.length;
+    const administradoresCount = usuariosActuales.filter(u => u.rol === 'admin').length;
 
     setMetricas({
       productosSinStock,
       productosStockCritico,
       usuariosRegistrados,
       totalProductos,
-      administradoresCount, // ✅ Incluir en el estado
+      administradoresCount,
       ventasHoy: 42,
       ingresosMes: 12543000
     });
-  }, [productos]);
+  }, []);
+
+  // Efecto adicional para escuchar cambios en localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const productosActuales = cargarProductosActualizados();
+      const usuariosActuales = cargarUsuariosActualizados();
+      
+      const productosSinStock = productosActuales.filter(producto => producto.stock === 0).length;
+      const productosStockCritico = productosActuales.filter(producto => 
+        producto.stock > 0 && producto.stock <= producto.stockCritico
+      ).length;
+      const administradoresCount = usuariosActuales.filter(u => u.rol === 'admin').length;
+      
+      setMetricas(prev => ({
+        ...prev,
+        productosSinStock,
+        productosStockCritico,
+        usuariosRegistrados: usuariosActuales.length,
+        totalProductos: productosActuales.length,
+        administradoresCount
+      }));
+    };
+
+    // Escuchar cambios en localStorage
+    window.addEventListener('storage', handleStorageChange);
+    
+    // También verificar periódicamente (cada 3 segundos) para cambios en la misma pestaña
+    const interval = setInterval(() => {
+      const productosActuales = cargarProductosActualizados();
+      const usuariosActuales = cargarUsuariosActualizados();
+      
+      const currentProductosSinStock = productosActuales.filter(producto => producto.stock === 0).length;
+      const currentProductosStockCritico = productosActuales.filter(producto => 
+        producto.stock > 0 && producto.stock <= producto.stockCritico
+      ).length;
+      const currentAdministradoresCount = usuariosActuales.filter(u => u.rol === 'admin').length;
+      
+      if (currentProductosSinStock !== metricas.productosSinStock || 
+          currentProductosStockCritico !== metricas.productosStockCritico ||
+          currentAdministradoresCount !== metricas.administradoresCount) {
+        
+        setMetricas(prev => ({
+          ...prev,
+          productosSinStock: currentProductosSinStock,
+          productosStockCritico: currentProductosStockCritico,
+          usuariosRegistrados: usuariosActuales.length,
+          totalProductos: productosActuales.length,
+          administradoresCount: currentAdministradoresCount
+        }));
+      }
+    }, 3000);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [metricas.productosSinStock, metricas.productosStockCritico, metricas.administradoresCount]);
+
+  // Obtener categorías únicas para mostrar en la tarjeta
+  const categoriasUnicas = () => {
+    const productosActuales = cargarProductosActualizados();
+    return new Set(productosActuales.map(p => p.categoria)).size;
+  };
 
   return (
     <div className="dashboard-admin" style={{ padding: '1rem', position: 'relative', zIndex: 5 }}>
@@ -131,7 +204,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Tarjeta Azul - Usuarios registrados ACTUALIZADA */}
+        {/* Tarjeta Azul - Usuarios registrados */}
         <div className="card-metrica" style={{ 
           background: 'linear-gradient(135deg, #4D96FF, #6BC5FF)',
           padding: '1.5rem',
@@ -160,7 +233,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div style={{ marginTop: '12px', fontSize: '0.8rem', opacity: 0.8 }}>
-            {metricas.administradoresCount} administradores {/* ✅ Usar el estado actualizado */}
+            {metricas.administradoresCount} administradores
           </div>
         </div>
 
@@ -193,7 +266,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div style={{ marginTop: '12px', fontSize: '0.8rem', opacity: 0.8 }}>
-            {new Set(productos.map(p => p.categoria)).size} categorías
+            {categoriasUnicas()} categorías
           </div>
         </div>
 

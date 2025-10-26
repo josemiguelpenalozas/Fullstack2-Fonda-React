@@ -6,7 +6,8 @@ export const productos = [
     "precio": 14990,
     "moneda": "CLP",
     "stock": 15,
-    "stockCritico": 5
+    "stockCritico": 5,
+    "estado": "activo"
   },
   {
     "codigo": "MB002",
@@ -15,7 +16,8 @@ export const productos = [
     "precio": 14990,
     "moneda": "CLP",
     "stock": 0,
-    "stockCritico": 5
+    "stockCritico": 5,
+    "estado": "inactivo"
   },
   {
     "codigo": "MB003",
@@ -24,7 +26,8 @@ export const productos = [
     "precio": 14990,
     "moneda": "CLP",
     "stock": 3,
-    "stockCritico": 5
+    "stockCritico": 5,
+    "estado": "activo"
   },
   {
     "codigo": "MB004",
@@ -33,7 +36,8 @@ export const productos = [
     "precio": 14990,
     "moneda": "CLP",
     "stock": 25,
-    "stockCritico": 5
+    "stockCritico": 5,
+    "estado": "activo"
   },
   {
     "codigo": "VH001",
@@ -42,7 +46,8 @@ export const productos = [
     "precio": 39990,
     "moneda": "CLP",
     "stock": 0,
-    "stockCritico": 3
+    "stockCritico": 3,
+    "estado": "inactivo"
   },
   {
     "codigo": "VH002",
@@ -51,7 +56,8 @@ export const productos = [
     "precio": 9990,
     "moneda": "CLP",
     "stock": 2,
-    "stockCritico": 5
+    "stockCritico": 5,
+    "estado": "activo"
   },
   {
     "codigo": "PQ001",
@@ -60,7 +66,8 @@ export const productos = [
     "precio": 5990,
     "moneda": "CLP",
     "stock": 8,
-    "stockCritico": 10
+    "stockCritico": 10,
+    "estado": "activo"
   },
   {
     "codigo": "TC001",
@@ -69,7 +76,8 @@ export const productos = [
     "precio": 4000,
     "moneda": "CLP",
     "stock": 0,
-    "stockCritico": 20
+    "stockCritico": 20,
+    "estado": "inactivo"
   },
   {
     "codigo": "TC002",
@@ -78,7 +86,8 @@ export const productos = [
     "precio": 3000,
     "moneda": "CLP",
     "stock": 15,
-    "stockCritico": 20
+    "stockCritico": 20,
+    "estado": "activo"
   },
   {
     "codigo": "TC003",
@@ -87,7 +96,8 @@ export const productos = [
     "precio": 2500,
     "moneda": "CLP",
     "stock": 18,
-    "stockCritico": 20
+    "stockCritico": 20,
+    "estado": "activo"
   },
   {
     "codigo": "EN001",
@@ -96,7 +106,8 @@ export const productos = [
     "precio": 12000,
     "moneda": "CLP",
     "stock": 45,
-    "stockCritico": 10
+    "stockCritico": 10,
+    "estado": "activo"
   },
   {
     "codigo": "EN002",
@@ -105,6 +116,7 @@ export const productos = [
     "precio": 25000,
     "moneda": "CLP",
     "stock": 12,
-    "stockCritico": 5
+    "stockCritico": 5,
+    "estado": "activo"
   }
 ];
