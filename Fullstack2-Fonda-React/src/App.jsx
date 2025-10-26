@@ -13,6 +13,8 @@ import Noticia1 from './pages/Noticia1'
 import Noticia2 from './pages/Noticia2'
 import { loadFromLocalstorage } from "./utils/localstorageHelper.js";
 import DetalleProducto from './pages/DetalleProducto';
+import Carrito from './pages/Carrito.jsx'
+import SimulacionPago from './pages/SimulacionPago.jsx'
 
 
 
@@ -27,7 +29,8 @@ function App() {
           {<Route path='/login' element={<Login/>}></Route> }
           {<Route path='/registro' element={<Registro/>}></Route>}
           {/* <Route path='/ofertas' element={<Oferta/>}></Route> */}
-          {/* <Route path='/carrito' element={<Carrito/>}></Route> */}
+          {<Route path='/carrito' element={<Carrito/>}></Route>}
+          {<Route path="/SimulacionPago" element={< SimulacionPago/>} />}
           {<Route path='/blog' element={<Blog/>}></Route>}
           {<Route path="/noticia1" element={<Noticia1 />} />}
           {<Route path="/noticia2" element={<Noticia2 />} />}
