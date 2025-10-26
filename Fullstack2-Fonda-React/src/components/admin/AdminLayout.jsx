@@ -162,7 +162,7 @@ const AdminLayout = () => {
                   style={{ padding: '0 0.8rem' }}
                   onClick={(e) => { e.preventDefault(); togglePopover('notifications'); }}
                 >
-                  <i className="bi bi-bell-fill" style={{ fontSize: '2em', color: "#007bff" }}></i>
+                  <i className="bi bi-bell-fill" style={{ fontSize: '1.5em', color: "#007bff" }}></i>
                   {unreadNotifications > 0 && (
                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{
                       fontSize: '0.6em',
@@ -246,7 +246,7 @@ const AdminLayout = () => {
                   style={{ padding: '0 0.8rem' }}
                   onClick={(e) => { e.preventDefault(); togglePopover('chat'); }}
                 >
-                  <i className="bi bi-chat-dots-fill" style={{ fontSize: '2em', color: "#28a745" }}></i>
+                  <i className="bi bi-chat-dots-fill" style={{ fontSize: '1.5em', color: "#28a745" }}></i>
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning" style={{
                     fontSize: '0.6em',
                     padding: '4px 6px',
@@ -361,7 +361,7 @@ const AdminLayout = () => {
                   style={{ padding: '0 0.8rem' }}
                   onClick={(e) => { e.preventDefault(); togglePopover('profile'); }}
                 >
-                  <i className="bi bi-person-circle" style={{ fontSize: '2.1em', color: "#374850" }}></i>
+                  <i className="bi bi-person-circle" style={{ fontSize: '1.5em', color: "#374850" }}></i>
                 </a>
                 
                 {/* Popover de Perfil */}
