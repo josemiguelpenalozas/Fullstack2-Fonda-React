@@ -790,315 +790,243 @@ const Productos = () => {
 
         {/* Modal Agregar Producto */}
         {showAddModal && (
-        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1080 }}>
-            <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-                <div className="modal-header bg-primary text-white">
-                <h5 className="modal-title">
-                    <i className="bi bi-plus-circle me-2"></i>
-                    Agregar Nuevo Producto
-                </h5>
-                <button type="button" className="btn-close btn-close-white" onClick={handleCloseModals}></button>
-                </div>
-                <form onSubmit={handleFormSubmit}>
-                <div className="modal-body">
-                    <div className="row g-3">
-                    <div className="col-12">
-                        <label className="form-label fw-semibold">Categoría *</label>
-                        <div className="input-group">
-                        <select
-                            className="form-select"
-                            value={formData.categoria}
-                            onChange={(e) => handleFormChange('categoria', e.target.value)}
-                        >
-                            {categorias.map(categoria => (
-                            <option key={categoria} value={categoria}>{categoria}</option>
-                            ))}
-                        </select>
-                        <button 
-                            type="button"
-                            className="btn btn-outline-secondary"
-                            onClick={() => setShowCategoriaModal(true)}
-                            title="Agregar nueva categoría"
-                        >
-                            <i className="bi bi-plus-lg"></i>
-                        </button>
-                        </div>
-                        <div className="form-text">El código se generará automáticamente</div>
-                    </div>
-
-                    <div className="col-12">
-                        <label className="form-label fw-semibold">Nombre del Producto *</label>
-                        <input
-                        type="text"
-                        className={`form-control ${errors.nombre ? 'is-invalid' : ''}`}
-                        value={formData.nombre}
-                        onChange={(e) => handleFormChange('nombre', e.target.value)}
-                        placeholder="Ingrese nombre del producto"
-                        />
-                        {errors.nombre && <div className="invalid-feedback">{errors.nombre}</div>}
-                    </div>
-
-                    <div className="col-6">
-                        <label className="form-label fw-semibold">Precio (CLP) *</label>
-                        <input
-                        type="number"
-                        className={`form-control ${errors.precio ? 'is-invalid' : ''}`}
-                        value={formData.precio}
-                        onChange={(e) => handleFormChange('precio', e.target.value)}
-                        placeholder="0"
-                        min="1"
-                        />
-                        {errors.precio && <div className="invalid-feedback">{errors.precio}</div>}
-                    </div>
-
-                    <div className="col-6">
-                        <label className="form-label fw-semibold">Estado</label>
-                        <select
-                        className="form-select"
-                        value={formData.estado}
-                        onChange={(e) => handleFormChange('estado', e.target.value)}
-                        >
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
-                        </select>
-                    </div>
-
-                    <div className="col-6">
-                        <label className="form-label fw-semibold">Stock Inicial *</label>
-                        <input
-                        type="number"
-                        className={`form-control ${errors.stock ? 'is-invalid' : ''}`}
-                        value={formData.stock}
-                        onChange={(e) => handleFormChange('stock', e.target.value)}
-                        placeholder="0"
-                        min="0"
-                        />
-                        {errors.stock && <div className="invalid-feedback">{errors.stock}</div>}
-                    </div>
-
-                    <div className="col-6">
-                        <label className="form-label fw-semibold">Stock Crítico *</label>
-                        <input
-                        type="number"
-                        className={`form-control ${errors.stockCritico ? 'is-invalid' : ''}`}
-                        value={formData.stockCritico}
-                        onChange={(e) => handleFormChange('stockCritico', e.target.value)}
-                        placeholder="0"
-                        min="1"
-                        />
-                        {errors.stockCritico && <div className="invalid-feedback">{errors.stockCritico}</div>}
-                        <div className="form-text">Alerta cuando el stock sea menor o igual</div>
-                    </div>
-                    </div>
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" onClick={handleCloseModals}>
-                    <i className="bi bi-x-circle me-1"></i> Cancelar
-                    </button>
-                    <button type="submit" className="btn btn-primary">
-                    <i className="bi bi-check-circle me-1"></i> Crear Producto
-                    </button>
-                </div>
-                </form>
-            </div>
-            </div>
+  <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1080 }}>
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+        <div className="modal-header bg-primary text-white">
+          <h5 className="modal-title">
+            <i className="bi bi-plus-circle me-2"></i>
+            Agregar Nuevo Producto
+          </h5>
+          <button type="button" className="btn-close btn-close-white" onClick={handleCloseModals}></button>
         </div>
-        )}
-
-        {/* Modal Editar Producto */}
-        {showEditModal && selectedProducto && (
-        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1080 }}>
-            <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-                <div className="modal-header bg-warning text-dark">
-                <h5 className="modal-title">
-                    <i className="bi bi-pencil-square me-2"></i>
-                    Editar Producto
-                </h5>
-                <button type="button" className="btn-close" onClick={handleCloseModals}></button>
-                </div>
-                <form onSubmit={handleFormSubmit}>
-                <div className="modal-body">
-                    {/* Información del producto actual */}
-                    <div className="alert alert-info">
-                    <div className="row small">
-                        <div className="col-6">
-                        <strong>Código:</strong> {selectedProducto.codigo}
-                        </div>
-                        <div className="col-6">
-                        <strong>Estado actual:</strong> 
-                        <span className={`badge ${selectedProducto.estado === 'activo' ? 'bg-success' : 'bg-secondary'} ms-1`}>
-                            {selectedProducto.estado}
-                        </span>
-                        </div>
-                    </div>
-                    </div>
-
-                    <div className="row g-3">
-                    <div className="col-12">
-                        <label className="form-label fw-semibold">Categoría *</label>
-                        <div className="input-group">
-                        <select
-                            className="form-select"
-                            value={formData.categoria}
-                            onChange={(e) => handleFormChange('categoria', e.target.value)}
-                        >
-                            {categorias.map(categoria => (
-                            <option key={categoria} value={categoria}>{categoria}</option>
-                            ))}
-                        </select>
-                        <button 
-                            type="button"
-                            className="btn btn-outline-secondary"
-                            onClick={() => setShowCategoriaModal(true)}
-                            title="Agregar nueva categoría"
-                        >
-                            <i className="bi bi-plus-lg"></i>
-                        </button>
-                        </div>
-                    </div>
-
-                    <div className="col-12">
-                        <label className="form-label fw-semibold">Nombre del Producto *</label>
-                        <input
-                        type="text"
-                        className={`form-control ${errors.nombre ? 'is-invalid' : ''}`}
-                        value={formData.nombre}
-                        onChange={(e) => handleFormChange('nombre', e.target.value)}
-                        placeholder="Ingrese nombre del producto"
-                        />
-                        {errors.nombre && <div className="invalid-feedback">{errors.nombre}</div>}
-                    </div>
-
-                    <div className="col-6">
-                        <label className="form-label fw-semibold">Precio (CLP) *</label>
-                        <input
-                        type="number"
-                        className={`form-control ${errors.precio ? 'is-invalid' : ''}`}
-                        value={formData.precio}
-                        onChange={(e) => handleFormChange('precio', e.target.value)}
-                        placeholder="0"
-                        min="1"
-                        />
-                        {errors.precio && <div className="invalid-feedback">{errors.precio}</div>}
-                    </div>
-
-                    <div className="col-6">
-                        <label className="form-label fw-semibold">Estado</label>
-                        <select
-                        className="form-select"
-                        value={formData.estado}
-                        onChange={(e) => handleFormChange('estado', e.target.value)}
-                        >
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
-                        </select>
-                    </div>
-
-                    <div className="col-6">
-                        <label className="form-label fw-semibold">Stock Actual *</label>
-                        <input
-                        type="number"
-                        className={`form-control ${errors.stock ? 'is-invalid' : ''}`}
-                        value={formData.stock}
-                        onChange={(e) => handleFormChange('stock', e.target.value)}
-                        placeholder="0"
-                        min="0"
-                        />
-                        {errors.stock && <div className="invalid-feedback">{errors.stock}</div>}
-                    </div>
-
-                    <div className="col-6">
-                        <label className="form-label fw-semibold">Stock Crítico *</label>
-                        <input
-                        type="number"
-                        className={`form-control ${errors.stockCritico ? 'is-invalid' : ''}`}
-                        value={formData.stockCritico}
-                        onChange={(e) => handleFormChange('stockCritico', e.target.value)}
-                        placeholder="0"
-                        min="1"
-                        />
-                        {errors.stockCritico && <div className="invalid-feedback">{errors.stockCritico}</div>}
-                        <div className="form-text">Alerta cuando el stock sea menor o igual</div>
-                    </div>
-                    </div>
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" onClick={handleCloseModals}>
-                    <i className="bi bi-x-circle me-1"></i> Cancelar
-                    </button>
-                    <button type="submit" className="btn btn-warning">
-                    <i className="bi bi-check-circle me-1"></i> Actualizar Producto
-                    </button>
-                </div>
-                </form>
-            </div>
-            </div>
-        </div>
-        )}
-
-        {/* Modal para Agregar Nueva Categoría */}
-        {showCategoriaModal && (
-        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1090 }}>
-            <div className="modal-dialog modal-dialog-centered modal-sm">
-            <div className="modal-content">
-                <div className="modal-header bg-info text-white">
-                <h5 className="modal-title">
-                    <i className="bi bi-tags me-2"></i>
-                    Nueva Categoría
-                </h5>
-                <button 
-                    type="button" 
-                    className="btn-close btn-close-white" 
-                    onClick={() => {
-                    setShowCategoriaModal(false);
-                    setNuevaCategoria('');
-                    setCategoriaError('');
-                    }}
-                ></button>
-                </div>
-                <div className="modal-body">
-                <div className="mb-3">
-                    <label className="form-label fw-semibold">Nombre de la categoría</label>
-                    <input
-                    type="text"
-                    className={`form-control ${categoriaError ? 'is-invalid' : ''}`}
-                    value={nuevaCategoria}
-                    onChange={(e) => {
-                        setNuevaCategoria(e.target.value);
-                        if (categoriaError) setCategoriaError('');
-                    }}
-                    placeholder="Ej: Accesorios, Decoración..."
-                    autoFocus
-                    />
-                    {categoriaError && <div className="invalid-feedback">{categoriaError}</div>}
-                </div>
-                </div>
-                <div className="modal-footer">
-                <button 
-                    type="button" 
-                    className="btn btn-secondary" 
-                    onClick={() => {
-                    setShowCategoriaModal(false);
-                    setNuevaCategoria('');
-                    setCategoriaError('');
-                    }}
+        <form onSubmit={handleFormSubmit}>
+          <div className="modal-body">
+            <div className="row g-3">
+              <div className="col-12">
+                <label className="form-label fw-semibold">Categoría *</label>
+                <select
+                  className="form-select"
+                  value={formData.categoria}
+                  onChange={(e) => handleFormChange('categoria', e.target.value)}
                 >
-                    Cancelar
-                </button>
-                <button 
-                    type="button" 
-                    className="btn btn-info text-white" 
-                    onClick={handleAgregarCategoria}
-                >
-                    <i className="bi bi-check-lg me-1"></i> Agregar
-                </button>
+                  {categorias.map(categoria => (
+                    <option key={categoria} value={categoria}>{categoria}</option>
+                  ))}
+                </select>
+                <div className="form-text">
+                  ¿No encuentras la categoría? 
+                  <Link to="/admin/categorias" className="ms-1">
+                    Crear nueva categoría
+                  </Link>
                 </div>
+              </div>
+
+              <div className="col-12">
+                <label className="form-label fw-semibold">Nombre del Producto *</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.nombre ? 'is-invalid' : ''}`}
+                  value={formData.nombre}
+                  onChange={(e) => handleFormChange('nombre', e.target.value)}
+                  placeholder="Ingrese nombre del producto"
+                />
+                {errors.nombre && <div className="invalid-feedback">{errors.nombre}</div>}
+              </div>
+
+              <div className="col-6">
+                <label className="form-label fw-semibold">Precio (CLP) *</label>
+                <input
+                  type="number"
+                  className={`form-control ${errors.precio ? 'is-invalid' : ''}`}
+                  value={formData.precio}
+                  onChange={(e) => handleFormChange('precio', e.target.value)}
+                  placeholder="0"
+                  min="1"
+                />
+                {errors.precio && <div className="invalid-feedback">{errors.precio}</div>}
+              </div>
+
+              <div className="col-6">
+                <label className="form-label fw-semibold">Estado</label>
+                <select
+                  className="form-select"
+                  value={formData.estado}
+                  onChange={(e) => handleFormChange('estado', e.target.value)}
+                >
+                  <option value="activo">Activo</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+
+              <div className="col-6">
+                <label className="form-label fw-semibold">Stock Inicial *</label>
+                <input
+                  type="number"
+                  className={`form-control ${errors.stock ? 'is-invalid' : ''}`}
+                  value={formData.stock}
+                  onChange={(e) => handleFormChange('stock', e.target.value)}
+                  placeholder="0"
+                  min="0"
+                />
+                {errors.stock && <div className="invalid-feedback">{errors.stock}</div>}
+              </div>
+
+              <div className="col-6">
+                <label className="form-label fw-semibold">Stock Crítico *</label>
+                <input
+                  type="number"
+                  className={`form-control ${errors.stockCritico ? 'is-invalid' : ''}`}
+                  value={formData.stockCritico}
+                  onChange={(e) => handleFormChange('stockCritico', e.target.value)}
+                  placeholder="0"
+                  min="1"
+                />
+                {errors.stockCritico && <div className="invalid-feedback">{errors.stockCritico}</div>}
+                <div className="form-text">Alerta cuando el stock sea menor o igual</div>
+              </div>
             </div>
-            </div>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" onClick={handleCloseModals}>
+              <i className="bi bi-x-circle me-1"></i> Cancelar
+            </button>
+            <button type="submit" className="btn btn-primary">
+              <i className="bi bi-check-circle me-1"></i> Crear Producto
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* Modal Editar Producto */}
+{showEditModal && selectedProducto && (
+  <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1080 }}>
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+        <div className="modal-header bg-warning text-dark">
+          <h5 className="modal-title">
+            <i className="bi bi-pencil-square me-2"></i>
+            Editar Producto
+          </h5>
+          <button type="button" className="btn-close" onClick={handleCloseModals}></button>
         </div>
-        )}
+        <form onSubmit={handleFormSubmit}>
+          <div className="modal-body">
+            {/* Información del producto actual */}
+            <div className="alert alert-info">
+              <div className="row small">
+                <div className="col-6">
+                  <strong>Código:</strong> {selectedProducto.codigo}
+                </div>
+                <div className="col-6">
+                  <strong>Estado actual:</strong> 
+                  <span className={`badge ${selectedProducto.estado === 'activo' ? 'bg-success' : 'bg-secondary'} ms-1`}>
+                    {selectedProducto.estado}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="row g-3">
+              <div className="col-12">
+                <label className="form-label fw-semibold">Categoría *</label>
+                <select
+                  className="form-select"
+                  value={formData.categoria}
+                  onChange={(e) => handleFormChange('categoria', e.target.value)}
+                >
+                  {categorias.map(categoria => (
+                    <option key={categoria} value={categoria}>{categoria}</option>
+                  ))}
+                </select>
+                <div className="form-text">
+                  <Link to="/admin/categorias">
+                    Gestionar categorías
+                  </Link>
+                </div>
+              </div>
+
+              <div className="col-12">
+                <label className="form-label fw-semibold">Nombre del Producto *</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.nombre ? 'is-invalid' : ''}`}
+                  value={formData.nombre}
+                  onChange={(e) => handleFormChange('nombre', e.target.value)}
+                  placeholder="Ingrese nombre del producto"
+                />
+                {errors.nombre && <div className="invalid-feedback">{errors.nombre}</div>}
+              </div>
+
+              <div className="col-6">
+                <label className="form-label fw-semibold">Precio (CLP) *</label>
+                <input
+                  type="number"
+                  className={`form-control ${errors.precio ? 'is-invalid' : ''}`}
+                  value={formData.precio}
+                  onChange={(e) => handleFormChange('precio', e.target.value)}
+                  placeholder="0"
+                  min="1"
+                />
+                {errors.precio && <div className="invalid-feedback">{errors.precio}</div>}
+              </div>
+
+              <div className="col-6">
+                <label className="form-label fw-semibold">Estado</label>
+                <select
+                  className="form-select"
+                  value={formData.estado}
+                  onChange={(e) => handleFormChange('estado', e.target.value)}
+                >
+                  <option value="activo">Activo</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+
+              <div className="col-6">
+                <label className="form-label fw-semibold">Stock Actual *</label>
+                <input
+                  type="number"
+                  className={`form-control ${errors.stock ? 'is-invalid' : ''}`}
+                  value={formData.stock}
+                  onChange={(e) => handleFormChange('stock', e.target.value)}
+                  placeholder="0"
+                  min="0"
+                />
+                {errors.stock && <div className="invalid-feedback">{errors.stock}</div>}
+              </div>
+
+              <div className="col-6">
+                <label className="form-label fw-semibold">Stock Crítico *</label>
+                <input
+                  type="number"
+                  className={`form-control ${errors.stockCritico ? 'is-invalid' : ''}`}
+                  value={formData.stockCritico}
+                  onChange={(e) => handleFormChange('stockCritico', e.target.value)}
+                  placeholder="0"
+                  min="1"
+                />
+                {errors.stockCritico && <div className="invalid-feedback">{errors.stockCritico}</div>}
+                <div className="form-text">Alerta cuando el stock sea menor o igual</div>
+              </div>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" onClick={handleCloseModals}>
+              <i className="bi bi-x-circle me-1"></i> Cancelar
+            </button>
+            <button type="submit" className="btn btn-warning">
+              <i className="bi bi-check-circle me-1"></i> Actualizar Producto
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };

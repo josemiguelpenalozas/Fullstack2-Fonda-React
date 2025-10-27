@@ -1,12 +1,13 @@
 import { NavLink } from 'react-router-dom'
 import '../../assets/admin/estilosAdmin.css';
+import logo from '../../assets/admin/logoPNG.png'
 
 const Sidebar = ({ collapsed }) => {
   return (
     <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       <a href="#" className="brand-link">
-        <img src="https://media.magflags.net/media/catalog/product/cache/78ead0662930e105a85d1fa3f0325792/C/L/CL.png_100.png" className="brand-image" alt="Logo" />
-        <span className="brand-text font-weight-light">Fonda Duoc</span>
+        <img src={logo} className="brand-image img-fluid" style={{ width: '60px', height: 'auto' }} alt="Logo" />
+        <span className="brand-text font-weight-light">Fonda SQL</span>
       </a>
 
       <div className="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -41,6 +42,12 @@ const Sidebar = ({ collapsed }) => {
             <NavLink to="/admin/productos" className="nav-link">
               <i className="bi bi-box-seam nav-icon"></i>
               <p>Productos</p>
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/admin/categorias" className="nav-link">
+              <i className="bi bi-people-fill nav-icon"></i>
+              <p>Categorias</p>
             </NavLink>
           </li>
           <li className="nav-item">
