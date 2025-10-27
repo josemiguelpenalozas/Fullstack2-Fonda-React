@@ -16,7 +16,7 @@ import DetalleProducto from './pages/DetalleProducto';
 import Carrito from './pages/Carrito.jsx'
 import SimulacionPago from './pages/SimulacionPago.jsx'
 
-
+const token = loadFromLocalstorage("token");
 
 function App() {
   return (

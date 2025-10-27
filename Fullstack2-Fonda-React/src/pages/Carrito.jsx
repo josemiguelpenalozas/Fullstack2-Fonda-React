@@ -6,13 +6,16 @@ function Carrito() {
   const [carrito, setCarrito] = useState([]);
   const navigate = useNavigate();
 
-  // Cargar productos desde localStorage al montar
+  // 🔹 Obtener token usando tu helper personalizado
+  const token = loadFromLocalstorage("token");
+
+  // 🔹 Cargar productos desde localStorage al montar
   useEffect(() => {
     const productosGuardados = loadFromLocalstorage("compra") || [];
     setCarrito(productosGuardados);
   }, []);
 
-  // Vaciar carrito
+  // 🔹 Vaciar carrito
   const vaciarCarrito = () => {
     if (window.confirm("¿Seguro que deseas vaciar el carrito?")) {
       removeFromLocalstorage("compra");
@@ -20,7 +23,7 @@ function Carrito() {
     }
   };
 
-  // Calcular total
+  // 🔹 Calcular total
   const total = carrito.reduce((acum, prod) => acum + (prod.precio || 0), 0);
 
   return (
@@ -29,45 +32,63 @@ function Carrito() {
         <h1>Carrito de Compras</h1>
         <hr />
 
-        {carrito.length === 0 ? (
-          <p className="mt-4">Tu carrito está vacío 😢</p>
+        {token ? (
+          carrito.length === 0 ? (
+            <p className="mt-4">Tu carrito está vacío 😢</p>
+          ) : (
+            <>
+              <ul className="list-group mb-4">
+                {carrito.map((producto, index) => (
+                  <li
+                    key={index}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <strong>{producto.nombre}</strong>
+                      <br />
+                      <small>
+                        {producto.precio} {producto.moneda}
+                      </small>
+                    </div>
+                    {producto.imagen && (
+                      <img
+                        src={producto.imagen}
+                        alt={producto.nombre}
+                        style={{ width: "60px", borderRadius: "8px" }}
+                      />
+                    )}
+                  </li>
+                ))}
+              </ul>
+
+              <h4 className="mb-3">
+                Total: <strong>{total.toLocaleString("es-CL")} CLP</strong>
+              </h4>
+
+              <button className="btn btn-danger" onClick={vaciarCarrito}>
+                Vaciar carrito
+              </button>
+              <button
+                className="btn btn-success m-4"
+                onClick={() => navigate("/SimulacionPago")}
+              >
+                Comprar
+              </button>
+            </>
+          )
         ) : (
-          <>
-            <ul className="list-group mb-4">
-              {carrito.map((producto, index) => (
-                <li
-                  key={index}
-                  className="list-group-item d-flex justify-content-between align-items-center"
-                >
-                  <div>
-                    <strong>{producto.nombre}</strong>
-                    <br />
-                    <small>
-                      {producto.precio} {producto.moneda}
-                    </small>
-                  </div>
-                  {producto.imagen && (
-                    <img
-                      src={producto.imagen}
-                      alt={producto.nombre}
-                      style={{ width: "60px", borderRadius: "8px" }}
-                    />
-                  )}
-                </li>
-              ))}
-            </ul>
-
-            <h4 className="mb-3">
-              💰 Total: <strong>{total.toLocaleString("es-CL")} CLP</strong>
-            </h4>
-
-            <button className="btn btn-danger" onClick={vaciarCarrito}>
-              Vaciar carrito
+          <div>
+            <h2>Debe iniciar sesión para poder ingresar al carrito</h2>
+            <p className="text-center">
+              Presione el botón para ir a iniciar sesión
+            </p>
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate("/login")}
+            >
+              Ir a iniciar sesión
             </button>
-            <button className="btn btn-success m-4" onClick={() => navigate(`/SimulacionPago`)}>
-              Comprar
-            </button>
-          </>
+          </div>
         )}
       </div>
     </div>
