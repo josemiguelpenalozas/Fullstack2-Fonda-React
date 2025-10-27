@@ -2,9 +2,6 @@ function SimulacionPago(){
     const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(
-        
-    )
 
     }
     return (

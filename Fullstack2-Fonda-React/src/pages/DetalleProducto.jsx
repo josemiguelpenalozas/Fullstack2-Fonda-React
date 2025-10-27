@@ -18,7 +18,7 @@ function DetalleProducto() {
     if (!yaExiste) {
       carrito.push(producto);
       saveToLocalstorage("compra", carrito);
-      alert(`${producto.nombre} fue añadido al carrito 🛒`);
+      alert(`${producto.nombre} fue añadido al carrito`);
     } else {
       alert(`${producto.nombre} ya está en el carrito`);
     }

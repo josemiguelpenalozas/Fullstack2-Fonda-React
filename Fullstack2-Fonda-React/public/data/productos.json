@@ -6,7 +6,7 @@
       "nombre": "Polera Banda 'Santaferia'",
       "precio": 14992,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/santaferia.jfif",
       "detalles":"Esta polera es ideal para los fanáticos de Santa Feria que buscan comodidad y estilo, con un diseño que refleja la esencia de la banda. Puedes adquirirla en la tienda oficial de Cabeza Gráfica."
     },
     {
@@ -15,7 +15,7 @@
       "nombre": "Polera Banda 'Noche de Brujas'",
       "precio": 14990,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/noche.jfif",
       "detalles":"La polera de la banda Noche de Brujas es un artículo de merchandising pensado para los fanáticos del grupo chileno de cumbia. Por lo general, está confeccionada en algodón de buena calidad, con cuello redondo y costuras reforzadas que garantizan durabilidad y comodidad. Su estampado suele incluir el nombre de la banda y diseños gráficos alusivos a su estilo musical, realizados mediante serigrafía para asegurar que los colores se mantengan intactos tras varios lavados. Está disponible en una variedad de tallas que van desde S hasta 4X, y aunque algunos modelos se venden en tiendas en línea, siempre es recomendable verificar que sean oficiales, con etiqueta o licencia reconocida por la banda, para asegurarse de la autenticidad y la calidad del producto."
     },
     {
@@ -24,7 +24,7 @@
       "nombre": "Polera Banda 'Chico Trujillo'",
       "precio": 14990,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/chico.jfif",
       "detalles":"Esta polera de Chico Trujillo está confeccionada en 100 % algodón de buena calidad, lo que le da un tacto suave, transpirable y duradero, ideal para uso frecuente. Tiene un corte tipo “crew neck” (cuello redondo) clásico, hombros reforzados y costuras a los costados para mantener su forma tras varios lavados. En el frente aparece impreso el logotipo de la banda o un gráfico alusivo al estilo festivo‑cumbiero de la agrupación, realizado mediante serigrafía (lo que asegura una buena adherencia de la tinta y colores que no se “cuecen” o desvanecen al primer lavado). Las tallas abarcan desde S hasta 3XL o 4XL, lo que permite que fans de diferentes contexturas puedan usarla cómodamente. Además, cuenta con una etiqueta interior que indica la marca/licencia oficial de la banda, lo que ayuda a garantizar que no sea una copia no autorizada. Finalmente, el diseño es suficientemente versátil para combinarlo tanto con un look informal de diario (jeans y zapatillas) como para lucir en un concierto, reflejando la identidad fiestera y callejera de Chico Trujillo."
   
     },
@@ -34,7 +34,7 @@
       "nombre": "Polera Banda 'Ráfaga'",
       "precio": 14990,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/rafaga.jfif",
       "detalles":"La polera de Ráfaga está hecha en algodón suave, con un corte cómodo y cuello redondo. En el frente lleva impreso el logo de la banda y un diseño colorido que refleja la energía de sus canciones. Disponible en varias tallas, es perfecta para usarla en conciertos o en el día a día, mostrando tu fanatismo por la cumbia argentina."
 
     },
@@ -44,7 +44,7 @@
       "nombre": "Poncho Tradicional de Lana",
       "precio": 39990,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/poncho.jfif",
       "detalles":"Este poncho de lana está tejido con hilos naturales de alta calidad, ofreciendo calidez y suavidad al tacto. Su diseño tradicional presenta un corte amplio y rectangular que permite libertad de movimiento, con flecos decorativos en los bordes que realzan su estilo artesanal. Ideal para los días fríos, combina funcionalidad y elegancia, pudiéndose usar sobre ropa casual o prendas más formales para un look auténtico y acogedor."
     },
     {
@@ -53,7 +53,7 @@
       "nombre": "Chupalla de Paja",
       "precio": 9990,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/chupalla.jfif",
       "detalles":"La chupalla de paja está confeccionada a mano con fibras naturales, liviana y transpirable, ideal para protegerse del sol en días calurosos. Su ala ancha y flexible proporciona sombra y comodidad, mientras que su diseño clásico mantiene un estilo tradicional y auténtico, perfecto para actividades al aire libre o celebraciones folclóricas."
     },
     {
@@ -62,7 +62,7 @@
       "nombre": "Pañuelo Bordado",
       "precio": 5990,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/pañuelo.jfif",
       "detalles":"El pañuelo de cueca está hecho de tela ligera y resistente, diseñado para facilitar los movimientos característicos del baile nacional chileno. Con colores vivos y estampados tradicionales, aporta estilo y autenticidad al bailar, siendo un accesorio imprescindible para ceremonias, festivales y presentaciones folclóricas."
     },
     {
@@ -71,7 +71,7 @@
       "nombre": "Vale 'Terremoto'",
       "precio": 4000,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/terremoto.jfif",
       "detalles":"Este vaso está diseñado para disfrutar del tradicional terremoto chileno, con capacidad ideal para mezclar vino pipeño con helado de piña y un toque de granadina. Su cristal resistente permite sostenerlo cómodamente mientras se sirve y comparte en celebraciones, transmitiendo la esencia festiva de esta bebida típica de Chile."
     },
     {
@@ -80,7 +80,7 @@
       "nombre": "Vale 'Empanada'",
       "precio": 3000,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/empanada.jfif",
       "detalles":"La empanada de pino es un clásico de la gastronomía chilena, rellena de carne sazonada, cebolla dorada, aceitunas, huevo y pasas, envuelta en una masa dorada y crujiente. Perfecta para fiestas patrias, celebraciones o un antojo tradicional, combina sabor, textura y aroma en cada bocado."
     },
     {
@@ -89,7 +89,7 @@
       "nombre": "Vale 'Mote con Huesillo'",
       "precio": 2500,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/mote.jfif",
       "detalles":"El mote con huesillo es una bebida tradicional chilena, refrescante y dulce, hecha con duraznos deshidratados (huesillos) cocidos en un almíbar de azúcar y canela, acompañados de trigo cocido (mote). Se sirve frío y es ideal para disfrutar en los días calurosos, ofreciendo un sabor auténtico y típico de la cultura chilena."
     },
     {
@@ -98,7 +98,7 @@
       "nombre": "Entrada General – Silla Zona A",
       "precio": 12000,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/entrada.jfif",
       "detalles":"Entrada general para disfrutar del espectáculo en todo su esplendor, con acceso a la pista y el ambiente lleno de música, luces y diversión garantizada."
     },
     {
@@ -107,7 +107,7 @@
       "nombre": "Entrada VIP – Mesa con Vista al Escenario",
       "precio": 25000,
       "moneda": "CLP",
-      "imagen": "",
+      "imagen": "../../src/assets/entrada.jfif",
       "detalles":"Entrada VIP que ofrece acceso privilegiado al espectáculo, con mejor ubicación, comodidad y experiencias exclusivas que hacen de la noche un momento inolvidable."
     }
   ]
