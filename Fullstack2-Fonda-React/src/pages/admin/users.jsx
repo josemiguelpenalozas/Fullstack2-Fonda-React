@@ -12,6 +12,7 @@ const Users = () => {
   // Estados para modales
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showHistorialModal, setShowHistorialModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [formData, setFormData] = useState({
     nombre: '',
@@ -20,6 +21,60 @@ const Users = () => {
     rol: 'usuario'
   });
   const [errors, setErrors] = useState({});
+
+  const historialClientes = {
+    1: [ // ID del usuario
+      {
+        id: 1,
+        tipo: 'compra',
+        descripcion: 'Compra realizada - Boleta B001',
+        fecha: new Date('2024-01-15T14:30:00'),
+        monto: 49956,
+        items: ['Polera Banda "Santaferia"', 'Entrada General Zona A'],
+        estado: 'completada'
+      },
+      {
+        id: 2,
+        tipo: 'consulta',
+        descripcion: 'Consulta sobre productos',
+        fecha: new Date('2024-01-10T11:20:00'),
+        monto: 0,
+        items: [],
+        estado: 'atendida'
+      }
+    ],
+    2: [
+      {
+        id: 1,
+        tipo: 'compra',
+        descripcion: 'Compra realizada - Boleta B002',
+        fecha: new Date('2024-01-14T16:45:00'),
+        monto: 42828,
+        items: ['Vale "Terremoto"', 'Pañuelo Bordado', 'Vale "Empanada"'],
+        estado: 'completada'
+      },
+      {
+        id: 2,
+        tipo: 'devolucion',
+        descripcion: 'Devolución parcial - Vale "Empanada"',
+        fecha: new Date('2024-01-13T09:15:00'),
+        monto: -3000,
+        items: ['Vale "Empanada"'],
+        estado: 'procesada'
+      }
+    ],
+    3: [
+      {
+        id: 1,
+        tipo: 'compra',
+        descripcion: 'Compra realizada - Boleta B003',
+        fecha: new Date('2024-01-14T11:20:00'),
+        monto: 77338,
+        items: ['Entrada VIP', 'Polera "Ráfaga"'],
+        estado: 'pendiente'
+      }
+    ]
+  };
 
   // Cargar usuarios desde localStorage o JSON inicial
   const cargarUsuarios = () => {
@@ -135,11 +190,68 @@ const Users = () => {
     setShowEditModal(true);
   };
 
+  const handleOpenHistorialModal = (user) => {
+    setSelectedUser(user);
+    setShowHistorialModal(true);
+  };
+
   const handleCloseModals = () => {
     setShowAddModal(false);
     setShowEditModal(false);
+    setShowHistorialModal(false);
     setSelectedUser(null);
     setErrors({});
+  };
+
+  const getHistorialUsuario = () => {
+    if (!selectedUser) return [];
+    return historialClientes[selectedUser.id_usuario] || [];
+  };
+
+  const formatFecha = (fecha) => {
+    return new Intl.DateTimeFormat('es-CL', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(fecha);
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-CL', {
+      style: 'currency',
+      currency: 'CLP'
+    }).format(price);
+  };
+
+  const getIconoHistorial = (tipo) => {
+    switch (tipo) {
+      case 'compra':
+        return 'bi-cart-check text-success';
+      case 'consulta':
+        return 'bi-chat-dots text-info';
+      case 'devolucion':
+        return 'bi-arrow-return-left text-warning';
+      default:
+        return 'bi-activity text-muted';
+    }
+  };
+
+  const getEstadoColor = (estado) => {
+    switch (estado) {
+      case 'completada':
+      case 'atendida':
+        return 'success';
+      case 'pendiente':
+        return 'warning';
+      case 'procesada':
+        return 'info';
+      case 'cancelada':
+        return 'danger';
+      default:
+        return 'secondary';
+    }
   };
 
   const handleFormChange = (field, value) => {
@@ -156,6 +268,7 @@ const Users = () => {
       }));
     }
   };
+  
 
   const handleFormSubmit = (e) => {
   e.preventDefault();
@@ -453,7 +566,7 @@ const Users = () => {
                     <th style={{ border: 'none', padding: '12px 16px', fontWeight: '600', color: '#333' }}>RUT</th>
                     <th style={{ border: 'none', padding: '12px 16px', fontWeight: '600', color: '#333' }}>Rol</th>
                     <th style={{ 
-                      width: '120px', 
+                      width: '180px', 
                       border: 'none', 
                       padding: '12px 16px', 
                       fontWeight: '600', 
@@ -483,32 +596,46 @@ const Users = () => {
                           </span>
                         </td>
                         <td style={{ border: 'none', padding: '12px 16px', textAlign: 'center' }}>
-                          <button 
-                            className="btn btn-sm btn-outline-primary me-1"
-                            onClick={() => handleOpenEditModal(user)}
-                            title="Editar usuario"
-                            style={{ 
-                              border: '1px solid #007bff',
-                              borderRadius: '4px',
-                              padding: '0.25rem 0.5rem'
-                            }}
-                          >
-                            <i className="bi bi-pencil"></i>
-                          </button>
-                          <button 
-                            className="btn btn-sm btn-outline-danger"
-                            onClick={() => handleDeleteUser(user.id_usuario)}
-                            disabled={user.rol === 'admin'}
-                            title={user.rol === 'admin' ? 'No se puede eliminar al administrador principal' : 'Eliminar usuario'}
-                            style={{ 
-                              border: '1px solid #dc3545',
-                              borderRadius: '4px',
-                              padding: '0.25rem 0.5rem',
-                              opacity: user.rol === 'admin' ? 0.5 : 1
-                            }}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
+                          <div className="d-flex gap-1 justify-content-center">
+                            <button 
+                              className="btn btn-sm btn-outline-info"
+                              onClick={() => handleOpenHistorialModal(user)}
+                              title="Ver historial"
+                              style={{ 
+                                border: '1px solid #0dcaf0',
+                                borderRadius: '4px',
+                                padding: '0.25rem 0.5rem'
+                              }}
+                            >
+                              <i className="bi bi-clock-history"></i>
+                            </button>
+                            <button 
+                              className="btn btn-sm btn-outline-primary"
+                              onClick={() => handleOpenEditModal(user)}
+                              title="Editar usuario"
+                              style={{ 
+                                border: '1px solid #007bff',
+                                borderRadius: '4px',
+                                padding: '0.25rem 0.5rem'
+                              }}
+                            >
+                              <i className="bi bi-pencil"></i>
+                            </button>
+                            <button 
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => handleDeleteUser(user.id_usuario)}
+                              disabled={user.rol === 'admin'}
+                              title={user.rol === 'admin' ? 'No se puede eliminar al administrador principal' : 'Eliminar usuario'}
+                              style={{ 
+                                border: '1px solid #dc3545',
+                                borderRadius: '4px',
+                                padding: '0.25rem 0.5rem',
+                                opacity: user.rol === 'admin' ? 0.5 : 1
+                              }}
+                            >
+                              <i className="bi bi-trash"></i>
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -527,6 +654,155 @@ const Users = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal de Historial del Cliente */}
+      {showHistorialModal && selectedUser && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="modal-backdrop show" 
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 1050
+            }}
+          ></div>
+          
+          {/* Modal */}
+          <div 
+            className="modal show d-block" 
+            tabIndex="-1" 
+            style={{ 
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 1060,
+              overflow: 'hidden'
+            }}
+          >
+            <div className="modal-dialog modal-dialog-centered modal-lg">
+              <div className="modal-content">
+                <div className="modal-header bg-info text-white">
+                  <h5 className="modal-title">
+                    <i className="bi bi-clock-history me-2"></i>
+                    Historial del Cliente: {selectedUser.nombre}
+                  </h5>
+                  <button 
+                    type="button" 
+                    className="btn-close btn-close-white" 
+                    onClick={handleCloseModals}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  {/* Información del cliente */}
+                  <div className="row mb-4">
+                    <div className="col-md-6">
+                      <div className="card bg-light">
+                        <div className="card-body">
+                          <h6 className="card-title">Información del Cliente</h6>
+                          <p className="mb-1"><strong>Nombre:</strong> {selectedUser.nombre}</p>
+                          <p className="mb-1"><strong>Email:</strong> {selectedUser.email}</p>
+                          <p className="mb-1"><strong>RUT:</strong> {selectedUser.rut}</p>
+                          <p className="mb-0"><strong>Rol:</strong> <span className={`badge ${selectedUser.rol === 'admin' ? 'bg-danger' : 'bg-primary'}`}>
+                            {selectedUser.rol === 'admin' ? 'Administrador' : 'Usuario'}
+                          </span></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="card bg-light">
+                        <div className="card-body">
+                          <h6 className="card-title">Resumen de Actividad</h6>
+                          <p className="mb-1"><strong>Total de transacciones:</strong> {getHistorialUsuario().length}</p>
+                          <p className="mb-1"><strong>Compras realizadas:</strong> {getHistorialUsuario().filter(h => h.tipo === 'compra').length}</p>
+                          <p className="mb-0"><strong>Consultas:</strong> {getHistorialUsuario().filter(h => h.tipo === 'consulta').length}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Lista de historial */}
+                  <h6 className="mb-3">Historial de Actividades</h6>
+                  {getHistorialUsuario().length > 0 ? (
+                    <div className="list-group">
+                      {getHistorialUsuario().map(historial => (
+                        <div key={historial.id} className="list-group-item">
+                          <div className="d-flex align-items-start">
+                            <div className="flex-shrink-0 me-3">
+                              <i className={`bi ${getIconoHistorial(historial.tipo)}`} style={{ fontSize: '1.5rem' }}></i>
+                            </div>
+                            <div className="flex-grow-1">
+                              <div className="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                  <h6 className="mb-1" style={{ color: '#333', fontWeight: '500' }}>
+                                    {historial.descripcion}
+                                  </h6>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <span className={`badge bg-${getEstadoColor(historial.estado)}`}>
+                                      {historial.estado}
+                                    </span>
+                                    {historial.monto !== 0 && (
+                                      <span className={`badge ${historial.monto > 0 ? 'bg-success' : 'bg-warning'}`}>
+                                        {formatPrice(historial.monto)}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                                <small className="text-muted text-nowrap">
+                                  {formatFecha(historial.fecha)}
+                                </small>
+                              </div>
+                              
+                              {/* Items del historial */}
+                              {historial.items && historial.items.length > 0 && (
+                                <div className="mt-2">
+                                  <small className="text-muted">
+                                    <strong>Productos:</strong> {historial.items.join(', ')}
+                                  </small>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-4">
+                      <i className="bi bi-inbox display-4 text-muted d-block mb-3"></i>
+                      <p className="text-muted mb-2">No hay historial registrado</p>
+                      <small className="text-muted">Este usuario no tiene actividades registradas en el sistema</small>
+                    </div>
+                  )}
+                </div>
+                <div className="modal-footer">
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary" 
+                    onClick={handleCloseModals}
+                  >
+                    <i className="bi bi-x-circle me-1"></i> Cerrar
+                  </button>
+                  <button 
+                    type="button" 
+                    className="btn btn-outline-primary"
+                    onClick={() => {
+                      // todavia no se agrega esto
+                      alert(`Exportando historial de ${selectedUser.nombre}...`);
+                    }}
+                  >
+                    <i className="bi bi-download me-1"></i> Exportar Historial
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Modal Agregar Usuario */}
 {showAddModal && (
