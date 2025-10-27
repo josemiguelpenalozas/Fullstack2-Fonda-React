@@ -3,6 +3,8 @@ import AdminLayout from './components/admin/AdminLayout';
 import Dashboard from './pages/admin/dashboard';
 import Users from './pages/admin/users';
 import Productos from './pages/admin/productos';
+import Actividad from './pages/admin/Actividad';
+import Ordenes from './pages/admin/Ordenes';
 
 function App() {
   return (
@@ -15,8 +17,8 @@ function App() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="usuarios" element={<Users />} />
         <Route path="productos" element={<Productos />} />
-        <Route path="ordenes" element={<div className="container-fluid p-4"><h1>Página de Órdenes - En desarrollo</h1></div>} />
-        <Route path="registro-actividad" element={<div className="container-fluid p-4"><h1>Página de Actividad - En desarrollo</h1></div>} />
+        <Route path="ordenes" element={<Ordenes/>} />
+        <Route path="registro-actividad" element={<Actividad/>} />
       </Route>
     </Routes>
   );
