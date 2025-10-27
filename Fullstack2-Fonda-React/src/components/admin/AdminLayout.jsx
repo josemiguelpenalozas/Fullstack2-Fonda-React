@@ -10,15 +10,26 @@ const AdminLayout = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   
-  // Datos del administrador
-  const [adminProfile, setAdminProfile] = useState({
-    nombres: 'Huaso',
-    apellidos: 'Arellano',
-    correo: 'admin@fondaduoc.cl',
-    direccion: 'Av. Principal 123, Santiago, Chile',
-    rut: '12.345.678-9',
-    rol: 'Administrador Principal'
+  // Cargar datos del administrador desde localStorage o usar valores por defecto
+  const [adminProfile, setAdminProfile] = useState(() => {
+    const savedProfile = localStorage.getItem('adminProfile');
+    if (savedProfile) {
+      return JSON.parse(savedProfile);
+    }
+    return {
+      nombres: 'Huaso',
+      apellidos: 'Arellano',
+      correo: 'admin@fondaduoc.cl',
+      direccion: 'Av. Principal 123, Santiago, Chile',
+      rut: '12.345.678-9',
+      rol: 'Administrador Principal'
+    };
   });
+
+  // Guardar en localStorage cuando el perfil cambie
+  useEffect(() => {
+    localStorage.setItem('adminProfile', JSON.stringify(adminProfile));
+  }, [adminProfile]);
 
   // Referencias para los popovers
   const notificationsRef = useRef(null);
@@ -101,15 +112,22 @@ const AdminLayout = () => {
 
   // Función para guardar los cambios
   const handleSaveProfile = () => {
-    // Aquí iría la lógica para guardar en la base de datos
+    // Guardar en localStorage
+    localStorage.setItem('adminProfile', JSON.stringify(adminProfile));
     console.log('Perfil guardado:', adminProfile);
     setIsEditing(false);
-    // Podrías agregar aquí una notificación de éxito
+    
+    // Mostrar notificación de éxito
+    alert('Perfil actualizado correctamente');
   };
 
   // Función para cancelar edición
   const handleCancelEdit = () => {
-    // Podrías resetear los datos aquí si es necesario
+    // Recargar datos desde localStorage
+    const savedProfile = localStorage.getItem('adminProfile');
+    if (savedProfile) {
+      setAdminProfile(JSON.parse(savedProfile));
+    }
     setIsEditing(false);
   };
 
@@ -117,8 +135,9 @@ const AdminLayout = () => {
 
   return (
     <div className="admin-layout d-flex">
-      {/* Barra lateral */}
-      <Sidebar collapsed={collapsed} />
+      {/* Barra lateral - Pasa el perfil del admin como prop */}
+      <Sidebar collapsed={collapsed} adminProfile={adminProfile} />
+      
       {/* Contenedor principal: NAV arriba y espacio para las paginas */}
       <div className={`flex-grow-1 main-content d-flex flex-column ${collapsed ? 'collapsed' : ''}`} style={{ minHeight: '100vh' }}>
         {/* Navbar superior */}
@@ -149,7 +168,7 @@ const AdminLayout = () => {
                 color: '#d32f2f',
                 letterSpacing: '1.5px'
               }}>
-                👋 ¡Buenos días, pariente <span style={{ color: '#0D47A1' }}>Arellano</span>! 🎉
+                👋 ¡Buenos días, pariente <span style={{ color: '#0D47A1' }}>{adminProfile.apellidos}</span>! 🎉
               </span>
             </div>
             {/* Bloque derecho: notificación, chat soporte y usuario */}
@@ -383,10 +402,10 @@ const AdminLayout = () => {
                           className="rounded-circle mb-3 border border-3 border-primary"
                           style={{ width: '80px', height: '80px', objectFit: 'cover' }}
                         />
-                        <h6 className="mb-1 fw-bold text-dark">Huaso Arellano</h6>
+                        <h6 className="mb-1 fw-bold text-dark">{adminProfile.nombres} {adminProfile.apellidos}</h6>
                         <p className="text-muted small mb-3">
                           <i className="bi bi-shield-check text-primary me-1"></i>
-                          Administrador Principal
+                          {adminProfile.rol}
                         </p>
                         <div className="d-grid gap-2">
                           <button 
@@ -466,12 +485,6 @@ const AdminLayout = () => {
                         className="rounded-circle border border-4 border-primary mb-3"
                         style={{ width: '120px', height: '120px', objectFit: 'cover' }}
                       />
-                      {isEditing && (
-                        <button className="btn btn-outline-secondary btn-sm">
-                          <i className="bi bi-camera me-1"></i>
-                          Cambiar foto
-                        </button>
-                      )}
                     </div>
                     
                     <div className="col-md-8">

@@ -1,8 +1,51 @@
 import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react';
 import '../../assets/admin/estilosAdmin.css';
 import logo from '../../assets/admin/logoPNG.png'
 
 const Sidebar = ({ collapsed }) => {
+  const [adminProfile, setAdminProfile] = useState({
+    nombres: 'Huaso',
+    apellidos: 'Arellano'
+  });
+
+  // Cargar datos del admin desde localStorage al montar el componente
+  useEffect(() => {
+    const savedProfile = localStorage.getItem('adminProfile');
+    if (savedProfile) {
+      setAdminProfile(JSON.parse(savedProfile));
+    }
+  }, []);
+
+  // Escuchar cambios en localStorage para actualizar en tiempo real
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const savedProfile = localStorage.getItem('adminProfile');
+      if (savedProfile) {
+        setAdminProfile(JSON.parse(savedProfile));
+      }
+    };
+
+    // Escuchar cambios en localStorage
+    window.addEventListener('storage', handleStorageChange);
+    
+    // También escuchar cambios desde la misma pestaña
+    const interval = setInterval(() => {
+      const savedProfile = localStorage.getItem('adminProfile');
+      if (savedProfile) {
+        const parsedProfile = JSON.parse(savedProfile);
+        if (parsedProfile.nombres !== adminProfile.nombres || parsedProfile.apellidos !== adminProfile.apellidos) {
+          setAdminProfile(parsedProfile);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [adminProfile.nombres, adminProfile.apellidos]);
+
   return (
     <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       <a href="#" className="brand-link">
@@ -12,10 +55,21 @@ const Sidebar = ({ collapsed }) => {
 
       <div className="user-panel mt-3 pb-3 mb-3 d-flex">
         <div className="image">
-          <img src="https://pbs.twimg.com/profile_images/378800000162907418/3227125f0f2eade72449e2204da234d4_200x200.jpeg" className="img-circle elevation-2" alt="User" />
+          <img 
+            src="https://pbs.twimg.com/profile_images/378800000162907418/3227125f0f2eade72449e2204da234d4_200x200.jpeg" 
+            className="img-circle elevation-2" 
+            alt="User" 
+            style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+          />
         </div>
         <div className="info">
-          <a href="#" className="d-block">Huaso Arellano</a>
+          <a href="#" className="d-block">
+            {adminProfile.nombres} {adminProfile.apellidos}
+          </a>
+          <small className="text-muted">
+            <i className="bi bi-shield-check text-primary me-1"></i>
+            Administrador
+          </small>
         </div>
       </div>
 
@@ -46,7 +100,7 @@ const Sidebar = ({ collapsed }) => {
           </li>
           <li className="nav-item">
             <NavLink to="/admin/categorias" className="nav-link">
-              <i className="bi bi-people-fill nav-icon"></i>
+              <i className="bi bi-tags nav-icon"></i>
               <p>Categorias</p>
             </NavLink>
           </li>
