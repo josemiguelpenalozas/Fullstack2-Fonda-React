@@ -1,0 +1,94 @@
+{
+  "ofertas": [
+    {
+      "codigo": "OF001",
+      "categoria": "Merchandising de Bandas",
+      "nombre": "Polera Banda 'Santaferia' – Oferta Especial",
+      "precio": 11990,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/santaferia.jfif",
+      "detalles": "¡Oferta limitada! Llévate la polera oficial de Santaferia con un 20% de descuento. Comodidad y estilo para los fanáticos de la cumbia chilena."
+    },
+    {
+      "codigo": "OF002",
+      "categoria": "Merchandising de Bandas",
+      "nombre": "Polera 'Chico Trujillo' + Pañuelo Cuequero",
+      "precio": 17990,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/chico.jfif",
+      "detalles": "Pack exclusivo para los amantes de la música y las tradiciones. Incluye una polera de Chico Trujillo y un pañuelo bordado para bailar la cueca con estilo."
+    },
+    {
+      "codigo": "OF003",
+      "categoria": "Promociones Gastronómicas",
+      "nombre": "Combo Tradicional – Empanada + Mote con Huesillo",
+      "precio": 4500,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/promo_emp_mot.png",
+      "detalles": "Disfruta del sabor chileno con esta combinación clásica. Empanada de pino y un vaso de mote con huesillo frío, ¡la pareja perfecta para el dieciocho!"
+    },
+    {
+      "codigo": "OF004",
+      "categoria": "Vestimenta Huasa",
+      "nombre": "Poncho de Lana + Chupalla",
+      "precio": 44990,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/promo_chupalla_poncho.jfif",
+      "detalles": "El look huaso completo con esta oferta especial. Poncho artesanal de lana más chupalla de paja natural. Ideal para presentaciones o celebraciones patrias."
+    },
+    {
+      "codigo": "OF005",
+      "categoria": "Entradas",
+      "nombre": "2x1 Entrada General Zona A",
+      "precio": 12000,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/entrada.jfif",
+      "detalles": "Lleva a un amigo y paga solo una entrada. Oferta 2x1 válida para zona general A. Cupos limitados, ¡asegura tu lugar antes de que se agoten!"
+    },
+    {
+      "codigo": "OF006",
+      "categoria": "Tickets de Consumo",
+      "nombre": "Vale 'Terremoto' – 2x $6.000",
+      "precio": 6000,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/terremoto.jfif",
+      "detalles": "Compra dos vales de terremoto por solo $6.000. Ideal para compartir en pareja o con amigos. ¡Celebra con responsabilidad y sabor!"
+    },
+    {
+      "codigo": "OF007",
+      "categoria": "Merchandising de Bandas",
+      "nombre": "Polera 'Ráfaga' – Descuento del 30%",
+      "precio": 10490,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/rafaga.jfif",
+      "detalles": "Demuestra tu fanatismo por Ráfaga con esta polera oficial ahora con un 30% de descuento. Diseño colorido y tela de algodón de alta calidad."
+    },
+    {
+      "codigo": "OF008",
+      "categoria": "Promociones VIP",
+      "nombre": "Entrada VIP + Terremoto de Cortesía",
+      "precio": 25000,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/entrada.jfif",
+      "detalles": "Acceso privilegiado al espectáculo con un vaso de terremoto incluido. ¡Vive la fonda desde el mejor lugar con esta oferta exclusiva!"
+    },
+    {
+      "codigo": "OF009",
+      "categoria": "Pañuelos y Accesorios",
+      "nombre": "Kit Cuequero – Pañuelo + Chupalla",
+      "precio": 12990,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/promo_gorro_pañ.png",
+      "detalles": "Equípate para bailar la cueca con este combo tradicional. Incluye pañuelo bordado y chupalla de paja. ¡Oferta solo por fiestas patrias!"
+    },
+    {
+      "codigo": "OF010",
+      "categoria": "Pack Familiar",
+      "nombre": "4 Empanadas + 4 Motes con Huesillo",
+      "precio": 14990,
+      "moneda": "CLP",
+      "imagen": "../../src/assets/promo_emp_mot.png",
+      "detalles": "Comparte en familia con este delicioso pack de cuatro empanadas de pino y cuatro vasos de mote con huesillo. Ideal para tardes dieciocheras."
+    }
+  ]
+}
