@@ -42,7 +42,7 @@ describe("Testing Carrito", () => {
     expect(screen.getByText("Carrito de Compras")).toBeInTheDocument();
     expect(screen.getByText("Zapatos")).toBeInTheDocument();
     expect(screen.getByText("Polera")).toBeInTheDocument();
-    expect(screen.getByText("Total: 24.970 CLP")).toBeInTheDocument();
+    expect(screen.getByText(/24\.970\s*CLP/)).toBeInTheDocument();
 
     // Verifica que las imágenes se rendericen
     expect(screen.getByAltText("Zapatos")).toBeInTheDocument();

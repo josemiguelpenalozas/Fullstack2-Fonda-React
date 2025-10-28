@@ -3,7 +3,7 @@ function Noticia1(){
     <div className="container-fluid bg-info min-vh-100 d-flex align-items-center justify-content-center">
             <div className="col-md-9 bg-light rounded shadow">
             <h1 className="m-4 text-center">Revisa los nuevos precios de la la fonda ma prendida de chile</h1>
-            <div className="text-center"><img src="../src/assets/huasos.png" alt="" /></div> 
+            <div className="text-center"><img src="../src/assets/huasos.png" alt="foto_not_1" /></div> 
             <p className="text-center">¡Atención a todos los fanáticos de nuestra fonda! Sabemos que la espera ha valido la pena, y para que disfrutes al máximo, hemos actualizado nuestros precios de productos, entradas y merchandising. Ahora podrás planificar tu visita y llevarte tus recuerdos favoritos con total facilidad.</p>
             <h3 className="text-center">Merchandising de Bandas:</h3>
             <li className="text-center">Polera Banda 'Santaferia' – $14.990 CLP</li>
