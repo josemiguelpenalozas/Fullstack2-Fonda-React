@@ -169,7 +169,7 @@
   background: transparent;
 }
 
-/* Estilos para los iconos */
+
 
 .btn-sidebar .bi-search {
   font-size: 1.3em;          
@@ -232,7 +232,7 @@
   transition: transform 0.2s ease;
 }
 
-/* Estilos para los popovers del header */
+
 .popover-container {
   animation: slideDown 0.2s ease-out;
 }
@@ -386,7 +386,7 @@
   transform: none !important;
 }
 
-/* Dashboard */
+
 .dashboard-admin {
   padding: 2rem 1rem;
 }
@@ -408,7 +408,7 @@
 .widget h4 { color: #0D47A1; }
 .widget p  { color: #222; font-size: 1.2rem; }
 
-/* Fondo */
+
 
 .contenido-admin {
   background-image: url('/src/assets/admin/pattern.jpg');  
@@ -430,11 +430,10 @@
   z-index: 1;
 }
 
-/* Estilos para cards y graficos */
+
 
 .dashboard-admin {
   padding: 1.5rem 1rem;
-  /* Si quieres posición relativa para z-index */
   position: relative;
 }
 
@@ -458,7 +457,7 @@
 .card-dashboard {
   background: #ffffff;
   border-radius: 18px;
-  box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.17), 0 1.5px 5px 0 rgba(0,0,0,0.51); /* Border/shadow fuerte */
+  box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.17), 0 1.5px 5px 0 rgba(0,0,0,0.51);
   padding: 22px 14px;
   min-height: 340px;
   display: flex;
@@ -491,7 +490,7 @@
   }
 }
 
-/* Estilos para Usuarios */
+
 
 .contenido-admin .card {
   backdrop-filter: blur(5px);
@@ -506,19 +505,20 @@
   background-color: rgba(0, 123, 255, 0.05) !important;
 }
 
-/* Asegurar que el contenido esté por encima del overlay */
+
 .contenido-admin > * {
   position: relative;
   z-index: 2;
 }
 
-/* Mejoras para la tabla */
+
 .contenido-admin .table td,
 .contenido-admin .table th {
   border-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Estilos para el modal */
+
+
 
 /* Estilos para los modales de usuarios */
 .modal-content {
@@ -537,7 +537,7 @@
   border-radius: 0 0 12px 12px;
 }
 
-/* Animación suave para modales */
+
 .modal.show .modal-dialog {
   transform: scale(1);
   transition: transform 0.2s ease-out;
@@ -548,7 +548,7 @@
   transition: transform 0.2s ease-in;
 }
 
-/* Mejoras para los formularios */
+
 .form-text {
   font-size: 0.75rem;
   margin-top: 0.25rem;
@@ -558,7 +558,7 @@
   font-size: 0.8rem;
 }
 
-/* Estilos para los badges en el modal */
+
 .badge {
   font-size: 0.7em;
 }
@@ -589,7 +589,7 @@
   border-radius: 0 0 12px 12px;
 }
 
-/* Asegurar que el modal esté por encima del header */
+
 .main-header {
   z-index: 1040 !important;
 }
@@ -598,7 +598,7 @@
   z-index: 1030 !important;
 }
 
-/* Overlay del modal */
+
 .modal.show {
   background-color: rgba(0, 0, 0, 0.5) !important;
   position: fixed;
@@ -609,7 +609,7 @@
   z-index: 1055 !important;
 }
 
-/* Animación suave para modales */
+
 .modal.show .modal-dialog {
   transform: scale(1);
   transition: transform 0.2s ease-out;
@@ -621,7 +621,7 @@
   transition: transform 0.2s ease-in;
 }
 
-/* Animaciones para modales */
+
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -651,7 +651,7 @@
   }
 }
 
-/* Estilos para modales con animaciones */
+
 .modal-animation {
   animation: modalSlideIn 0.3s ease-out;
 }
@@ -672,7 +672,7 @@
   overflow: hidden;
 }
 
-/* Efectos de hover para botones del modal */
+
 .modal-footer .btn {
   transition: all 0.2s ease;
 }
@@ -682,13 +682,13 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Efecto de focus en inputs */
+
 .modal-content .form-control:focus {
   transform: scale(1.02);
   transition: transform 0.2s ease;
 }
 
-/* Animación para el alert informativo */
+
 .alert {
   animation: slideDown 0.4s ease-out;
 }
@@ -704,7 +704,7 @@
   }
 }
 
-/* Efecto de pulsación para botones de acción */
+
 .btn-pulse:hover {
   animation: pulse 0.6s infinite alternate;
 }
@@ -718,7 +718,7 @@
   }
 }
 
-/* Z-index corregido */
+
 .modal-backdrop {
   z-index: 1050 !important;
   background-color: rgba(0, 0, 0, 0.5) !important;
@@ -736,7 +736,7 @@
   z-index: 1040 !important;
 }
 
-/* Estilos para la modal de perfil */
+
 .modal-content.border-primary {
   border-radius: 15px;
   overflow: hidden;

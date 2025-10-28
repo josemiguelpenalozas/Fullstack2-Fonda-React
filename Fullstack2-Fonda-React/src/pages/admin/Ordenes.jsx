@@ -11,7 +11,7 @@ const Ordenes = () => {
   const [selectedOrden, setSelectedOrden] = useState(null);
   const [showBoletaModal, setShowBoletaModal] = useState(false);
 
-  // Datos simulados de órdenes/boletas
+  
   const ordenesIniciales = [
     {
       id: 'B001-2024',
@@ -111,7 +111,7 @@ const Ordenes = () => {
     }
   ];
 
-  // Estados de orden
+  
   const estadosOrden = [
     { valor: 'todos', label: 'Todos los estados', color: 'secondary' },
     { valor: 'completada', label: 'Completada', color: 'success' },
@@ -119,7 +119,7 @@ const Ordenes = () => {
     { valor: 'cancelada', label: 'Cancelada', color: 'danger' }
   ];
 
-  // Cargar órdenes desde localStorage o datos iniciales
+  
   const cargarOrdenes = () => {
     const ordenesGuardadas = localStorage.getItem('ordenes');
     if (ordenesGuardadas) {
@@ -141,7 +141,7 @@ const Ordenes = () => {
   useEffect(() => {
     let filtered = ordenes;
 
-    // Filtro por búsqueda
+    
     if (searchTerm) {
       filtered = filtered.filter(orden => 
         orden.cliente.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -151,12 +151,12 @@ const Ordenes = () => {
       );
     }
 
-    // Filtro por estado
+    
     if (estadoFilter !== 'todos') {
       filtered = filtered.filter(orden => orden.estado === estadoFilter);
     }
 
-    // Filtro por fecha
+    
     if (fechaFilter) {
       const filterDate = new Date(fechaFilter);
       filtered = filtered.filter(orden => 
@@ -164,7 +164,7 @@ const Ordenes = () => {
       );
     }
 
-    // Ordenamiento
+    
     filtered = [...filtered].sort((a, b) => {
       switch (sortBy) {
         case 'cliente':
@@ -175,14 +175,14 @@ const Ordenes = () => {
           return a.numero.localeCompare(b.numero);
         case 'fecha':
         default:
-          return b.fecha - a.fecha; // Más reciente primero
+          return b.fecha - a.fecha; 
       }
     });
 
     setFilteredOrdenes(filtered);
   }, [searchTerm, estadoFilter, fechaFilter, sortBy, ordenes]);
 
-  // Formatear fecha
+  
   const formatFecha = (fecha) => {
     return new Intl.DateTimeFormat('es-CL', {
       year: 'numeric',
@@ -193,7 +193,7 @@ const Ordenes = () => {
     }).format(fecha);
   };
 
-  // Formatear precio
+  
   const formatPrice = (price) => {
     return new Intl.NumberFormat('es-CL', {
       style: 'currency',
@@ -201,30 +201,30 @@ const Ordenes = () => {
     }).format(price);
   };
 
-  // Obtener color de badge según estado
+  
   const getEstadoColor = (estado) => {
     const estadoObj = estadosOrden.find(e => e.valor === estado);
     return estadoObj ? estadoObj.color : 'secondary';
   };
 
-  // Obtener label legible para el estado
+  
   const getEstadoLabel = (estado) => {
     const estadoObj = estadosOrden.find(e => e.valor === estado);
     return estadoObj ? estadoObj.label : estado;
   };
 
-  // Mostrar boleta
+  
   const handleShowBoleta = (orden) => {
     setSelectedOrden(orden);
     setShowBoletaModal(true);
   };
 
-  // Exportar a PDF (simulado)
+  
   const exportarPDF = (orden) => {
-    // En una implementación real, aquí usarías una librería como jsPDF
+    
     alert(`Generando PDF para boleta ${orden.numero}...\n\nEn una implementación real, se descargaría el PDF.`);
     
-    // Simulación de descarga
+    
     const blob = new Blob([`Boleta: ${orden.numero}\nCliente: ${orden.cliente}\nTotal: ${formatPrice(orden.total)}`], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -236,7 +236,7 @@ const Ordenes = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Exportar todas las órdenes filtradas a CSV
+  
   const exportarCSV = () => {
     if (filteredOrdenes.length === 0) {
       alert('No hay órdenes para exportar');
@@ -270,7 +270,7 @@ const Ordenes = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Limpiar filtros
+  
   const clearFilters = () => {
     setSearchTerm('');
     setEstadoFilter('todos');
@@ -278,7 +278,7 @@ const Ordenes = () => {
     setSortBy('fecha');
   };
 
-  // Estadísticas
+  
   const totalVentas = ordenes
     .filter(orden => orden.estado === 'completada')
     .reduce((sum, orden) => sum + orden.total, 0);

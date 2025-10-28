@@ -9,7 +9,7 @@ const Users = () => {
   const [roleFilter, setRoleFilter] = useState('todos');
   const [sortBy, setSortBy] = useState('id');
   
-  // Estados para modales
+  
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showHistorialModal, setShowHistorialModal] = useState(false);
@@ -23,7 +23,7 @@ const Users = () => {
   const [errors, setErrors] = useState({});
 
   const historialClientes = {
-    1: [ // ID del usuario
+    1: [ 
       {
         id: 1,
         tipo: 'compra',
@@ -76,7 +76,7 @@ const Users = () => {
     ]
   };
 
-  // Cargar usuarios desde localStorage o JSON inicial
+  
   const cargarUsuarios = () => {
     const usuariosGuardados = localStorage.getItem('usuarios');
     if (usuariosGuardados) {
@@ -85,7 +85,7 @@ const Users = () => {
     return usuariosIniciales;
   };
 
-  // Guardar usuarios en localStorage
+  
   const guardarUsuarios = (usuarios) => {
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
   };
@@ -109,18 +109,18 @@ const Users = () => {
     }
   }, [searchTerm, roleFilter, sortBy, users]);
 
-  // Validaciones
+  
   const validarRUT = (rut) => {
     if (!rut) return false;
     
-    // Limpiar RUT
+    
     const rutLimpio = rut.replace(/[^0-9kK]/g, '');
     if (rutLimpio.length < 2) return false;
 
     const cuerpo = rutLimpio.slice(0, -1);
     const dv = rutLimpio.slice(-1).toUpperCase();
 
-    // Calcular DV esperado
+    
     let suma = 0;
     let multiplo = 2;
 
@@ -155,7 +155,7 @@ const Users = () => {
     nuevosErrores.email = 'El email debe terminar en @duocuc.cl o @fondaduoc.cl';
   }
 
-  // Solo validar RUT cuando se está agregando un nuevo usuario
+  
   if (showAddModal && !formData.rut.trim()) {
     nuevosErrores.rut = 'El RUT es obligatorio';
   } else if (showAddModal && !validarRUT(formData.rut)) {
@@ -166,7 +166,7 @@ const Users = () => {
   return Object.keys(nuevosErrores).length === 0;
 };
 
-  // Handlers de modales
+  
   const handleOpenAddModal = () => {
     setFormData({
       nombre: '',
@@ -260,7 +260,7 @@ const Users = () => {
       [field]: value
     }));
     
-    // Limpiar error del campo cuando el usuario empiece a escribir
+    
     if (errors[field]) {
       setErrors(prev => ({
         ...prev,
@@ -276,7 +276,7 @@ const Users = () => {
   if (!validarFormulario()) return;
 
   if (showAddModal) {
-    // Agregar nuevo usuario
+    
     const nuevoUsuario = {
       id_usuario: Math.max(...users.map(u => u.id_usuario), 0) + 1,
       nombre: formData.nombre.trim(),
@@ -289,7 +289,7 @@ const Users = () => {
     setUsers(updatedUsers);
     guardarUsuarios(updatedUsers);
   } else if (showEditModal && selectedUser) {
-    // Editar usuario existente - NO modificar el RUT
+    
     const updatedUsers = users.map(user =>
       user.id_usuario === selectedUser.id_usuario
         ? { 
@@ -334,18 +334,18 @@ const Users = () => {
     }
   };
 
-  // Formatear RUT mientras se escribe
+  
   const formatearRUT = (rut) => {
-    // Remover todo excepto números y K
+    
     const rutLimpio = rut.replace(/[^0-9kK]/g, '');
     
     if (rutLimpio.length === 0) return '';
     
-    // Separar cuerpo y dígito verificador
+    
     const cuerpo = rutLimpio.slice(0, -1);
     const dv = rutLimpio.slice(-1).toUpperCase();
     
-    // Formatear cuerpo con puntos
+    
     let cuerpoFormateado = cuerpo
       .split('')
       .reverse()
@@ -367,7 +367,7 @@ const Users = () => {
   useEffect(() => {
   let filtered = users;
 
-  // Filtro por búsqueda
+  
   if (searchTerm) {
     filtered = filtered.filter(user => 
       user.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -376,12 +376,12 @@ const Users = () => {
     );
   }
 
-  // Filtro por rol
+  
   if (roleFilter !== 'todos') {
     filtered = filtered.filter(user => user.rol === roleFilter);
   }
 
-  // Ordenamiento
+  
   filtered = [...filtered].sort((a, b) => {
     switch (sortBy) {
       case 'nombre':
@@ -791,7 +791,7 @@ const Users = () => {
                     type="button" 
                     className="btn btn-outline-primary"
                     onClick={() => {
-                      // todavia no se agrega esto
+                      
                       alert(`Exportando historial de ${selectedUser.nombre}...`);
                     }}
                   >

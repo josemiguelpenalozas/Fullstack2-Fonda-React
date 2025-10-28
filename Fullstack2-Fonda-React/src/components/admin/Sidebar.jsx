@@ -9,7 +9,7 @@ const Sidebar = ({ collapsed }) => {
     apellidos: 'Arellano'
   });
 
-  // Cargar datos del admin desde localStorage al montar el componente
+  
   useEffect(() => {
     const savedProfile = localStorage.getItem('adminProfile');
     if (savedProfile) {
@@ -17,7 +17,7 @@ const Sidebar = ({ collapsed }) => {
     }
   }, []);
 
-  // Escuchar cambios en localStorage para actualizar en tiempo real
+  
   useEffect(() => {
     const handleStorageChange = () => {
       const savedProfile = localStorage.getItem('adminProfile');
@@ -26,10 +26,10 @@ const Sidebar = ({ collapsed }) => {
       }
     };
 
-    // Escuchar cambios en localStorage
+    
     window.addEventListener('storage', handleStorageChange);
     
-    // También escuchar cambios desde la misma pestaña
+    
     const interval = setInterval(() => {
       const savedProfile = localStorage.getItem('adminProfile');
       if (savedProfile) {

@@ -10,7 +10,7 @@ const Productos = () => {
   const [stockFilter, setStockFilter] = useState('todos');
   const [sortBy, setSortBy] = useState('codigo');
   
-  // Estados para modales
+  
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState(null);
@@ -30,7 +30,7 @@ const Productos = () => {
   const [nuevaCategoria, setNuevaCategoria] = useState('');
   const [categoriaError, setCategoriaError] = useState('');
 
-  // Reportes simulados
+  
   const [reportes] = useState({
     productosMasVendidos: [
       { nombre: 'Polera Banda "Santaferia"', ventas: 45, ingresos: 674550 },
@@ -55,7 +55,7 @@ const Productos = () => {
     ]
   });
 
-  // Cargar productos y categorías desde localStorage o JSON inicial
+  
   const cargarProductos = () => {
     const productosGuardados = localStorage.getItem('productos');
     if (productosGuardados) {
@@ -64,27 +64,27 @@ const Productos = () => {
     return productosIniciales;
   };
 
-  // Cargar categorías desde localStorage o usar las iniciales
+  
   const cargarCategorias = () => {
     const categoriasGuardadas = localStorage.getItem('categorias');
     if (categoriasGuardadas) {
       return JSON.parse(categoriasGuardadas);
     }
-    // Categorías iniciales basadas en los productos
+    
     return ['Merchandising de Bandas', 'Vestimenta Huasa', 'Pañuelos de Cueca', 'Tickets de Consumo', 'Entradas'];
   };
 
-  // Guardar productos en localStorage
+  
   const guardarProductos = (productosData) => {
     localStorage.setItem('productos', JSON.stringify(productosData));
   };
 
-  // Guardar categorías en localStorage
+  
   const guardarCategorias = (categoriasData) => {
     localStorage.setItem('categorias', JSON.stringify(categoriasData));
   };
 
-  // Generar código automático
+  
   const generarCodigo = (categoria) => {
     const categoriasMap = {
       'Merchandising de Bandas': 'MB',
@@ -94,7 +94,7 @@ const Productos = () => {
       'Entradas': 'EN'
     };
     
-    // Agregar nuevas categorías al mapa
+    
     categorias.forEach(cat => {
       if (!categoriasMap[cat]) {
         const palabras = cat.split(' ');
@@ -112,7 +112,7 @@ const Productos = () => {
     return `${prefijo}${siguienteNumero.toString().padStart(3, '0')}`;
   };
 
-  // Función para agregar nueva categoría
+  
   const handleAgregarCategoria = () => {
     if (!nuevaCategoria.trim()) {
       setCategoriaError('El nombre de la categoría es obligatorio');
@@ -128,7 +128,7 @@ const Productos = () => {
     setCategorias(nuevasCategorias);
     guardarCategorias(nuevasCategorias);
     
-    // Seleccionar la nueva categoría automáticamente
+    
     setFormData(prev => ({
       ...prev,
       categoria: nuevaCategoria.trim()
@@ -150,7 +150,7 @@ const Productos = () => {
   useEffect(() => {
     let filtered = productos;
 
-    // Filtro por búsqueda
+    
     if (searchTerm) {
       filtered = filtered.filter(producto => 
         producto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -159,12 +159,12 @@ const Productos = () => {
       );
     }
 
-    // Filtro por categoría
+    
     if (categoriaFilter !== 'todas') {
       filtered = filtered.filter(producto => producto.categoria === categoriaFilter);
     }
 
-    // Filtro por stock
+    
     if (stockFilter === 'critico') {
       filtered = filtered.filter(producto => 
         producto.stock > 0 && producto.stock <= producto.stockCritico
@@ -175,7 +175,7 @@ const Productos = () => {
       filtered = filtered.filter(producto => producto.stock > 0);
     }
 
-    // Ordenamiento
+    
     filtered = [...filtered].sort((a, b) => {
       switch (sortBy) {
         case 'nombre':
@@ -195,7 +195,7 @@ const Productos = () => {
     setFilteredProductos(filtered);
   }, [searchTerm, categoriaFilter, stockFilter, sortBy, productos]);
 
-  // Validaciones
+  
   const validarFormulario = () => {
     const nuevosErrores = {};
 
@@ -273,7 +273,7 @@ const Productos = () => {
     if (!validarFormulario()) return;
 
     if (showAddModal) {
-      // Agregar nuevo producto
+      
       const nuevoProducto = {
         codigo: generarCodigo(formData.categoria),
         categoria: formData.categoria,
@@ -289,7 +289,7 @@ const Productos = () => {
       setProductos(updatedProductos);
       guardarProductos(updatedProductos);
     } else if (showEditModal && selectedProducto) {
-      // Editar producto existente
+      
       const updatedProductos = productos.map(producto =>
         producto.codigo === selectedProducto.codigo
           ? { 
@@ -337,12 +337,12 @@ const Productos = () => {
     }
   };
 
-  // Calcular estadísticas
+  
   const productosSinStock = productos.filter(p => p.stock === 0).length;
   const productosStockCritico = productos.filter(p => p.stock > 0 && p.stock <= p.stockCritico).length;
   const productosActivos = productos.filter(p => p.estado === 'activo').length;
 
-  // Formatear precio
+  
   const formatPrice = (price) => {
     return new Intl.NumberFormat('es-CL', {
       style: 'currency',

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-// Función para registrar nueva actividad (se puede llamar desde otros componentes)
+
 export const registrarActividad = (tipo, descripcion, usuario, detalles = {}) => {
   const nuevaActividad = {
     id: Date.now(),
@@ -12,7 +12,7 @@ export const registrarActividad = (tipo, descripcion, usuario, detalles = {}) =>
     detalles
   };
 
-  // Cargar actividades existentes
+  
   const actividadesGuardadas = localStorage.getItem('actividades');
   let actividadesActuales = [];
   
@@ -23,7 +23,7 @@ export const registrarActividad = (tipo, descripcion, usuario, detalles = {}) =>
       fecha: new Date(act.fecha)
     }));
   } else {
-    // Si no hay actividades guardadas, usar las iniciales
+    
     actividadesActuales = [
       {
         id: 1,
@@ -70,7 +70,7 @@ export const registrarActividad = (tipo, descripcion, usuario, detalles = {}) =>
 
   const nuevasActividades = [nuevaActividad, ...actividadesActuales];
   
-  // Guardar en localStorage
+  
   localStorage.setItem('actividades', JSON.stringify(nuevasActividades));
   
   return nuevaActividad;
@@ -85,7 +85,7 @@ const Actividad = () => {
   const [fechaFilter, setFechaFilter] = useState('');
   const [sortBy, setSortBy] = useState('fecha');
 
-  // Datos simulados iniciales
+  
   const actividadesIniciales = [
     {
       id: 1,
@@ -153,7 +153,7 @@ const Actividad = () => {
     }
   ];
 
-  // Tipos de actividad
+  
   const tiposActividad = [
     { valor: 'todos', label: 'Todos los tipos' },
     { valor: 'producto_creado', label: 'Producto creado' },
@@ -167,15 +167,15 @@ const Actividad = () => {
     { valor: 'sesion_cerrada', label: 'Sesión cerrada' }
   ];
 
-  // Usuarios únicos para filtro
+  
   const usuariosUnicos = [...new Set(actividadesIniciales.map(a => a.usuario))];
 
-  // Cargar actividades desde localStorage o datos iniciales
+  
   const cargarActividades = () => {
     const actividadesGuardadas = localStorage.getItem('actividades');
     if (actividadesGuardadas) {
       const actividadesParsed = JSON.parse(actividadesGuardadas);
-      // Convertir fechas de string a Date
+      
       return actividadesParsed.map(act => ({
         ...act,
         fecha: new Date(act.fecha)
@@ -184,7 +184,7 @@ const Actividad = () => {
     return actividadesIniciales;
   };
 
-  // Guardar actividades en localStorage
+  
   const guardarActividades = (actividadesData) => {
     localStorage.setItem('actividades', JSON.stringify(actividadesData));
   };
@@ -198,7 +198,7 @@ const Actividad = () => {
   useEffect(() => {
     let filtered = actividades;
 
-    // Filtro por búsqueda
+    
     if (searchTerm) {
       filtered = filtered.filter(actividad => 
         actividad.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -207,17 +207,17 @@ const Actividad = () => {
       );
     }
 
-    // Filtro por tipo
+    
     if (tipoFilter !== 'todos') {
       filtered = filtered.filter(actividad => actividad.tipo === tipoFilter);
     }
 
-    // Filtro por usuario
+    
     if (usuarioFilter !== 'todos') {
       filtered = filtered.filter(actividad => actividad.usuario === usuarioFilter);
     }
 
-    // Filtro por fecha
+    
     if (fechaFilter) {
       const filterDate = new Date(fechaFilter);
       filtered = filtered.filter(actividad => 
@@ -225,7 +225,7 @@ const Actividad = () => {
       );
     }
 
-    // Ordenamiento
+    
     filtered = [...filtered].sort((a, b) => {
       switch (sortBy) {
         case 'tipo':
@@ -234,14 +234,14 @@ const Actividad = () => {
           return a.usuario.localeCompare(b.usuario);
         case 'fecha':
         default:
-          return b.fecha - a.fecha; // Más reciente primero
+          return b.fecha - a.fecha; 
       }
     });
 
     setFilteredActividades(filtered);
   }, [searchTerm, tipoFilter, usuarioFilter, fechaFilter, sortBy, actividades]);
 
-  // Formatear fecha
+  
   const formatFecha = (fecha) => {
     return new Intl.DateTimeFormat('es-CL', {
       year: 'numeric',
@@ -252,7 +252,7 @@ const Actividad = () => {
     }).format(fecha);
   };
 
-  // Formatear fecha relativa
+  
   const formatFechaRelativa = (fecha) => {
     const ahora = new Date();
     const diffMs = ahora - fecha;
@@ -268,7 +268,7 @@ const Actividad = () => {
     return formatFecha(fecha);
   };
 
-  // Obtener icono según tipo de actividad
+  
   const getIcono = (tipo) => {
     switch (tipo) {
       case 'producto_creado':
@@ -294,7 +294,7 @@ const Actividad = () => {
     }
   };
 
-  // Obtener color de badge según tipo
+  
   const getBadgeColor = (tipo) => {
     switch (tipo) {
       case 'producto_creado':
@@ -315,13 +315,13 @@ const Actividad = () => {
     }
   };
 
-  // Obtener label legible para el tipo
+  
   const getTipoLabel = (tipo) => {
     const tipoObj = tiposActividad.find(t => t.valor === tipo);
     return tipoObj ? tipoObj.label : tipo;
   };
 
-  // Limpiar filtros
+  
   const clearFilters = () => {
     setSearchTerm('');
     setTipoFilter('todos');
@@ -330,7 +330,7 @@ const Actividad = () => {
     setSortBy('fecha');
   };
 
-  // Limpiar historial (mantener solo últimos 100 registros)
+  
   const limpiarHistorial = () => {
     if (window.confirm('¿Estás seguro de que deseas limpiar el historial de actividades? Se mantendrán solo los últimos 100 registros.')) {
       const actividadesLimitadas = actividades.slice(0, 100);
@@ -339,7 +339,7 @@ const Actividad = () => {
     }
   };
 
-  // Exportar actividades
+  
   const exportarActividades = () => {
     const datosExportar = actividades.map(act => ({
       ...act,
@@ -357,7 +357,7 @@ const Actividad = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Estadísticas
+  
   const actividadesHoy = actividades.filter(act => 
     act.fecha.toDateString() === new Date().toDateString()
   ).length;

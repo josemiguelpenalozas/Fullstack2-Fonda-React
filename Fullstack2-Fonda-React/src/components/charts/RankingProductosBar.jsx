@@ -2,7 +2,7 @@ import { Bar } from 'react-chartjs-2';
 import "../../chartjs-setup";
 import { rankingProductos } from '../../data/admin/metricas';
 
-// Datos y opciones como antes
+
 const data = {
   labels: rankingProductos.map(p => p.nombre),
   datasets: [{
@@ -16,7 +16,7 @@ const options = {
   indexAxis: 'y',
   responsive: true,
   maintainAspectRatio: false,
-  aspectRatio: 3.2, // Más largo horizontalmente
+  aspectRatio: 3.2, 
   plugins: {
     legend: { position: 'top' },
     title: { display: true, text: 'Ranking de Productos Más Vendidos' },

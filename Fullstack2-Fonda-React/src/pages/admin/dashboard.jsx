@@ -20,7 +20,7 @@ export default function Dashboard() {
     ingresosMes: 12543000
   });
 
-  // Función para cargar productos actualizados desde localStorage
+  
   const cargarProductosActualizados = () => {
     const productosGuardados = localStorage.getItem('productos');
     if (productosGuardados) {
@@ -29,7 +29,7 @@ export default function Dashboard() {
     return productosIniciales;
   };
 
-  // Función para cargar usuarios actualizados desde localStorage
+  
   const cargarUsuariosActualizados = () => {
     const usuariosGuardados = localStorage.getItem('usuarios');
     if (usuariosGuardados) {
@@ -42,7 +42,7 @@ export default function Dashboard() {
     const productosActuales = cargarProductosActualizados();
     const usuariosActuales = cargarUsuariosActualizados();
     
-    // Calcular métricas basadas en los datos actuales
+    
     const productosSinStock = productosActuales.filter(producto => producto.stock === 0).length;
     const productosStockCritico = productosActuales.filter(producto => 
       producto.stock > 0 && producto.stock <= producto.stockCritico
@@ -62,7 +62,7 @@ export default function Dashboard() {
     });
   }, []);
 
-  // Efecto adicional para escuchar cambios en localStorage
+  
   useEffect(() => {
     const handleStorageChange = () => {
       const productosActuales = cargarProductosActualizados();
@@ -84,10 +84,10 @@ export default function Dashboard() {
       }));
     };
 
-    // Escuchar cambios en localStorage
+    
     window.addEventListener('storage', handleStorageChange);
     
-    // También verificar periódicamente (cada 3 segundos) para cambios en la misma pestaña
+    
     const interval = setInterval(() => {
       const productosActuales = cargarProductosActualizados();
       const usuariosActuales = cargarUsuariosActualizados();
@@ -119,7 +119,7 @@ export default function Dashboard() {
     };
   }, [metricas.productosSinStock, metricas.productosStockCritico, metricas.administradoresCount]);
 
-  // Obtener categorías únicas para mostrar en la tarjeta
+  
   const categoriasUnicas = () => {
     const productosActuales = cargarProductosActualizados();
     return new Set(productosActuales.map(p => p.categoria)).size;

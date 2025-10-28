@@ -10,7 +10,7 @@ const AdminLayout = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   
-  // Cargar datos del administrador desde localStorage o usar valores por defecto
+  
   const [adminProfile, setAdminProfile] = useState(() => {
     const savedProfile = localStorage.getItem('adminProfile');
     if (savedProfile) {
@@ -26,12 +26,12 @@ const AdminLayout = () => {
     };
   });
 
-  // Guardar en localStorage cuando el perfil cambie
+  
   useEffect(() => {
     localStorage.setItem('adminProfile', JSON.stringify(adminProfile));
   }, [adminProfile]);
 
-  // Referencias para los popovers
+  
   const notificationsRef = useRef(null);
   const chatRef = useRef(null);
   const profileRef = useRef(null);
@@ -42,7 +42,7 @@ const AdminLayout = () => {
     setActivePopover(activePopover === popoverName ? null : popoverName);
   };
 
-  // Cerrar popovers al hacer clic fuera
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -60,7 +60,7 @@ const AdminLayout = () => {
     };
   }, []);
 
-  // Datos de ejemplo para notificaciones
+  
   const notifications = [
     { id: 1, type: 'success', title: 'Pedido completado', message: 'El pedido #12345 ha sido entregado', time: 'Hace 5 min', unread: true },
     { id: 2, type: 'warning', title: 'Stock bajo', message: 'Quedan 3 unidades de Polera Santaferia', time: 'Hace 1 hora', unread: true },
@@ -68,7 +68,7 @@ const AdminLayout = () => {
     { id: 4, type: 'error', title: 'Problema de pago', message: 'Error en el pago del pedido #12346', time: 'Hace 3 horas', unread: false }
   ];
 
-  // Datos de ejemplo para el chat
+  
   const [chatMessages, setChatMessages] = useState([
     { id: 1, sender: 'user', message: 'Hola, tengo un problema con mi envío', time: '10:30 AM', user: 'María González' },
     { id: 2, sender: 'admin', message: '¡Hola María! ¿En qué puedo ayudarte?', time: '10:31 AM', user: 'Soporte' },
@@ -90,19 +90,19 @@ const AdminLayout = () => {
     }
   };
 
-  // Función para abrir la modal de perfil
+  
   const handleOpenProfileModal = () => {
     setShowProfileModal(true);
-    setActivePopover(null); // Cerrar el popover
+    setActivePopover(null); 
   };
 
-  // Función para cerrar la modal
+  
   const handleCloseProfileModal = () => {
     setShowProfileModal(false);
     setIsEditing(false);
   };
 
-  // Función para manejar cambios en el formulario
+  
   const handleProfileChange = (field, value) => {
     setAdminProfile(prev => ({
       ...prev,
@@ -110,20 +110,20 @@ const AdminLayout = () => {
     }));
   };
 
-  // Función para guardar los cambios
+  
   const handleSaveProfile = () => {
-    // Guardar en localStorage
+    
     localStorage.setItem('adminProfile', JSON.stringify(adminProfile));
     console.log('Perfil guardado:', adminProfile);
     setIsEditing(false);
     
-    // Mostrar notificación de éxito
+    
     alert('Perfil actualizado correctamente');
   };
 
-  // Función para cancelar edición
+  
   const handleCancelEdit = () => {
-    // Recargar datos desde localStorage
+    
     const savedProfile = localStorage.getItem('adminProfile');
     if (savedProfile) {
       setAdminProfile(JSON.parse(savedProfile));

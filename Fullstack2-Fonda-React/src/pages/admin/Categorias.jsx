@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-// Importar imágenes locales
+
 import merchandisingBandas from '../../assets/admin/merchandising-bandas.webp';
 import vestimentaHuasa from '../../assets/admin/VestimentaHuaso.jpg';
 import panuelosCueca from '../../assets/admin/panuelos-cueca.jpg';
@@ -18,7 +18,7 @@ const Categorias = () => {
   const [nuevaCategoria, setNuevaCategoria] = useState('');
   const [categoriaError, setCategoriaError] = useState('');
 
-  // Mapeo de categorías a imágenes locales
+  
   const imagenesCategorias = {
     'Merchandising de Bandas': merchandisingBandas,
     'Vestimenta Huasa': vestimentaHuasa,
@@ -27,18 +27,18 @@ const Categorias = () => {
     'Entradas': entradas
   };
 
-  // Función para obtener imagen de categoría
+  
   const getImagenCategoria = (categoria) => {
     return imagenesCategorias[categoria] || imagenDefault;
   };
 
-  // Cargar categorías desde localStorage
+  
   const cargarCategorias = () => {
     const categoriasGuardadas = localStorage.getItem('categorias');
     if (categoriasGuardadas) {
       const categoriasCargadas = JSON.parse(categoriasGuardadas);
       
-      // Para nuevas categorías, asignar imagen por defecto
+      
       categoriasCargadas.forEach(categoria => {
         if (!imagenesCategorias[categoria]) {
           imagenesCategorias[categoria] = imagenDefault;
@@ -47,11 +47,11 @@ const Categorias = () => {
       
       return categoriasCargadas;
     }
-    // Categorías por defecto
+    
     return ['Merchandising de Bandas', 'Vestimenta Huasa', 'Pañuelos de Cueca', 'Tickets de Consumo', 'Entradas'];
   };
 
-  // Cargar productos desde localStorage
+  
   const cargarProductos = () => {
     const productosGuardados = localStorage.getItem('productos');
     if (productosGuardados) {
@@ -60,11 +60,11 @@ const Categorias = () => {
     return [];
   };
 
-  // Guardar categorías en localStorage
+  
   const guardarCategorias = (categoriasData) => {
     localStorage.setItem('categorias', JSON.stringify(categoriasData));
     
-    // Asignar imagen por defecto a nuevas categorías
+    
     categoriasData.forEach(categoria => {
       if (!imagenesCategorias[categoria]) {
         imagenesCategorias[categoria] = imagenDefault;
@@ -90,7 +90,7 @@ const Categorias = () => {
     setFilteredProductos(filtered);
   }, [categoriaSeleccionada, productos]);
 
-  // Función para agregar nueva categoría
+  
   const handleAgregarCategoria = () => {
     if (!nuevaCategoria.trim()) {
       setCategoriaError('El nombre de la categoría es obligatorio');
@@ -111,7 +111,7 @@ const Categorias = () => {
     setShowCategoriaModal(false);
   };
 
-  // Formatear precio
+  
   const formatPrice = (price) => {
     return new Intl.NumberFormat('es-CL', {
       style: 'currency',
@@ -119,12 +119,12 @@ const Categorias = () => {
     }).format(price);
   };
 
-  // Obtener productos por categoría
+  
   const getProductosPorCategoria = (categoria) => {
     return productos.filter(producto => producto.categoria === categoria);
   };
 
-  // Estadísticas
+  
   const totalProductos = productos.length;
   const categoriasConProductos = categorias.filter(cat => 
     productos.some(prod => prod.categoria === cat)
@@ -346,7 +346,7 @@ const Categorias = () => {
                     to="/admin/productos" 
                     className="btn btn-outline-primary btn-sm"
                     onClick={() => {
-                      // Guardar la categoría seleccionada para redirigir a productos
+                      
                       localStorage.setItem('categoriaFiltro', categoria);
                     }}
                   >
