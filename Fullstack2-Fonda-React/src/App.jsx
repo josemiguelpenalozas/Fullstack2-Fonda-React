@@ -15,6 +15,12 @@ import { loadFromLocalstorage } from "./utils/localstorageHelper.js";
 import DetalleProducto from './pages/DetalleProducto';
 import Carrito from './pages/Carrito.jsx'
 import SimulacionPago from './pages/SimulacionPago.jsx'
+import Categorias from './pages/Categorias.jsx'
+import PagoLogrado from './pages/Pago_logrado.jsx'
+import PagoFallido from './pages/Pago_fallido.jsx'
+import Oferta from './pages/Oferta.jsx'
+import DetalleOferta from './pages/DetalleOferta.jsx'
+
 
 const token = loadFromLocalstorage("token");
 
@@ -28,7 +34,11 @@ function App() {
           <Route path='/productos' element={<Productos/>}></Route>
           {<Route path='/login' element={<Login/>}></Route> }
           {<Route path='/registro' element={<Registro/>}></Route>}
-          {/* <Route path='/ofertas' element={<Oferta/>}></Route> */}
+          {<Route path='/categorias' element={<Categorias/>}></Route>}
+          {<Route path='/pago_logrado' element={<PagoLogrado/>}></Route>}
+          {<Route path='/Pago_fallido' element={<PagoFallido/>}></Route>}
+          {<Route path='/ofertas' element={<Oferta/>}></Route>}
+          <Route path='/oferta/:codigo' element={<DetalleOferta/>} />
           {<Route path='/carrito' element={<Carrito/>}></Route>}
           {<Route path="/SimulacionPago" element={< SimulacionPago/>} />}
           {<Route path='/blog' element={<Blog/>}></Route>}

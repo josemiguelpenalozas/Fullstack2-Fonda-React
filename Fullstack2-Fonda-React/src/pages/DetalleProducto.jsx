@@ -6,22 +6,22 @@ function DetalleProducto() {
   const productos = loadFromLocalstorage("productos") || [];
   const producto = productos.find((p) => p.codigo === codigo);
 
-  // Si no se encuentra el producto
   if (!producto) return <p>Producto no encontrado</p>;
 
-  // 👉 Función para agregar al carrito
   const agregarAlCarrito = () => {
     const carrito = loadFromLocalstorage("compra") || [];
 
-    // Evita duplicados
-    const yaExiste = carrito.some((item) => item.codigo === producto.codigo);
-    if (!yaExiste) {
-      carrito.push(producto);
-      saveToLocalstorage("compra", carrito);
-      alert(`${producto.nombre} fue añadido al carrito`);
+    // Verifica si el producto ya existe
+    const productoExistente = carrito.find(item => item.codigo === producto.codigo);
+
+    if (productoExistente) {
+      productoExistente.cantidad += 1; // Aumenta cantidad
     } else {
-      alert(`${producto.nombre} ya está en el carrito`);
+      carrito.push({ ...producto, cantidad: 1 }); // Nuevo producto con cantidad 1
     }
+
+    saveToLocalstorage("compra", carrito);
+    alert(`${producto.nombre} fue añadido al carrito`);
   };
 
   return (
@@ -34,8 +34,6 @@ function DetalleProducto() {
         {producto.imagen && (
           <img src={producto.imagen} alt={producto.nombre} style={{ maxWidth: "400px" }} />
         )}
-
-        {/* 🔘 Botón para agregar al carrito */}
         <div className="mt-4">
           <button className="btn btn-success" onClick={agregarAlCarrito}>
             Añadir al carrito

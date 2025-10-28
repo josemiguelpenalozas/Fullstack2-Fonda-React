@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { saveToLocalstorage, loadFromLocalstorage, removeFromLocalstorage } from "../utils/localstorageHelper.js";
+import {
+  saveToLocalstorage,
+  loadFromLocalstorage,
+  removeFromLocalstorage,
+} from "../utils/localstorageHelper.js";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [correo, setCorreo] = useState("");
   const [clave, setClave] = useState("");
   const [token, setToken] = useState(null);
+
+  const navigate = useNavigate();
+
+  const IrAHome = (ruta) => {
+    navigate(ruta);
+  };
 
   // Revisar si ya hay token guardado
   useEffect(() => {
@@ -34,34 +45,56 @@ function Login() {
       return;
     }
 
-    // Generar token
+    //  Buscar usuario en localStorage
+    const usuarios = loadFromLocalstorage("usuarios") || [];
+    const usuarioEncontrado = usuarios.find(
+      (u) => u.correo === correo && u.clave === clave
+    );
+
+    if (!usuarioEncontrado) {
+      alert("Correo o clave incorrectos ");
+      return;
+    }
+    
+
+    //  Generar token
     const tokenGenerado = Math.random().toString(36).substring(2) + Date.now();
 
     // Guardar token en localStorage y estado
     saveToLocalstorage("token", tokenGenerado);
     setToken(tokenGenerado);
-    
+
+    // Guardar también el usuario logueado
+    saveToLocalstorage("usuarioLogueado", usuarioEncontrado);
+
     // Limpiar campos
     setCorreo("");
     setClave("");
 
-    alert("Sesión iniciada correctamente");
+    alert(" Sesión iniciada correctamente");
   };
 
   const handleLogout = () => {
     removeFromLocalstorage("token");
+    removeFromLocalstorage("usuarioLogueado");
     setToken(null);
     alert("Sesión cerrada");
   };
 
   return (
     <div className="container-fluid bg-info min-vh-100 d-flex align-items-center justify-content-center">
-      <div className="col-md-6 bg-light p-4 rounded shadow">
+      <div className="col-md-5 bg-light p-4 rounded shadow">
         {token ? (
           <div className="text-center">
             <h3>Usuario ya logueado</h3>
-            <button className="btn btn-danger mt-3" onClick={handleLogout}>
+            <button className="btn btn-danger" onClick={handleLogout}>
               Cerrar sesión
+            </button>
+            <button
+              className="btn btn-success m-4"
+              onClick={() => IrAHome("/")}
+            >
+              Ir a Inicio
             </button>
           </div>
         ) : (

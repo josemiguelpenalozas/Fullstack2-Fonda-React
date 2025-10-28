@@ -3,8 +3,9 @@ import Producto from "../components/Producto";
 import { loadFromLocalstorage, saveToLocalstorage } from "../utils/localstorageHelper";
 import { useNavigate } from "react-router-dom";
 
-function Productos() {
-  const [productos, setProductos] = useState([]);
+
+function Categorias(){
+    const [productos, setProductos] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todas");
   const navigate = useNavigate();
 
@@ -23,13 +24,35 @@ function Productos() {
     }
   }, []);
 
-
+  // Crear array de categorías únicas + "Todas"
+  const categorias = ["Todas", ...new Set(productos.map((p) => p.categoria))];
 
   return (
     <div className="container mt-3">
+      <div className="container-fluid bg-info  align-items-center">
+      <h1 className="text-center">Categorias</h1>
+
+      {/* Filtro por categoría */}
+      <div className="mb-3">
+        <label htmlFor="filtro" className="form-label ">
+          Filtrar por categoría:
+        </label>
+        <select 
+          id="filtro"
+          className="form-select mb-4"
+          value={categoriaSeleccionada}
+          onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+        >
+          {categorias.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
       <div className="container-fluid bg-info min-vh-100 d-flex align-items-center justify-content-center mt-4">
         <div className="row">
-          <h1 className="text-center mt-5 mb-5">Productos</h1>
           {productos
             .filter(
               (p) =>
@@ -53,6 +76,6 @@ function Productos() {
       </div>
     </div>
   );
-}
 
-export default Productos;
+} 
+export default Categorias;

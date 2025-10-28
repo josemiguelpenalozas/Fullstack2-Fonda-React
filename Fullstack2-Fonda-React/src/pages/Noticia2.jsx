@@ -5,7 +5,7 @@ function Noticia2(){
             
             <div className="col-md-9 bg-light rounded shadow">
             <h1 className="text-center m-4">¡Participa en los concursos más divertidos de la fonda más prendida de Chile!</h1>
-            <div className="text-center"><img src="../src/assets/huasos.png" alt="" /></div> 
+            <div className="text-center" ><img className="img-fluid" src="../src/assets/not.png" alt="" /></div> 
             <p className="text-center m-4">Este año, nuestra fonda no solo te trae música y comida típica, sino que también te invita a competir, reír y ganar increíbles premios. Desde el tradicional concurso de cueca, hasta competencias de tombo de empanadas y carreras de sacos, cada actividad está pensada para que toda la familia se divierta al máximo.</p>
             <p className="text-center" p-4>Además, los más pequeños podrán disfrutar de talleres de baile, juegos tradicionales y sorpresas especiales, mientras los adultos compiten por premios en nuestras actividades típicas. No importa si eres principiante o experto: en nuestra fonda, todos tienen la oportunidad de participar y vivir la emoción de nuestras tradiciones.</p>
 

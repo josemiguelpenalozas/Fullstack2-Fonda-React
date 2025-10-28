@@ -5,16 +5,19 @@ function Navbar() {
   const token = loadFromLocalstorage("token");
   const navigate = useNavigate();
 
+  
   // Función para cerrar sesión
   const cerrarSesion = () => {
     removeFromLocalstorage("token");
+    removeFromLocalstorage("usuarioLogueado")
     navigate("/login");
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <Link className="navbar-brand" to="/">Fonda</Link>
+        <Link className="navbar-brand" to="/"><img style={{ width: "100px", height: "auto" }} src="../src/assets/logo.png" alt="" /></Link>
+
 
         <ul className="navbar-nav">
           <li className="nav-item">
@@ -23,6 +26,9 @@ function Navbar() {
 
           <li className="nav-item">
             <Link className="nav-link" to="/productos">Productos</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/categorias">Categorias</Link>
           </li>
 
           <li className="nav-item">

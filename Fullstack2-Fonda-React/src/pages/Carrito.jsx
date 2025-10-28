@@ -5,17 +5,13 @@ import { useNavigate } from "react-router-dom";
 function Carrito() {
   const [carrito, setCarrito] = useState([]);
   const navigate = useNavigate();
-
-  // 🔹 Obtener token usando tu helper personalizado
   const token = loadFromLocalstorage("token");
 
-  // 🔹 Cargar productos desde localStorage al montar
   useEffect(() => {
     const productosGuardados = loadFromLocalstorage("compra") || [];
     setCarrito(productosGuardados);
   }, []);
 
-  // 🔹 Vaciar carrito
   const vaciarCarrito = () => {
     if (window.confirm("¿Seguro que deseas vaciar el carrito?")) {
       removeFromLocalstorage("compra");
@@ -23,8 +19,7 @@ function Carrito() {
     }
   };
 
-  // 🔹 Calcular total
-  const total = carrito.reduce((acum, prod) => acum + (prod.precio || 0), 0);
+  const total = carrito.reduce((acum, prod) => acum + (prod.precio * prod.cantidad), 0);
 
   return (
     <div className="row text-center container-fluid bg-info min-vh-100 d-flex align-items-center justify-content-center">
@@ -47,9 +42,12 @@ function Carrito() {
                       <strong>{producto.nombre}</strong>
                       <br />
                       <small>
-                        {producto.precio} {producto.moneda}
+                        {producto.precio} {producto.moneda} x {producto.cantidad}
                       </small>
                     </div>
+                    <span>
+                      Subtotal: {(producto.precio * producto.cantidad).toLocaleString("es-CL")} CLP
+                    </span>
                     {producto.imagen && (
                       <img
                         src={producto.imagen}

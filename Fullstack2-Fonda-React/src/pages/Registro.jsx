@@ -1,61 +1,93 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { saveToLocalstorage, loadFromLocalstorage } from "../utils/localstorageHelper";
 
-function Registro(){
-    const [nombre,setNombre]=useState("")
-    const [correo, setCorreo] = useState("");
-    const [clave, setClave] = useState("");
-    const[telefono,setTelefono]=useState("");
-    const [correoConfirm, setCorreoConfirm] = useState("");
-    const [claveConfirm, setClaveConfirm] = useState("");
+function Registro() {
+  const [rut, setRut] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [clave, setClave] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [correoConfirm, setCorreoConfirm] = useState("");
+  const [claveConfirm, setClaveConfirm] = useState("");
 
-    const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-        !(
-            correo.includes("@gmail.com") ||
-            correo.includes("@duocuc.cl") ||
-            correo.includes("@profesor.duoc.cl")
-        )
-        ) {
-        alert("Por favor, ingresa un correo válido.");
-        return;
-        }
-
-
-    if (clave.length < 6) {
-      alert("La clave debe tener al menos 6 caracteres.");
+    // Validar RUT
+    if (rut.length !== 9) {
+      alert("El RUT debe tener exactamente 9 caracteres.");
       return;
     }
-    if(telefono.length<8){
-        alert("El telefono debe tener minimo 8 numero")
+
+    // Validar correo
+    const correosValidos = ["@gmail.com", "@duocuc.cl", "@profesor.duoc.cl"];
+    if (!correosValidos.some(domain => correo.includes(domain))) {
+      alert("Por favor, ingresa un correo válido.");
+      return;
     }
-    // Validar que el correo y confirmación coincidan
+
+    // Confirmar correo
     if (correo !== correoConfirm) {
-    alert("Los correos no coinciden.");
-    return;
+      alert("Los correos no coinciden.");
+      return;
     }
 
-    // Validar que la clave y confirmación coincidan
+    // Validar clave
+    const regexClave = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
+    if (!regexClave.test(clave)) {
+      alert("La clave debe tener mínimo 8 caracteres, al menos una mayúscula, una minúscula y un carácter especial.");
+      return;
+    }
+
+    // Confirmar clave
     if (clave !== claveConfirm) {
-    alert("Las claves no coinciden.");
-    return;
+      alert("Las claves no coinciden.");
+      return;
     }
 
-    alert(`Correo: ${correo}\nClave: ${clave}`);
+    // Validar teléfono
+    if (telefono.length < 8) {
+      alert("El teléfono debe tener al menos 8 dígitos.");
+      return;
+    }
 
+    // Crear objeto usuario
+    const nuevoUsuario = { rut, nombre, correo, clave, telefono };
+
+    // Cargar usuarios anteriores
+    const usuariosGuardados = loadFromLocalstorage("usuarios") || [];
+    usuariosGuardados.push(nuevoUsuario);
+
+    // Guardar en localStorage
+    saveToLocalstorage("usuarios", usuariosGuardados);
+
+    alert("Usuario registrado correctamente");
+    navigate("/Login");
   };
-    
-    return(
-        <div className="container-fluid bg-info min-vh-100 d-flex align-items-center justify-content-center">
-            <div className="col-md-6 bg-light p-4 rounded shadow">
-                <h1 className="mb-4">Registro</h1>
-                        <form onSubmit={handleSubmit}>
-        {/* Campo de correo */}
-        <div className="mb-3 text-start">
-        <label htmlFor="nombre" className="form-label fw-bold">
-              Nombre completo:
-            </label>
+
+  return (
+    <div className="container-fluid bg-info min-vh-100 d-flex align-items-center justify-content-center">
+      <div className="col-md-6 bg-light p-4 rounded shadow">
+        <h1 className="mb-4">Registro</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3 text-start">
+            <label htmlFor="rut" className="form-label fw-bold">RUT:</label>
+            <input
+              type="text"
+              id="rut"
+              className="form-control"
+              placeholder="Con digito verificador ,sin puntos o guion"
+              value={rut}
+              onChange={(e) => setRut(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3 text-start">
+            <label htmlFor="nombre" className="form-label fw-bold">Nombre completo:</label>
             <input
               type="text"
               id="nombre"
@@ -65,12 +97,10 @@ function Registro(){
               onChange={(e) => setNombre(e.target.value)}
               required
             />
-          </div>        
-          {/* Campo de correo */}
+          </div>
+
           <div className="mb-3 text-start">
-            <label htmlFor="correo" className="form-label fw-bold">
-              Correo electrónico:
-            </label>
+            <label htmlFor="correo" className="form-label fw-bold">Correo electrónico:</label>
             <input
               type="email"
               id="correo"
@@ -81,10 +111,9 @@ function Registro(){
               required
             />
           </div>
-            <div className="mb-3 text-start">
-            <label htmlFor="correoConfirm" className="form-label fw-bold">
-              Confirmar Correo electrónico:
-            </label>
+
+          <div className="mb-3 text-start">
+            <label htmlFor="correoConfirm" className="form-label fw-bold">Confirmar correo:</label>
             <input
               type="email"
               id="correoConfirm"
@@ -96,11 +125,8 @@ function Registro(){
             />
           </div>
 
-          {/* Campo de clave */}
           <div className="mb-3 text-start">
-            <label htmlFor="clave" className="form-label fw-bold">
-              Clave:
-            </label>
+            <label htmlFor="clave" className="form-label fw-bold">Clave:</label>
             <input
               type="password"
               id="clave"
@@ -111,10 +137,9 @@ function Registro(){
               required
             />
           </div>
-            <div className="mb-3 text-start">
-            <label htmlFor="claveConfirm" className="form-label fw-bold">
-              Confirmar Clave:
-            </label>
+
+          <div className="mb-3 text-start">
+            <label htmlFor="claveConfirm" className="form-label fw-bold">Confirmar clave:</label>
             <input
               type="password"
               id="claveConfirm"
@@ -125,27 +150,25 @@ function Registro(){
               required
             />
           </div>
-          <div>
-            <div className="mb-3 text-start">
-           <label htmlFor="Telefono" className="form-label fw-bold">Telefono</label> 
-           <input type="text"
-           id="telefono"
-           className="form-control"
-           placeholder="ejemplo:+56912345678 o 912345678"
-           value={telefono} 
-           onChange={(e) => setTelefono(e.target.value)}
-            required
-           />    
-            </div>
+
+          <div className="mb-3 text-start">
+            <label htmlFor="telefono" className="form-label fw-bold">Teléfono:</label>
+            <input
+              type="text"
+              id="telefono"
+              className="form-control"
+              placeholder="ejemplo: 12345678"
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
+              required
+            />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">
-            Ingresar
-          </button>
+          <button type="submit" className="btn btn-primary w-100">Registrar</button>
         </form>
-            </div>
-        </div>
-    )
+      </div>
+    </div>
+  );
 }
 
 export default Registro;
