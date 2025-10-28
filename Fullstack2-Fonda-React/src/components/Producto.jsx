@@ -5,7 +5,7 @@ function Producto(props){
     return(
         <div className="card mb-3" style={ {width:"18rem"} }>
             {props.imagen && (
-                <img src={props.imagen} alt={props.titulo} className="card-img-top"/>
+                <img src={props.imagen} alt={props.nombre} className="card-img-top"/>
             )}
             <div className="card-body">
                 <h3 className="card-title">{props.nombre}</h3>
