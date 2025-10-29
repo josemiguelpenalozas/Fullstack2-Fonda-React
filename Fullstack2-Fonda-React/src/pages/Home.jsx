@@ -7,9 +7,8 @@ function Home() {
         Bienvenido a la mas mejor fonda de Chile
       </h1>
       <p className="text-light">
-        Compra todo lo que necesitas para este 18 de septiembre
+        Fonda SQL -- No importa si es after o before, tomamos hasta olvidar la llae
       </p>
-      <p className="text-muted">Puedes iniciar sesion para más opciones</p>
       <img src="../src/assets/not.png" alt="Decoración fonda" />
     </div>
   );

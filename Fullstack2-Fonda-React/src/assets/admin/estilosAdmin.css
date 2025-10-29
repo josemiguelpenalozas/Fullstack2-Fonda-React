@@ -169,6 +169,12 @@
   background: transparent;
 }
 
+.main-header {
+  background-color: #d3dde0;          
+  border-bottom: 3px solid #d1d1d159;  
+  box-shadow: 0 2px 8px rgba(30, 40, 44, 0.12);
+}
+
 
 
 .btn-sidebar .bi-search {

@@ -3,7 +3,7 @@ import { loadFromLocalstorage, saveToLocalstorage } from "../utils/localstorageH
 
 function DetalleProducto() {
   const { codigo } = useParams();
-  const productos = loadFromLocalstorage("productos") || [];
+  const productos = loadFromLocalstorage("producto") || [];
   const producto = productos.find((p) => p.codigo === codigo);
 
   if (!producto) return <p>Producto no encontrado</p>;

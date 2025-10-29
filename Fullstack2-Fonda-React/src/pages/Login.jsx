@@ -67,6 +67,10 @@ function Login() {
     // Guardar también el usuario logueado
     saveToLocalstorage("usuarioLogueado", usuarioEncontrado);
 
+    if (usuarioEncontrado.correo.includes("@fondaduoc.cl")) {
+      IrAHome("/admin/dashboard");
+    }
+
     // Limpiar campos
     setCorreo("");
     setClave("");

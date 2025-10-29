@@ -16,7 +16,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <Link className="navbar-brand" to="/"><img style={{ width: "100px", height: "auto" }} src="../src/assets/logo.png" alt="LogoFonda" /></Link>
+        <Link className="navbar-brand" to="/"><img style={{ width: "100px", height: "auto" }} src="../src/assets/admin/logoPNG.png" alt="LogoFonda" /></Link>
 
 
         <ul className="navbar-nav">
@@ -51,7 +51,7 @@ function Navbar() {
             <Link className="nav-link" to="/nosotros">Nosotros</Link>
           </li>
 
-          {/* 🔹 Si NO hay token → Mostrar Login y Registro */}
+          {/* Si NO hay token → Mostrar Login y Registro */}
           {!token && (
             <>
               <li className="nav-item">
@@ -63,7 +63,7 @@ function Navbar() {
             </>
           )}
 
-          {/* 🔹 Si HAY token → Mostrar botón Cerrar sesión */}
+          {/* Si HAY token → Mostrar botón Cerrar sesión */}
           {token && (
             <li className="nav-item">
               <button

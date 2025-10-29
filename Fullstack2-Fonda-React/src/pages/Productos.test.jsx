@@ -62,6 +62,6 @@ describe("Productos Component", () => {
       expect(screen.getByText("Papas Fritas")).toBeInTheDocument();
     });
 
-    expect(saveToLocalstorage).toHaveBeenCalledWith("productos", mockFetchProductos.productos);
+    expect(saveToLocalstorage).toHaveBeenCalledWith("producto", mockFetchProductos.productos);
   });
 });

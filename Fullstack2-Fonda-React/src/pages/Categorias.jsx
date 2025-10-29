@@ -10,7 +10,7 @@ function Categorias(){
   const navigate = useNavigate();
 
   useEffect(() => {
-    const guardadosLocalstorage = loadFromLocalstorage("productos");
+    const guardadosLocalstorage = loadFromLocalstorage("producto");
     if (guardadosLocalstorage) {
       setProductos(guardadosLocalstorage);
     } else {
@@ -18,7 +18,7 @@ function Categorias(){
         .then((res) => res.json())
         .then((data) => {
           setProductos(data.productos);
-          saveToLocalstorage("productos", data.productos) 
+          saveToLocalstorage("producto", data.productos) 
         })
         .catch((ex) => console.error("Error al obtener productos:", ex));
     }

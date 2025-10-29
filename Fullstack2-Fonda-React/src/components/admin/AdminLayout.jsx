@@ -1,7 +1,8 @@
 import Sidebar from './Sidebar';
 import { useState, useRef, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import logo from '../../assets/admin/logoPNG.png'
+import { removeFromLocalstorage } from '../../utils/localstorageHelper';
 
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -41,6 +42,8 @@ const AdminLayout = () => {
   const togglePopover = (popoverName) => {
     setActivePopover(activePopover === popoverName ? null : popoverName);
   };
+
+  const navigate = useNavigate();
 
   
   useEffect(() => {
@@ -133,6 +136,17 @@ const AdminLayout = () => {
 
   const unreadNotifications = notifications.filter(n => n.unread).length;
 
+  const IrAHome = (ruta) => {
+    navigate(ruta);
+  };
+
+  const handleLogout = () => {
+    removeFromLocalstorage("token");
+    removeFromLocalstorage("usuarioLogueado");
+    alert("Sesión cerrada");
+    IrAHome("/");
+  };
+
   return (
     <div className="admin-layout d-flex">
       {/* Barra lateral - Pasa el perfil del admin como prop */}
@@ -142,7 +156,7 @@ const AdminLayout = () => {
       <div className={`flex-grow-1 main-content d-flex flex-column ${collapsed ? 'collapsed' : ''}`} style={{ minHeight: '100vh' }}>
         {/* Navbar superior */}
         <nav className={`main-header navbar navbar-expand navbar-white navbar-light ${collapsed ? 'collapsed' : ''}`}>
-          <div className="container-fluid d-flex align-items-center">
+          <div className="container-fluid d-flex align-items-center" >
             {/* Bloque izquierdo: hamburguesa, logo y saludo */}
             <div className="d-flex align-items-center">
               {/* Botón hamburguesa */}
@@ -415,7 +429,7 @@ const AdminLayout = () => {
                             <i className="bi bi-person-gear me-2"></i>
                             Mi cuenta
                           </button>
-                          <button className="btn btn-outline-danger btn-sm">
+                          <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
                             <i className="bi bi-box-arrow-right me-2"></i>
                             Cerrar sesión
                           </button>

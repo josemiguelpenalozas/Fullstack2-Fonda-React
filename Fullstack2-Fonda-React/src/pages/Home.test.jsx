@@ -13,10 +13,7 @@ describe("Home", () => {
   it("muestra los párrafos de bienvenida", () => {
     render(<Home />);
     expect(
-      screen.getByText(/Compra todo lo que necesitas para este 18 de septiembre/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Puedes iniciar sesion para más opciones/i)
+      screen.getByText(/Fonda SQL -- No importa si es after o before, tomamos hasta olvidar la llae/i)
     ).toBeInTheDocument();
   });
 

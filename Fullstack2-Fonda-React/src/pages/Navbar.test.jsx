@@ -80,6 +80,6 @@ describe("Navbar", () => {
     );
 
     const logo = screen.getByRole("img");
-    expect(logo).toHaveAttribute("src", "../src/assets/logo.png");
+    expect(logo).toHaveAttribute("src", "../src/assets/admin/logoPNG.png");
   });
 });
