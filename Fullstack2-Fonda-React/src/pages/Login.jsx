@@ -17,7 +17,7 @@ function Login() {
     navigate(ruta);
   };
 
-  // Revisar si ya hay token guardado
+  
   useEffect(() => {
     const savedToken = loadFromLocalstorage("token");
     if (savedToken) setToken(savedToken);
@@ -26,7 +26,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validación de correo
+    
     if (
       !(
         correo.includes("@gmail.com") ||
@@ -39,13 +39,13 @@ function Login() {
       return;
     }
 
-    // Validación de clave
+    
     if (clave.length < 6) {
       alert("La clave debe tener al menos 6 caracteres.");
       return;
     }
 
-    //  Buscar usuario en localStorage
+    
     const usuarios = loadFromLocalstorage("usuarios") || [];
     const usuarioEncontrado = usuarios.find(
       (u) => u.correo === correo && u.clave === clave
@@ -57,21 +57,21 @@ function Login() {
     }
     
 
-    //  Generar token
+    
     const tokenGenerado = Math.random().toString(36).substring(2) + Date.now();
 
-    // Guardar token en localStorage y estado
+    
     saveToLocalstorage("token", tokenGenerado);
     setToken(tokenGenerado);
 
-    // Guardar también el usuario logueado
+    
     saveToLocalstorage("usuarioLogueado", usuarioEncontrado);
 
     if (usuarioEncontrado.correo.includes("@fondaduoc.cl")) {
       IrAHome("/admin/dashboard");
     }
 
-    // Limpiar campos
+    
     setCorreo("");
     setClave("");
 

@@ -1,10 +1,10 @@
-// src/pages/Registro.test.jsx
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
 import * as localStorageHelper from "../utils/localstorageHelper";
 import { MemoryRouter } from "react-router-dom";
 
-// Mock de useNavigate
+
 const navigateMock = vi.fn();
 
 vi.mock("react-router-dom", async () => {
@@ -15,15 +15,15 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// Importar el componente después del mock
+
 import Registro from "./Registro";
 
 describe("Registro Component", () => {
   beforeEach(() => {
-    // Limpiar mocks
+    
     vi.restoreAllMocks();
 
-    // Mock de localStorageHelper
+    
     vi.spyOn(localStorageHelper, "loadFromLocalstorage").mockReturnValue([]);
     vi.spyOn(localStorageHelper, "saveToLocalstorage").mockImplementation(() => {});
   });

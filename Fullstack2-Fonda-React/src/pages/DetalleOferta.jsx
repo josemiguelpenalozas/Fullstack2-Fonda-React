@@ -11,13 +11,13 @@ function DetalleOferta() {
   const agregarAlCarrito = () => {
     const carrito = loadFromLocalstorage("compra") || [];
 
-    // Verifica si la oferta ya está en el carrito
+    
     const ofertaExistente = carrito.find((item) => item.codigo === oferta.codigo);
 
     if (ofertaExistente) {
-      ofertaExistente.cantidad += 1; // aumenta cantidad si ya está
+      ofertaExistente.cantidad += 1; 
     } else {
-      carrito.push({ ...oferta, cantidad: 1 }); // agrega nueva oferta
+      carrito.push({ ...oferta, cantidad: 1 }); 
     }
 
     saveToLocalstorage("compra", carrito);

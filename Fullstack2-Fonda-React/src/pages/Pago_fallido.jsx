@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 function PagoFallido() {
   const navigate = useNavigate();
 
-  // Cargar el pago actual (un solo objeto)
+  
   const pago = loadFromLocalstorage("pagos");
 
   if (!pago) return <p>No se encontró información del pago.</p>;
 
   const handleSalir = () => {
-    removeFromLocalstorage("pagos"); // Limpiar pago
-    navigate("/"); // Redirigir a Home
+    removeFromLocalstorage("pagos"); 
+    navigate("/"); 
   };
 
   return (

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function Pago_logrado() {
   const navigate = useNavigate();
 
-  // Cargar el pago actual (un solo objeto)
+  
   const pago = loadFromLocalstorage("pagos");
 
   if (!pago) return <p>No se encontró información del pago.</p>;
@@ -12,7 +12,7 @@ function Pago_logrado() {
   const handleSalir = () => {
     removeFromLocalstorage("pagos"); 
     removeFromLocalstorage("compra");
-    navigate("/"); // Redirigir a Home
+    navigate("/"); 
   };
 
   return (

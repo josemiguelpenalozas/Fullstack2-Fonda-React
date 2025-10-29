@@ -71,7 +71,7 @@ describe("Login", () => {
   });
 
 it("muestra alerta si correo es inválido", () => {
-  // Simular que no hay usuario logueado
+  
   loadSpy.mockImplementation((key) => (key === "token" ? null : []));
 
   render(
@@ -125,7 +125,7 @@ it("muestra alerta si correo es inválido", () => {
   });
 
   it("cierra sesión correctamente", () => {
-    loadSpy.mockReturnValue("token_simulado"); // simular usuario logueado
+    loadSpy.mockReturnValue("token_simulado"); 
 
     render(
       <MemoryRouter>

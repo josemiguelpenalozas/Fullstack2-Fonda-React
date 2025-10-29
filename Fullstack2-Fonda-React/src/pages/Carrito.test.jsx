@@ -4,7 +4,7 @@ import Carrito from "./Carrito";
 import * as localStorageHelper from "../utils/localstorageHelper";
 import { MemoryRouter } from "react-router-dom";
 
-// Mock parcial de react-router-dom
+
 const mockNavigate = vi.fn();
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
@@ -23,7 +23,7 @@ describe("Testing Carrito", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Mock localStorage
+    
     vi.spyOn(localStorageHelper, "loadFromLocalstorage").mockImplementation((key) => {
       if (key === "token") return mockToken;
       if (key === "compra") return mockProductos;
@@ -44,13 +44,13 @@ describe("Testing Carrito", () => {
     expect(screen.getByText("Polera")).toBeInTheDocument();
     expect(screen.getByText(/24\.970\s*CLP/)).toBeInTheDocument();
 
-    // Verifica que las imágenes se rendericen
+    
     expect(screen.getByAltText("Zapatos")).toBeInTheDocument();
     expect(screen.getByAltText("Polera")).toBeInTheDocument();
   });
 
   it("Vaciar carrito limpia los productos y llama a removeFromLocalstorage", () => {
-    window.confirm = vi.fn(() => true); // Simula confirm "OK"
+    window.confirm = vi.fn(() => true); 
 
     render(
       <MemoryRouter>

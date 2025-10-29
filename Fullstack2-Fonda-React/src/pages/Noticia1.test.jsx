@@ -5,17 +5,17 @@ describe("Noticia1 Component", () => {
   test("renderiza título, imagen, párrafos y listas de productos", () => {
     render(<Noticia1 />);
 
-    // Verificar título principal
+    
     expect(
       screen.getByRole("heading", { name: /revisa los nuevos precios/i })
     ).toBeInTheDocument();
 
-    // Verificar imagen
+    
     const imagen = screen.getByRole("img", { name: /foto_not_1/i });
     expect(imagen).toBeInTheDocument();
     expect(imagen).toHaveAttribute("src", "../src/assets/huasos.png");
 
-    // Verificar párrafos
+    
     expect(
       screen.getByText(/¡Atención a todos los fanáticos/i)
     ).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Noticia1 Component", () => {
       screen.getByText(/No pierdas la oportunidad de adquirir/i)
     ).toBeInTheDocument();
 
-    // Verificar secciones y algunos ítems
+    
     expect(screen.getByRole("heading", { name: /merchandising de bandas/i })).toBeInTheDocument();
     expect(screen.getByText(/Polera Banda 'Santaferia' – \$14.990 CLP/i)).toBeInTheDocument();
 

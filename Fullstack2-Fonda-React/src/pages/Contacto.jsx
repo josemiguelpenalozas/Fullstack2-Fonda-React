@@ -65,12 +65,12 @@ function Contacto(){
                     onChange={(e) => setContenido(e.target.value)}
                     required
                     style={{
-                        width: "100%",       // ocupa todo el ancho disponible
-                        height: "150px",     // controla la altura
+                        width: "100%",       
+                        height: "150px",     
                         resize: "none !important",
-                        paddingTop: "10px",  // texto empieza arriba
-                        resize: "vertical",  // permite cambiar tamaño vertical
-                        whiteSpace: "pre-wrap" // asegura que los saltos se muestren bien
+                        paddingTop: "10px",  
+                        resize: "vertical",  
+                        whiteSpace: "pre-wrap" 
                     }}
                     />
 

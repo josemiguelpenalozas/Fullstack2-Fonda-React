@@ -1,4 +1,4 @@
-// Contacto.test.jsx
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import Contacto from "./Contacto";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
@@ -7,12 +7,12 @@ describe("Contacto Component", () => {
   let alertSpy;
 
   beforeEach(() => {
-    // Mockear alert antes de cada test
+    
     alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
   });
 
   afterEach(() => {
-    // Restaurar alert para no afectar otros tests
+    
     alertSpy.mockRestore();
   });
 
@@ -47,7 +47,7 @@ describe("Contacto Component", () => {
       "Correo: pedro@gmail.com\nMensaje:Se ha enviado con exito"
     );
 
-    // Campos deben quedar vacíos
+    
     expect(screen.getByLabelText(/Nombre completo/i).value).toBe("");
     expect(screen.getByLabelText(/Correo electronico/i).value).toBe("");
     expect(screen.getByLabelText(/Contenido/i).value).toBe("");

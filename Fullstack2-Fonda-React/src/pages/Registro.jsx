@@ -16,52 +16,52 @@ function Registro() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validar RUT
+    
     if (rut.length !== 9) {
       alert("El RUT debe tener exactamente 9 caracteres.");
       return;
     }
 
-    // Validar correo
+    
     const correosValidos = ["@gmail.com", "@duocuc.cl", "@profesor.duoc.cl", "@fondaduoc.cl"];
     if (!correosValidos.some(domain => correo.includes(domain))) {
       alert("Por favor, ingresa un correo válido.");
       return;
     }
 
-    // Confirmar correo
+    
     if (correo !== correoConfirm) {
       alert("Los correos no coinciden.");
       return;
     }
 
-    // Validar clave
+    
     const regexClave = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
     if (!regexClave.test(clave)) {
       alert("La clave debe tener mínimo 8 caracteres, al menos una mayúscula, una minúscula y un carácter especial.");
       return;
     }
 
-    // Confirmar clave
+    
     if (clave !== claveConfirm) {
       alert("Las claves no coinciden.");
       return;
     }
 
-    // Validar teléfono
+    
     if (telefono.length < 8) {
       alert("El teléfono debe tener al menos 8 dígitos.");
       return;
     }
 
-    // Crear objeto usuario
+    
     const nuevoUsuario = { rut, nombre, correo, clave, telefono };
 
-    // Cargar usuarios anteriores
+    
     const usuariosGuardados = loadFromLocalstorage("usuarios") || [];
     usuariosGuardados.push(nuevoUsuario);
 
-    // Guardar en localStorage
+    
     saveToLocalstorage("usuarios", usuariosGuardados);
 
     alert("Usuario registrado correctamente");

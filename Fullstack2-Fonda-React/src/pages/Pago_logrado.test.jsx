@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import PagoLogrado from "./Pago_logrado";
 import { vi } from "vitest";
 
-// Mock helpers
+
 import { loadFromLocalstorage, removeFromLocalstorage } from "../utils/localstorageHelper";
 
 vi.mock("../utils/localstorageHelper", () => ({
@@ -16,7 +16,7 @@ vi.mock("../utils/localstorageHelper", () => ({
   removeFromLocalstorage: vi.fn(),
 }));
 
-// Mock Router
+
 const navigateMock = vi.fn();
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");

@@ -3,10 +3,10 @@ import { describe, it, vi, beforeEach } from "vitest";
 import Producto from "./Producto";
 import { MemoryRouter } from "react-router-dom";
 
-// Creamos un mock de navigate
+
 const navigateMock = vi.fn();
 
-// Mock completo del módulo react-router-dom
+
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {

@@ -1,16 +1,16 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import Navbar from "./Navbar"; // ✅ apunta a pages
+import Navbar from "./Navbar"; 
 import { vi } from "vitest";
 
-// ✅ Mock del helper
+
 vi.mock("../utils/localstorageHelper", () => ({
   loadFromLocalstorage: vi.fn(),
   removeFromLocalstorage: vi.fn(),
   saveToLocalstorage: vi.fn(),
 }));
 
-// ✅ Mock de react-router-dom (incluye useNavigate)
+
 const navigateMock = vi.fn();
 vi.mock("react-router-dom", async (importOriginal) => {
   const actual = await importOriginal();
@@ -28,7 +28,7 @@ describe("Navbar", () => {
   });
 
   test("renderiza correctamente los enlaces principales", () => {
-    loadFromLocalstorage.mockReturnValue(null); // no hay token
+    loadFromLocalstorage.mockReturnValue(null); 
 
     render(
       <MemoryRouter>

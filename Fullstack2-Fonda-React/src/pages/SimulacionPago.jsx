@@ -14,13 +14,13 @@ function SimulacionPago() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validaciones
+    
     if (rut.length !== 9) {
       alert("El RUT debe tener 9 caracteres.");
       return;
     }
 
-    const numeroSolo = numero_tarjeta.replace(/\D/g, ""); // solo dígitos
+    const numeroSolo = numero_tarjeta.replace(/\D/g, ""); 
     if (numeroSolo.length !== 12) {
       alert("El número de tarjeta debe tener 12 dígitos.");
       return;
@@ -36,13 +36,13 @@ function SimulacionPago() {
       return;
     }
 
-    // Crear objeto de pago
+    
     const pago = { rut, nombre, numero_tarjeta, CVC, fecha };
 
-    // Guardar pago en localStorage (solo uno a la vez)
+    
     saveToLocalstorage("pagos", pago);
 
-    // Redirigir según número de tarjeta
+    
     if (numero_tarjeta === "1234-5678-9123") {
       navigate("/Pago_logrado");
     } else {
@@ -50,18 +50,18 @@ function SimulacionPago() {
     }
   };
 
-  // Formatear número de tarjeta automáticamente mientras se escribe
+  
   const handleNumeroChange = (e) => {
-    let val = e.target.value.replace(/\D/g, ""); // solo dígitos
+    let val = e.target.value.replace(/\D/g, ""); 
     if (val.length > 12) val = val.slice(0, 12);
-    // Formatear como XXXX-XXXX-XXXX
+    
     let formatted = val.replace(/(\d{4})(?=\d)/g, "$1-");
     setNumero(formatted);
   };
 
-  // Formatear fecha automáticamente mientras el usuario escribe
+  
   const handleFechaChange = (e) => {
-    let val = e.target.value.replace(/\D/g, ""); // solo dígitos
+    let val = e.target.value.replace(/\D/g, ""); 
     if (val.length > 4) val = val.slice(0, 4);
     if (val.length > 2) {
       val = val.slice(0, 2) + "/" + val.slice(2);

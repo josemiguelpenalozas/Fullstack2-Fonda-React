@@ -11,13 +11,13 @@ function DetalleProducto() {
   const agregarAlCarrito = () => {
     const carrito = loadFromLocalstorage("compra") || [];
 
-    // Verifica si el producto ya existe
+    
     const productoExistente = carrito.find(item => item.codigo === producto.codigo);
 
     if (productoExistente) {
-      productoExistente.cantidad += 1; // Aumenta cantidad
+      productoExistente.cantidad += 1; 
     } else {
-      carrito.push({ ...producto, cantidad: 1 }); // Nuevo producto con cantidad 1
+      carrito.push({ ...producto, cantidad: 1 }); 
     }
 
     saveToLocalstorage("compra", carrito);

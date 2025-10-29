@@ -24,7 +24,7 @@ function Categorias(){
     }
   }, []);
 
-  // Crear array de categorías únicas + "Todas"
+  
   const categorias = ["Todas", ...new Set(productos.map((p) => p.categoria))];
 
   return (

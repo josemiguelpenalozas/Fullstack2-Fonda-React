@@ -6,7 +6,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   
-  // Función para cerrar sesión
+  
   const cerrarSesion = () => {
     removeFromLocalstorage("token");
     removeFromLocalstorage("usuarioLogueado")

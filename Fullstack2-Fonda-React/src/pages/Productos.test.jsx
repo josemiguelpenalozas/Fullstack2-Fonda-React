@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import Productos from "./Productos";
 import { vi } from "vitest";
 
-// Mock de localStorageHelper
+
 import { loadFromLocalstorage, saveToLocalstorage } from "../utils/localstorageHelper";
 
 vi.mock("../utils/localstorageHelper", () => ({
@@ -11,7 +11,7 @@ vi.mock("../utils/localstorageHelper", () => ({
   saveToLocalstorage: vi.fn(),
 }));
 
-// Mock de fetch
+
 global.fetch = vi.fn();
 
 describe("Productos Component", () => {

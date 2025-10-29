@@ -1,10 +1,10 @@
-// src/pages/SimulacionPago.test.jsx
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
 import * as localStorageHelper from "../utils/localstorageHelper";
 import { MemoryRouter } from "react-router-dom";
 
-// Mock de useNavigate
+
 const navigateMock = vi.fn();
 
 vi.mock("react-router-dom", async () => {
@@ -15,7 +15,7 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// Importar el componente después del mock
+
 import SimulacionPago from "./SimulacionPago";
 
 describe("SimulacionPago Component", () => {
@@ -47,14 +47,14 @@ describe("SimulacionPago Component", () => {
       </MemoryRouter>
     );
 
-    // Rellenar formulario
+    
     fireEvent.change(screen.getByPlaceholderText(/Con digito verificador/i), { target: { value: "12345678K" } });
     fireEvent.change(screen.getByPlaceholderText(/Nombre completo/i), { target: { value: "Juan Perez" } });
     fireEvent.change(screen.getByPlaceholderText(/XXXX-XXXX-XXXX/i), { target: { value: "1234-5678-9123" } });
     fireEvent.change(screen.getByPlaceholderText(/123/i), { target: { value: "123" } });
     fireEvent.change(screen.getByPlaceholderText(/MM\/YY/i), { target: { value: "12/25" } });
 
-    // Enviar formulario
+    
     fireEvent.click(screen.getByRole("button", { name: /Confirmar compra/i }));
 
     expect(localStorageHelper.saveToLocalstorage).toHaveBeenCalledTimes(1);
@@ -66,7 +66,7 @@ describe("SimulacionPago Component", () => {
       fecha: "12/25"
     });
 
-    // Redirección correcta según número de tarjeta
+    
     expect(navigateMock).toHaveBeenCalledWith("/Pago_logrado");
   });
 

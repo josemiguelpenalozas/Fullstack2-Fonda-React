@@ -1,6 +1,6 @@
-// src/pages/Oferta.test.jsx
+
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom"; // Para useNavigate
+import { MemoryRouter } from "react-router-dom"; 
 import Oferta from "./Oferta";
 import * as localStorageHelper from "../utils/localstorageHelper";
 
@@ -11,7 +11,7 @@ const mockOfertas = [
 
 describe("Oferta Component", () => {
   beforeEach(() => {
-    // Mock de localStorage
+    
     vi.spyOn(localStorageHelper, "loadFromLocalstorage").mockReturnValue(mockOfertas);
     vi.spyOn(localStorageHelper, "saveToLocalstorage").mockImplementation(() => {});
   });
@@ -32,11 +32,11 @@ describe("Oferta Component", () => {
   test("renderiza todas las ofertas desde localStorage", () => {
     renderWithRouter(<Oferta />);
     mockOfertas.forEach((oferta) => {
-      // Nombre
+      
       expect(screen.getByText(oferta.nombre)).toBeInTheDocument();
-      // Precio (puede estar acompañado de la moneda)
+      
       expect(screen.getByText(new RegExp(oferta.precio))).toBeInTheDocument();
-      // Categoría
+      
       expect(screen.getByText(oferta.categoria)).toBeInTheDocument();
     });
   });

@@ -1,4 +1,4 @@
-// utils/localStorage.js
+
 export const saveToLocalstorage = (key, value) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -25,10 +25,9 @@ export const removeFromLocalstorage = (key) => {
   }
 };
 
-//métodos para el carrito (guiño guiño)
 
 
-//métodos para el login
 
 
-//métodos para los pokemones
+
+

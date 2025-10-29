@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import PagoFallido from "./Pago_fallido";
 import { vi } from "vitest";
 
-// Mock de helpers del localstorage
+
 vi.mock("../utils/localstorageHelper", () => ({
   loadFromLocalstorage: vi.fn(() => ({
     rut: "12.345.678-9",
@@ -14,7 +14,7 @@ vi.mock("../utils/localstorageHelper", () => ({
   removeFromLocalstorage: vi.fn()
 }));
 
-// ✅ Tomamos el módulo original y solo reemplazamos useNavigate
+
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import Oferta from "../components/Oferta"; // componente hijo
+import Oferta from "../components/Oferta"; 
 import { loadFromLocalstorage, saveToLocalstorage } from "../utils/localstorageHelper";
 import { useNavigate } from "react-router-dom";
 
-function Ofertas() { // <-- renombrado
-  const [ofertas, setOfertas] = useState([]); // ojo: usa setOfertas, no setOferta
+function Ofertas() { 
+  const [ofertas, setOfertas] = useState([]); 
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todas");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const guardadosLocalstorage = loadFromLocalstorage("ofertas"); // debe coincidir con el key
+    const guardadosLocalstorage = loadFromLocalstorage("ofertas"); 
     if (guardadosLocalstorage) {
       setOfertas(guardadosLocalstorage);
     } else {

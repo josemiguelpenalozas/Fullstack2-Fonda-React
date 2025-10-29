@@ -2,11 +2,11 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { vi } from "vitest";
 import Oferta from "./Oferta";
 
-// Mock de useNavigate
+
 const mockNavigate = vi.fn();
 
 vi.mock("react-router-dom", () => ({
-  ...vi.importActual("react-router-dom"), // para mantener otros exports
+  ...vi.importActual("react-router-dom"), 
   useNavigate: () => mockNavigate,
 }));
 
@@ -29,7 +29,7 @@ describe("Testing Oferta", () => {
     expect(screen.getByText("Zapatos")).toBeInTheDocument();
     expect(screen.getByText("Calzado")).toBeInTheDocument();
 
-    // Precio y moneda flexible
+    
     expect(
       screen.getByText(
         (content) => content.includes("4990") && content.includes("$")
