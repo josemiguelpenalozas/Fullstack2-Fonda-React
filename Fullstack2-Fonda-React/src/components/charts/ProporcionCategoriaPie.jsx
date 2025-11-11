@@ -25,7 +25,7 @@ const options = {
 export default function ProporcionCategoriaPie() {
   return (
     <div className="card-dashboard card-large">
-      <Pie data={data} options={options} height={340}/>
+      <Pie data={data} options={options} />
     </div>
   );
 }

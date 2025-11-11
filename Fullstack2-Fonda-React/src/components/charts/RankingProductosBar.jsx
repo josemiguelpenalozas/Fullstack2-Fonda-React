@@ -27,7 +27,7 @@ const options = {
 export default function RankingProductosBar() {
   return (
     <div className="card-dashboard card-large">
-      <Bar data={data} options={options} height={340}/>
+      <Bar data={data} options={options} />
     </div>
   );
 }

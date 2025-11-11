@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-
-import merchandisingBandas from '../../assets/admin/merchandising-bandas.webp';
-import vestimentaHuasa from '../../assets/admin/VestimentaHuaso.jpg';
-import panuelosCueca from '../../assets/admin/panuelos-cueca.jpg';
-import ticketsConsumo from '../../assets/admin/tickets-consumo.jpg';
-import entradas from '../../assets/admin/entradas.jpg';
-import imagenDefault from '../../assets/admin/default.jpg';
+const merchandisingBandas = '/src/assets/admin/merchandising-bandas.webp';
+const vestimentaHuasa = '/src/assets/admin/VestimentaHuaso.jpg';
+const panuelosCueca = '/src/assets/admin/panuelos-cueca.jpg';
+const ticketsConsumo = '/src/assets/admin/tickets-consumo.jpg';
+const entradas = '/src/assets/admin/entradas.jpg';
+const imagenDefault = '/src/assets/admin/default.jpg';
 
 const Categorias = () => {
   const [categorias, setCategorias] = useState([]);

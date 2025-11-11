@@ -16,7 +16,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <Link className="navbar-brand" to="/"><img style={{ width: "100px", height: "auto" }} src="../src/assets/admin/logoPNG.png" alt="LogoFonda" /></Link>
+        <Link className="navbar-brand" to="/"><img style={{ width: "100px", height: "auto" }} src="/src/assets/admin/logoPNG.png" alt="LogoFonda" /></Link>
 
 
         <ul className="navbar-nav">

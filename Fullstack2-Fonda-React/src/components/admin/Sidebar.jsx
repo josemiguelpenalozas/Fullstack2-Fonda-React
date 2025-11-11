@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { useEffect, useState } from 'react';
-import '../../assets/admin/estilosAdmin.css';
-import logo from '../../assets/admin/logoPNG.png'
+
+const logo = '/src/assets/admin/logoPNG.png';
 
 const Sidebar = ({ collapsed }) => {
   const [adminProfile, setAdminProfile] = useState({
@@ -47,7 +47,7 @@ const Sidebar = ({ collapsed }) => {
   }, [adminProfile.nombres, adminProfile.apellidos]);
 
   return (
-    <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+    <div className={`sidebar ${collapsed ? 'collapsed' : 'open'}`}>
       <a href="#" className="brand-link">
         <img src={logo} className="brand-image img-fluid" style={{ width: '60px', height: 'auto' }} alt="Logo" />
         <span className="brand-text font-weight-light">Fonda SQL</span>

@@ -1,0 +1,78 @@
+/* Responsive improvements for Admin views only */
+
+@media (max-width: 768px) {
+  /* Sidebar off-canvas behavior */
+  .sidebar {
+    width: 240px;
+    transform: translateX(-100%);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    z-index: 1050;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar.collapsed {
+    transform: translateX(-100%);
+    width: 240px; /* collapsed on mobile = hidden */
+  }
+
+  /* Content without left margin on mobile */
+  .main-content,
+  .main-content.collapsed,
+  .main-header,
+  .main-header.collapsed {
+    margin-left: 0 !important;
+  }
+
+  /* Compact header */
+  .main-header .bi-list { font-size: 1.6em; }
+  .main-header img { width: 52px; height: 40px; }
+  .main-header .container-fluid { padding-left: .5rem; padding-right: .5rem; }
+  .main-header .navbar { min-height: 56px; }
+  .brand-link { padding: .75rem; }
+  .brand-image { width: 2rem; height: 2rem; }
+
+  /* Hide long greeting to save space */
+  .main-header .container-fluid .d-flex.align-items-center span { display: none; }
+
+  /* Popovers use screen width on mobile */
+  .popover-container { width: 95vw !important; right: 2.5vw !important; }
+  .popover-container .card-body { max-height: 60vh; }
+
+  /* Navigation and touch targets */
+  .nav-sidebar .nav-link { padding: .6rem .9rem; }
+  .nav-sidebar .nav-icon { font-size: 1rem; margin-right: .5rem; }
+
+  /* Typography */
+  body { font-size: 0.95rem; }
+
+  /* Dashboard cards/charts more compact */
+  .dashboard-grid .card-dashboard { padding: .75rem; min-height: auto; position: relative; }
+  .card-dashboard canvas { width: 100% !important; height: auto !important; }
+  .card-metrica h3 { font-size: 1.6rem !important; }
+  .card-metrica p { font-size: .85rem !important; }
+
+  /* Tables: horizontal scroll and compact cells */
+  .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table.text-nowrap th, .table.text-nowrap td { padding: 8px; font-size: .9rem; }
+
+  /* Productos header: wrap title and badges */
+  .card-header .d-flex { flex-wrap: wrap; gap: .5rem; }
+  .card-header .card-title { flex: 1 0 100%; margin-bottom: .25rem; }
+
+  /* Ensure main content uses full width on mobile */
+  .main-content { width: 100%; }
+}
+
+@media (max-width: 576px) {
+  /* Extra compact for very small screens */
+  .main-header img { width: 44px; height: 34px; }
+  .nav-sidebar .nav-link { padding: .55rem .8rem; }
+  .popover-container .card-body { max-height: 55vh; }
+
+  .card-metrica h3 { font-size: 1.4rem !important; }
+  .card-metrica p { font-size: .8rem !important; }
+  .dashboard-grid .card-dashboard { padding: .6rem; }
+  .table.text-nowrap th, .table.text-nowrap td { padding: 6px; font-size: .85rem; }
+  .card-dashboard canvas { max-height: 260px; }
+}

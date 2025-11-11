@@ -1,8 +1,9 @@
 import Sidebar from './Sidebar';
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import logo from '../../assets/admin/logoPNG.png'
 import { removeFromLocalstorage } from '../../utils/localstorageHelper';
+
+const logo = '/src/assets/admin/logoPNG.png';
 
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
