@@ -9,7 +9,7 @@ function Home() {
       <p className="text-light">
         Fonda SQL -- No importa si es after o before, tomamos hasta olvidar la llae
       </p>
-      <img src="../src/assets/not.png" alt="Decoración fonda" />
+      <img src="../src/assets/not.png" alt="Decoración fonda" className="img-fluid"/>
     </div>
   );
 }

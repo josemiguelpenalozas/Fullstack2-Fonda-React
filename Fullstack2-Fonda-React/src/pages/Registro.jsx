@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveToLocalstorage, loadFromLocalstorage } from "../utils/localstorageHelper";
+import DataService from "../utils/DateService"; 
 
 function Registro() {
   const [rut, setRut] = useState("");
-  const [nombre, setNombre] = useState("");
+  const [nombreCompleto, setNombreCompleto] = useState("");
   const [correo, setCorreo] = useState("");
   const [clave, setClave] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -13,59 +13,68 @@ function Registro() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
+    // ---- VALIDACIONES ----
     if (rut.length !== 9) {
       alert("El RUT debe tener exactamente 9 caracteres.");
       return;
     }
 
-    
-    const correosValidos = ["@gmail.com", "@duocuc.cl", "@profesor.duoc.cl", "@fondaduoc.cl"];
+    const correosValidos = ["@gmail.com", "@duocuc.cl", "@profesor.duoc.cl", "@fondaduoc.cl", "@admin.cl"];
     if (!correosValidos.some(domain => correo.includes(domain))) {
       alert("Por favor, ingresa un correo válido.");
       return;
     }
 
-    
     if (correo !== correoConfirm) {
       alert("Los correos no coinciden.");
       return;
     }
 
-    
     const regexClave = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
     if (!regexClave.test(clave)) {
       alert("La clave debe tener mínimo 8 caracteres, al menos una mayúscula, una minúscula y un carácter especial.");
       return;
     }
 
-    
     if (clave !== claveConfirm) {
       alert("Las claves no coinciden.");
       return;
     }
 
-    
     if (telefono.length < 8) {
       alert("El teléfono debe tener al menos 8 dígitos.");
       return;
     }
 
-    
-    const nuevoUsuario = { rut, nombre, correo, clave, telefono };
+    // ---- Determinar rol ----
+    let rol = correo.endsWith("@admin.cl") ? "admin" : "cliente";
 
-    
-    const usuariosGuardados = loadFromLocalstorage("usuarios") || [];
-    usuariosGuardados.push(nuevoUsuario);
+    // ---- OBJETO PARA ENVIAR AL BACKEND ----
+    const nuevoUsuario = {
+      rut,
+      nombreCompleto,
+      correo,
+      clave,
+      telefono: parseInt(telefono),
+      rol
+    };
 
-    
-    saveToLocalstorage("usuarios", usuariosGuardados);
+    console.log("Usuario listo para enviar:", nuevoUsuario);
 
-    alert("Usuario registrado correctamente");
-    navigate("/Login");
+    // ---- PETICIÓN AL SERVIDOR (SPRING BOOT) ----
+    try {
+      const respuesta = await DataService.addUsuario(nuevoUsuario);
+      console.log("Respuesta del servidor:", respuesta);
+
+      alert("Usuario registrado correctamente en el servidor");
+      navigate("/Login");
+    } catch (error) {
+      console.error("Error al registrar usuario:", error);
+      alert("Error al conectar con el servidor");
+    }
   };
 
   return (
@@ -79,7 +88,7 @@ function Registro() {
               type="text"
               id="rut"
               className="form-control"
-              placeholder="Con digito verificador ,sin puntos o guion"
+              placeholder="Con dígito verificador, sin puntos o guion"
               value={rut}
               onChange={(e) => setRut(e.target.value)}
               required
@@ -87,14 +96,14 @@ function Registro() {
           </div>
 
           <div className="mb-3 text-start">
-            <label htmlFor="nombre" className="form-label fw-bold">Nombre completo:</label>
+            <label htmlFor="nombreCompleto" className="form-label fw-bold">Nombre completo:</label>
             <input
               type="text"
-              id="nombre"
+              id="nombreCompleto"
               className="form-control"
               placeholder="Nombre completo"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={nombreCompleto}
+              onChange={(e) => setNombreCompleto(e.target.value)}
               required
             />
           </div>
@@ -154,7 +163,7 @@ function Registro() {
           <div className="mb-3 text-start">
             <label htmlFor="telefono" className="form-label fw-bold">Teléfono:</label>
             <input
-              type="text"
+              type="number"
               id="telefono"
               className="form-control"
               placeholder="ejemplo: 12345678"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { loadFromLocalstorage, removeFromLocalstorage } from "../utils/localstorageHelper";
+import { loadFromLocalstorage, saveToLocalstorage, removeFromLocalstorage } from "../utils/localstorageHelper";
 import { useNavigate } from "react-router-dom";
 
 function Carrito() {
@@ -12,6 +12,29 @@ function Carrito() {
     setCarrito(productosGuardados);
   }, []);
 
+  const actualizarCarrito = (nuevoCarrito) => {
+    setCarrito(nuevoCarrito);
+    saveToLocalstorage("compra", nuevoCarrito);
+  };
+
+  const aumentarCantidad = (index) => {
+    const nuevoCarrito = [...carrito];
+    nuevoCarrito[index].cantidad += 1;
+    actualizarCarrito(nuevoCarrito);
+  };
+
+  const disminuirCantidad = (index) => {
+    const nuevoCarrito = [...carrito];
+
+    if (nuevoCarrito[index].cantidad > 1) {
+      nuevoCarrito[index].cantidad -= 1;
+    } else {
+      nuevoCarrito.splice(index, 1);
+    }
+
+    actualizarCarrito(nuevoCarrito);
+  };
+
   const vaciarCarrito = () => {
     if (window.confirm("¿Seguro que deseas vaciar el carrito?")) {
       removeFromLocalstorage("compra");
@@ -22,8 +45,8 @@ function Carrito() {
   const total = carrito.reduce((acum, prod) => acum + (prod.precio * prod.cantidad), 0);
 
   return (
-    <div className="row text-center container-fluid bg-info min-vh-100 d-flex align-items-center justify-content-center">
-      <div className="col-md-9 bg-light rounded shadow p-4">
+    <div className="row text-center container-fluid min-vh-100 d-flex align-items-center justify-content-center"style={{backgroundColor :"white",border: "4px solid grey",borderRadius:"10px"}}>
+      <div className="col-md-9 bg-info rounded shadow p-4" style={{borderRadius:"10px"}}>
         <h1>Carrito de Compras</h1>
         <hr />
 
@@ -44,10 +67,21 @@ function Carrito() {
                       <small>
                         {producto.precio} {producto.moneda} x {producto.cantidad}
                       </small>
+
+                      <div className="mt-2">
+                        <button className="btn btn-sm btn-danger me-2" onClick={() => disminuirCantidad(index)}>
+                          -
+                        </button>
+                        <button className="btn btn-sm btn-success" onClick={() => aumentarCantidad(index)}>
+                          +
+                        </button>
+                      </div>
                     </div>
+
                     <span>
                       Subtotal: {(producto.precio * producto.cantidad).toLocaleString("es-CL")} CLP
                     </span>
+
                     {producto.imagen && (
                       <img
                         src={producto.imagen}
@@ -66,6 +100,7 @@ function Carrito() {
               <button className="btn btn-danger" onClick={vaciarCarrito}>
                 Vaciar carrito
               </button>
+
               <button
                 className="btn btn-success m-4"
                 onClick={() => navigate("/SimulacionPago")}
