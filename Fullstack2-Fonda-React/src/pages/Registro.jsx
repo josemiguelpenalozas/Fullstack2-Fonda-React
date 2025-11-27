@@ -22,7 +22,7 @@ function Registro() {
       return;
     }
 
-    const correosValidos = ["@gmail.com", "@duocuc.cl", "@profesor.duoc.cl", "@fondaduoc.cl", "@admin.cl"];
+    const correosValidos = ["@gmail.com", "@duocuc.cl", "@profesor.duoc.cl", "@fondaduoc.cl", "@admin.cl","@vendedor.cl"];
     if (!correosValidos.some(domain => correo.includes(domain))) {
       alert("Por favor, ingresa un correo válido.");
       return;
@@ -50,7 +50,13 @@ function Registro() {
     }
 
     // ---- Determinar rol ----
-    let rol = correo.endsWith("@admin.cl") ? "admin" : "cliente";
+    let rol = "cliente"; // por defecto
+
+    if (correo.endsWith("@admin.cl")) {
+        rol = "admin";
+    } else if (correo.endsWith("@vendedor.cl")) {
+        rol = "vendedor";
+    }
 
     // ---- OBJETO PARA ENVIAR AL BACKEND ----
     const nuevoUsuario = {

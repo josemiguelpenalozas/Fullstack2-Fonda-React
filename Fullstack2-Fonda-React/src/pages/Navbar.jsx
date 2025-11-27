@@ -8,6 +8,7 @@ function Navbar() {
   const cerrarSesion = () => {
     removeFromLocalstorage("token");
     removeFromLocalstorage("usuarioLogueado");
+    removeFromLocalstorage("compra");
     navigate("/login");
   };
 
