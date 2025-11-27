@@ -5,6 +5,7 @@ import {
   removeFromLocalstorage,
 } from "../utils/localstorageHelper.js";
 import { useNavigate } from "react-router-dom";
+import DataService from "../utils/DataService";
 
 function Login() {
   const [correo, setCorreo] = useState("");
@@ -17,65 +18,60 @@ function Login() {
     navigate(ruta);
   };
 
-  
+  // Si ya existe token, mantener sesión
   useEffect(() => {
     const savedToken = loadFromLocalstorage("token");
     if (savedToken) setToken(savedToken);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-    if (
-      !(
-        correo.includes("@gmail.com") ||
-        correo.includes("@duocuc.cl") ||
-        correo.includes("@profesor.duoc.cl") ||
-        correo.includes("@fondaduoc.cl")
-      )
-    ) {
-      alert("Por favor, ingresa un correo válido.");
+    if (!correo || !clave) {
+      alert("Debes completar todos los campos.");
       return;
     }
 
-    
-    if (clave.length < 6) {
-      alert("La clave debe tener al menos 6 caracteres.");
-      return;
+    try {
+      // Obtener todos los usuarios desde el backend
+      const usuarios = await DataService.getUsuarios();
+      console.log("Usuarios obtenidos desde backend:", usuarios);
+
+      // Comparar con correo + clave
+      const usuarioEncontrado = usuarios.find(
+        (u) => u.correo === correo && u.clave === clave
+      );
+
+      if (!usuarioEncontrado) {
+        alert("Correo o clave incorrectos");
+        return;
+      }
+
+      // Crear token falso
+      const tokenGenerado = Math.random().toString(36).substring(2) + Date.now();
+
+      saveToLocalstorage("token", tokenGenerado);
+      saveToLocalstorage("usuarioLogueado", usuarioEncontrado);
+
+      setToken(tokenGenerado);
+
+      alert("Sesión iniciada correctamente");
+
+      // Redirección por rol
+      if (usuarioEncontrado.rol === "admin") {
+        navigate("/admin/dashboard");
+        return;
+      }
+
+      navigate("/");
+
+      setCorreo("");
+      setClave("");
+
+    } catch (error) {
+      console.error("Error en login:", error);
+      alert("Error al intentar iniciar sesión");
     }
-
-    
-    const usuarios = loadFromLocalstorage("usuarios") || [];
-    const usuarioEncontrado = usuarios.find(
-      (u) => u.correo === correo && u.clave === clave
-    );
-
-    if (!usuarioEncontrado) {
-      alert("Correo o clave incorrectos ");
-      return;
-    }
-    
-
-    
-    const tokenGenerado = Math.random().toString(36).substring(2) + Date.now();
-
-    
-    saveToLocalstorage("token", tokenGenerado);
-    setToken(tokenGenerado);
-
-    
-    saveToLocalstorage("usuarioLogueado", usuarioEncontrado);
-
-    if (usuarioEncontrado.correo.includes("@fondaduoc.cl")) {
-      IrAHome("/admin/dashboard");
-    }
-
-    
-    setCorreo("");
-    setClave("");
-
-    alert(" Sesión iniciada correctamente");
   };
 
   const handleLogout = () => {
@@ -88,12 +84,15 @@ function Login() {
   return (
     <div className="container-fluid bg-info min-vh-100 d-flex align-items-center justify-content-center">
       <div className="col-md-5 bg-light p-4 rounded shadow">
+        
         {token ? (
           <div className="text-center">
             <h3>Usuario ya logueado</h3>
+
             <button className="btn btn-danger" onClick={handleLogout}>
               Cerrar sesión
             </button>
+
             <button
               className="btn btn-success m-4"
               onClick={() => IrAHome("/")}
@@ -104,6 +103,7 @@ function Login() {
         ) : (
           <>
             <h1 className="mb-4">Iniciar sesión</h1>
+
             <form onSubmit={handleSubmit}>
               <div className="mb-3 text-start">
                 <label htmlFor="correo" className="form-label fw-bold">
@@ -141,6 +141,7 @@ function Login() {
             </form>
           </>
         )}
+
       </div>
     </div>
   );

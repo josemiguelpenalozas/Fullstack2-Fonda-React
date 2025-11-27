@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DataService from "../utils/DateService"; 
+import DataService from "../utils/DataService"; 
 
 function Registro() {
   const [rut, setRut] = useState("");
