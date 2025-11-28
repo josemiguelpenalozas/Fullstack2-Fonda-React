@@ -35,7 +35,7 @@ function Login() {
     try {
       // Obtener todos los usuarios desde el backend
       const usuarios = await DataService.getUsuarios();
-      console.log("Usuarios obtenidos desde backend:", usuarios);
+
 
       // Comparar con correo + clave
       const usuarioEncontrado = usuarios.find(
@@ -51,7 +51,10 @@ function Login() {
       const tokenGenerado = Math.random().toString(36).substring(2) + Date.now();
 
       saveToLocalstorage("token", tokenGenerado);
-      saveToLocalstorage("usuarioLogueado", usuarioEncontrado);
+      saveToLocalstorage("usuarioLogueado", {
+      ...usuarioEncontrado,
+      clave: "******" 
+      });
 
       setToken(tokenGenerado);
 
@@ -69,7 +72,6 @@ function Login() {
       setClave("");
 
     } catch (error) {
-      console.error("Error en login:", error);
       alert("Error al intentar iniciar sesión");
     }
   };
